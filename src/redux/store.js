@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./reducer";
+import  eventHandler  from "./event.reducer";
 
 export default configureStore({
   reducer: {
-    counter: counterReducer
+    eventsHandler: eventHandler
   }
 });

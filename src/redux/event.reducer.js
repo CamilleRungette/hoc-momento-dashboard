@@ -6,13 +6,14 @@ export const eventHandler = createSlice({
     events: []
   }, 
   reducers: {
-    addEvents : state => {
+    addEvents : (state, data) => {
       console.log(state);
-      events = state;
+      console.log(data);
+      state.events = data.payload;
     }
   }
 });
 
-export const { addEvents} = counterSlice.actions;
+export const { addEvents} = eventHandler.actions;
 
 export default eventHandler.reducer;

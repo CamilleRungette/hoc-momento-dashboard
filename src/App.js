@@ -7,6 +7,8 @@ import {
 import MainApp from "./containers/MainApp";
 
 const App = () => {
+
+  //créer les appels au back-end
   return (
     <Router>
       <Routes>

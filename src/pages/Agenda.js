@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const Agenda = () => {
+
   return (
-    <div>Agenda</div>
+    <div>
+      Agenda
+    </div>
   )
 }
 

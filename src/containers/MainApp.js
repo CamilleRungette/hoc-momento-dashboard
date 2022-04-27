@@ -6,7 +6,7 @@ import App from "../routes/index"
 const MainApp = () => {
 
   return (
-    <div>
+    <div className='main-app'>
       <Topbar />
       <Sidebar />
       <App />

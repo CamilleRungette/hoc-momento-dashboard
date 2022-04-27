@@ -9,6 +9,7 @@ import axios from "axios";
 import url from "./url";
 import { useDispatch } from "react-redux";
 import { addEvents } from './redux/event.reducer';
+import './sass/style.scss'
 
 
 const App = () => {

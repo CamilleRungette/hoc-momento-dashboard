@@ -1,0 +1,41 @@
+@import "../global/colors.scss";
+
+.sidebar-main{
+  height: 100%;
+  width: 17rem;
+  background-color: $secondary;
+  position: fixed;
+  top: 0;
+
+  .top-div{
+    height: 5rem;
+    background-color: $dark-blue; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo-div{
+      width: 100px;
+    };
+  };
+
+  .sidebar-navigation{
+    width: 80%;
+    margin: auto;
+    padding-top: 3rem;
+
+    li{
+      color: $primary;
+      font-size: 14px;
+      margin: 20px 0;
+
+      &:hover{
+        color: $orange;
+      };
+
+      svg{
+        margin-right: 10px
+      };
+    };
+  };
+};

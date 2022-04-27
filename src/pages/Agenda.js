@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 const Agenda = () => {
 
-  // const events = useSelector(state => state.eventsHandler.events)
+  const events = useSelector(state => state.eventsHandler.events)
     
   return (
     <div>

@@ -1,0 +1,41 @@
+@import '../global/colors.scss';
+
+.topbar-main{
+  height: 5rem;
+  width: 100%;
+  background-color: white !important;
+  position: fixed;
+  top: 0;
+  box-shadow: 0 5px 5px rgb(212, 212, 212) ;
+
+  .logo-div{
+    width: 8rem;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 30px;
+
+    .menu-logo{
+      width: 40%;
+      display: flex;
+      align-items: center;
+
+      svg{
+        font-size: 25px;
+        color: grey
+      };
+    };
+
+    .hoc-momento-logo{
+      width: 60%;
+      display: flex;
+      align-items: center;
+    };
+  };
+
+  .profile{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  };
+};

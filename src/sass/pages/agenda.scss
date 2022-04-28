@@ -1,0 +1,52 @@
+.agenda-main{
+
+  .add-event{
+    font-size: 50px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color:black;
+    transition-duration: .5s;
+
+    &:hover{
+      color: rgb(87, 87, 87);
+      transition-duration: .5s;
+    };
+  };
+
+  .past-events{
+    margin: auto;
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+
+    .accordion{
+      h3{
+        margin: 0;
+        font-weight: lighter
+      };
+      .icon{
+        font-size:30px;
+      };
+
+      .event-details{
+        h2{
+          font-size: 16px;
+          font-weight: 900;
+        };
+
+        .event-date{
+          margin-left: 20px;
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+
+          p{
+            width: 30%;
+            min-width: 200px;
+            margin: 5px 0;
+          };
+        };
+      };
+    };
+  };
+}

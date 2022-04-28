@@ -1,3 +1,4 @@
+
 .no-list-style{
   list-style: none;
   padding-left: 0;
@@ -11,4 +12,21 @@
 
 .pointer{
   cursor: pointer;
+};
+
+.inside-app {
+  width: calc(100% - 17rem);
+  margin-left: auto;
+  height: calc(100% - 5rem);
+  margin-top: 6rem;
+};
+
+.card{
+  background-color: white !important;
+  width: 90%;
+  margin: auto;
+  padding: 5px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 3px rgb(212, 212, 212);
+  position: relative;
 };

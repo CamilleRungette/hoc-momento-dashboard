@@ -7,8 +7,6 @@ export const eventHandler = createSlice({
   }, 
   reducers: {
     addEvents : (state, data) => {
-      console.log(state);
-      console.log(data);
       state.events = data.payload;
     }
   }

@@ -14,10 +14,10 @@ const Sidebar = () => {
       </div>
 
       <ul className='sidebar-navigation no-list-style'>
-        <li><Link to="/dashboard" className='link'> <MdDashboard/> Tableau de bord </Link></li>
-        <li><Link to="/agenda" className='link'> <RiCalendarEventLine/> Agenda </Link></li>
-        <li><Link to="/" className='link'> <RiHandHeartLine/> Partenaires & Soutiens </Link></li>
-        <li><Link to="/" className='link'> <AiOutlineMail/> Messagerie </Link></li>
+        <li><Link to="/dashboard" className='link'> <MdDashboard  className='sidebar-icon '/> Tableau de bord </Link></li>
+        <li><Link to="/agenda" className='link'> <RiCalendarEventLine className='sidebar-icon '/> Agenda </Link></li>
+        <li><Link to="/" className='link'> <RiHandHeartLine className='sidebar-icon '/> Partenaires & Soutiens </Link></li>
+        <li><Link to="/" className='link'> <AiOutlineMail className='sidebar-icon '/> Messagerie </Link></li>
 
       </ul>
     </div>

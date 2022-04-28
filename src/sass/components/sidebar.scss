@@ -6,6 +6,16 @@
   background-color: $secondary;
   position: fixed;
   top: 0;
+  z-index: 3;
+
+  @media screen and (max-width: 1000px){
+    width: 14rem;
+    transition: .5s;
+  };
+
+  @media screen and (max-width: 800px) {
+    transform: translate(-14rem);
+  };
 
   .top-div{
     height: 5rem;
@@ -33,8 +43,11 @@
         color: $orange;
       };
 
-      svg{
-        margin-right: 10px
+
+      .sidebar-icon{
+        margin-right: 10px;
+        font-size: 20px;
+        vertical-align: middle;
       };
     };
   };

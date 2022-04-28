@@ -4,17 +4,14 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { IoIosMore } from 'react-icons/io';
-import { GrAdd } from "react-icons/gr";
 import { IoIosAdd } from "react-icons/io";
-
+import { BasicModal, CreateEvent } from './_index';
 
 const Agenda = () => {
 
-  const events = useSelector(state => state.eventsHandler.events);
   const modalRef = useRef();
-
+  const events = useSelector(state => state.eventsHandler.events);
   const [eventsYear, setEventsYear] = useState([]);
-  const date = new Date();
   const years = [2026, 2025, 2024, 2023, 2022, 2021, 2020,  2019, 2018];
   const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
 
@@ -41,7 +38,7 @@ const Agenda = () => {
     <div className='inside-app'>
       <div className='card agenda-main'>
         <h3>Agenda</h3>
-        <IoIosAdd className='add-event pointer' />
+        <IoIosAdd className='add-event pointer' onClick={showModal} />
 
         <div className='past-events'>
           {years.map(year => (
@@ -84,10 +81,10 @@ const Agenda = () => {
             ) : (<></>)
           ))}
         </div>
-
       </div>
+      <BasicModal ref={modalRef} content={<CreateEvent />} />
     </div>
   )
-}
+};
 
 export default Agenda

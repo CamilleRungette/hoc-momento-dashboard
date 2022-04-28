@@ -1,0 +1,41 @@
+@import '../global/colors.scss';
+
+.btn-div{
+  text-align: center;
+};
+
+.btn{
+  background-color: $primary;
+  border: 1px solid $primary;
+  color: white;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: .5s;
+
+  &:hover{
+    background-color: white;
+    color: $primary;
+    transition-duration: .5s;
+  };
+};
+
+
+.btn-outlined{
+  background-color: white;
+  border: 1px solid $primary;
+  color: $primary;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: .5s;
+
+  &:hover{
+    background-color: $primary;
+    color: white;
+    transition-duration: .5s;
+  };
+};
+

@@ -21,6 +21,22 @@
 
     .accordion{
 
+      .accordion-title{
+        position: relative;
+
+        .icon-edit{
+          position: absolute;
+          right: 0;
+          top: 0;
+          font-size: 26px;
+          transition: .5s;
+
+          &:hover{
+            color: grey
+          };
+        };
+      };
+
       h3{
         margin: 0;
         font-weight: 400;

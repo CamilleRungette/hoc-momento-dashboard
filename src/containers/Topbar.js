@@ -1,9 +1,27 @@
 import React from 'react';
-import { AiOutlineMenuUnfold, AiOutlineMenuFold, AiOutlineMenu } from "react-icons/ai"
 import { FiMenu } from "react-icons/fi";
 import Avatar from '@mui/material/Avatar';
+import { useDispatch } from 'react-redux';
+import { logout, logOut } from "../redux/login.reducer";
 
 const Topbar = () => {
+  
+  const dispatch = useDispatch();
+
+  const showLogOut = () =>{
+    document.getElementById('logout').style.display = 'block';
+    document.getElementById('close-logout').style.display = 'block';
+  };
+
+  const closeLogOut = () => {
+    document.getElementById('logout').style.display = 'none';
+    document.getElementById('close-logout').style.display = 'none';
+  };
+
+  const logOut = () => {
+    dispatch(logout());
+  };
+
   return (
     <div className='topbar-main'>
       <div className='logo-div'>
@@ -15,7 +33,11 @@ const Topbar = () => {
         </div>
       </div>
       <div className='profile'>
-        <Avatar>H</Avatar>
+        <Avatar className='pointer' onClick={showLogOut}>H</Avatar>
+        <div id="logout" className='logout pointer' onClick={logOut} >
+          Se déconnecter
+        </div>
+      <div id="close-logout" className='close-logout' onClick={closeLogOut}></div>
       </div>
     </div>
   )

@@ -5,13 +5,15 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { IoIosMore } from 'react-icons/io';
 import { IoIosAdd } from "react-icons/io";
-import { BasicModal, CreateEvent, AlertMessage } from './_index';
+import { BasicModal, CreateEvent, EditEvent, AlertMessage } from './_index';
+import { AiOutlineEdit } from "react-icons/ai";
 
 const Agenda = () => {
 
   const modalRef = useRef();
   const alertRef = useRef()
   const events = useSelector(state => state.eventsHandler.events);
+  const [modalContent, setModal] = useState(<div> hello </div>)
   const [eventsYear, setEventsYear] = useState([]);
   const years = [2026, 2025, 2024, 2023, 2022, 2021, 2020,  2019, 2018];
   const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
@@ -29,6 +31,7 @@ const Agenda = () => {
     };
   },[events]);
 
+
   const showModal = () => {
     modalRef.current.showModal()
   };
@@ -42,6 +45,12 @@ const Agenda = () => {
     alertRef.current.showAlert();
   };
     
+  const changeModalContent = (type) => {
+    if (type === "create") setModal(<CreateEvent showAlert={showAlert} closeModal={closeModal} />);
+    if (type === "edit") setModal(<EditEvent showAlert={showAlert} closeModal={closeModal} />);
+    showModal();
+  };
+
   return (
     <div className='inside-app'>
       <div className='card agenda-main'>
@@ -49,7 +58,7 @@ const Agenda = () => {
         
         <AlertMessage ref={alertRef} type={alert.type} message={alert.message} />
 
-        <IoIosAdd className='add-event pointer' onClick={showModal} />
+        <IoIosAdd className='add-event pointer' onClick={() => changeModalContent("create")} />
 
         <div className='events'>
           {years.map(year => (
@@ -65,7 +74,10 @@ const Agenda = () => {
               {events.map(event => (
                 new Date(event.dates[0].startDate).getFullYear() === year ? (
                 <AccordionDetails key={`${event._id}${year}`} className="event-details">
-                  <h2>{event.title}</h2>
+                  <div className='accordion-title'>
+                    <h2>{event.title}</h2>
+                    <AiOutlineEdit className='icon-edit pointer' onClick={() => changeModalContent("edit")}  />
+                  </div>
                   <div className='event-date'>
                     <p>
                       {new Date(event.dates[0].startDate).getDate() === new Date(event.dates[0].endDate).getDate() ?
@@ -102,7 +114,7 @@ const Agenda = () => {
           ))}
         </div>
       </div>
-      <BasicModal ref={modalRef} content={<CreateEvent showAlert={showAlert} closeModal={closeModal} />} />
+      <BasicModal ref={modalRef} content={modalContent} />
     </div>
   )
 };

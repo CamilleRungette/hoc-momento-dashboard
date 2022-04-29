@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import MainApp from "./containers/MainApp";
+import Login from "./pages/Login";
 import axios from "axios";
 import url from "./url";
 import { useDispatch } from "react-redux";
@@ -19,19 +20,20 @@ const App = () => {
   useEffect(() => {
     axios.get(`${url}/events`)
     .then(res => {
-      console.log(res.data);
       dispatch(addEvents(res.data));
     })
     .catch(err => {
       console.log(err);
     })
 
-  }, [dispatch])
+  }, [dispatch]);
+
 
   return (
     <Router>
       <Routes>
-        <Route path="*" element={< MainApp />} />
+        <Route path="*" element={<MainApp />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

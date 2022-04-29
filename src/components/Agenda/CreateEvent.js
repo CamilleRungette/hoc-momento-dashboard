@@ -1,25 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDateTimePicker,
   DateTimePicker
 } from '@material-ui/pickers';
 import TextField from '@mui/material/TextField';
 import { IoIosAdd } from "react-icons/io";
-import { BiMinusCircle } from "react-icons/bi"
+import { BiMinusCircle } from "react-icons/bi";
+import { url } from './_index';
+import { addEvent } from "../../redux/event.reducer";
+import axios from "axios";
+import { useDispatch } from 'react-redux';;
 
-const CreateEvent = () => {
+const CreateEvent = ({showAlert, closeModal}) => {
 
-  const [event, setEvent] = useState({
+  const initialState = {
     title: "",
     description: "",
     dates: [],
     photo:""
-  });
+  };
+
+  const [event, setEvent] = useState(initialState);
   const [picture, setPicture] = useState();
   const [pictureName, setPictureName] = useState();
   const [dates, setDates] = useState([]);
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+
+  }, [dispatch])
 
 
   const handleState = (prop) => (e) => {
@@ -28,19 +39,21 @@ const CreateEvent = () => {
 
   const handleDateChange = (prop, e, i) => {
     let array = [... dates];
-    e.target ? array[i][prop] = e.target.value : array[i][prop] = e;
-    console.log(array);
+    if (e.target) array[i][prop] = e.target.value 
+    else {
+      array[i][prop] = `${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()} ${e.getHours()}:${e.getMinutes()}`
+    };
     setDates(array);
   };
 
-  const handleDateArray = (id, key, value) => {
-    
-  };
 
-  const addDate = () => {
+  const addDate = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     setDates([... dates, {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: null,
+      endDate: null,
       place: "",
       address: "",
       city:""
@@ -74,56 +87,55 @@ const CreateEvent = () => {
     let newEvent = {
       title: event.title, 
       description: event.description,
-      photo: null
+      photo: null,
+      dates: dates
     };
 
-    console.log(event);
-    console.log(picture);
+    if (!newEvent.title || !newEvent.dates){
+      showAlert("warning", "Le titre et au moins une date sont obligatoires");
+    } else {
+      if (picture) {  
+        axios.post(process.env.REACT_APP_CLOUDINARY, picture)
+        .then(res => {
+          newEvent.photo = res.data.secure_url;
 
-    // newEvent.dates && newEvent.dates.forEach((date, i) => {
-    //   date.startDate = dates[i].startDate;
-    //   date.endDate = dates[i].endDate;
-    // });
-    // if (!newEvent.title || (!newEvent.dates || !newEvent.dates[0].startDate)){
-    //   console.log(newEvent);
-    // } else {
-    //   if (picture) {  
-    //     axios.post("https://api.cloudinary.com/v1_1/ds5zdmfj2/image/upload", picture)
-    //     .then(res => {
-    //       newEvent.photo = res.data.secure_url;
-    //       console.log(newEvent);
+          axios.post(`${url}/dashboard/create-event`, newEvent)
+          .then(res => {
+            dispatch(addEvent(res.data))
 
-    //       axios.post(`${url}/dashboard/create-event`, newEvent)
-    //       .then(res => {
-    //         // ajouter event à redux;
-    //         setPicture();
-    //         setPictureName();
-    //         closeModal();
-    //         setRedirect(true);
-    //       })
-    //       .catch(error => {
-    //         openNotificationWithIcon("error", "Erreur", "Erreur lors de la création de l'événement, veuillez réessayer plus tard")
-    //         console.log(error);
-    //       });
-    //     })
-    //     .catch(error => {
-    //       openNotificationWithIcon("error", "Erreur", "Erreur lors du chargement de la photo, veuillez réessayer plus tard")
-    //       console.log(error);
-    //     })
-    //   } else {
-    //       axios.post(`${url}/dashboard/create-event`, newEvent)
-    //       .then(res => {
-    //         // ajouter event à redux;
-    //         setPicture();
-    //         setPictureName();
-    //         closeModal();
-    //         setRedirect(true);
-    //       })
-    //       .catch(error => {
-    //         console.log(error);
-    //       });
-    //   };
-    // };
+            setPicture();
+            setPictureName();
+            setEvent(initialState)
+            closeModal();
+            showAlert("success", "Le nouvel événement a bien été créé");
+          })
+          .catch(error => {
+            showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+            console.log(error);
+          });
+        })
+        .catch(error => {
+          showAlert("error", "Erreur avec le chargement de la photo, veuillez réessayer plus tard");
+          console.log(error);
+        })
+      } else {
+        console.log(newEvent);
+        axios.post(`${url}/dashboard/create-event`, newEvent)
+        .then(res => {
+          dispatch(addEvent(res.data))
+
+          setPicture();
+          setPictureName();
+          setEvent(initialState)
+          closeModal();
+          showAlert("success", "Le nouvel événement a bien été créé");
+        })
+        .catch(error => {
+          showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+          console.log(error);
+        });
+      };
+    };
   };
 
  
@@ -131,7 +143,7 @@ const CreateEvent = () => {
     <div className='create-event'>
       <h3>Créer un événement </h3>
 
-      <form onSubmit={saveInfos} className="create-event-form">
+      <form className="create-event-form" onSubmit={saveInfos}>
         <div className="input-form full-width">
           <TextField
               id="title"

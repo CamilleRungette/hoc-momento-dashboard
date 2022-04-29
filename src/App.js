@@ -19,7 +19,8 @@ const App = () => {
   useEffect(() => {
     axios.get(`${url}/events`)
     .then(res => {
-      dispatch(addEvents(res.data))
+      console.log(res.data);
+      dispatch(addEvents(res.data));
     })
     .catch(err => {
       console.log(err);

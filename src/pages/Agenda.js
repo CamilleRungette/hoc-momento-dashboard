@@ -5,16 +5,20 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { IoIosMore } from 'react-icons/io';
 import { IoIosAdd } from "react-icons/io";
-import { BasicModal, CreateEvent } from './_index';
+import { BasicModal, CreateEvent, AlertMessage } from './_index';
 
 const Agenda = () => {
 
   const modalRef = useRef();
+  const alertRef = useRef()
   const events = useSelector(state => state.eventsHandler.events);
   const [eventsYear, setEventsYear] = useState([]);
   const years = [2026, 2025, 2024, 2023, 2022, 2021, 2020,  2019, 2018];
   const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
-
+  const [alert, setAlert] = useState({
+    type: "info",
+    message: ""
+  })
   useEffect(() => {
     if (events.length){
       let array = [];
@@ -33,14 +37,21 @@ const Agenda = () => {
     modalRef.current.closeModal();
   };
 
+  const showAlert = (type, message) =>  {
+    setAlert({type, message})
+    alertRef.current.showAlert();
+  };
     
   return (
     <div className='inside-app'>
       <div className='card agenda-main'>
         <h3>Agenda</h3>
+        
+        <AlertMessage ref={alertRef} type={alert.type} message={alert.message} />
+
         <IoIosAdd className='add-event pointer' onClick={showModal} />
 
-        <div className='past-events'>
+        <div className='events'>
           {years.map(year => (
             eventsYear.includes(year) ? (
             <Accordion key={Math.floor(Math.random() * 10000)} className='accordion'>
@@ -74,6 +85,15 @@ const Agenda = () => {
                     <p>{event.dates[0].address ? <span>{event.dates[0].address},</span> : <></>} {event.dates[0].city ? event.dates[0].city : <></>}</p>
 
                   </div>
+                  <div className='event-desc'>
+                    <div className='description'>
+                      <p>{event.description} </p>
+                    </div>
+                    <div className='photo'>
+                      <img alt={event.title} src={event.photo} />
+                    </div>
+
+                  </div>
                 </AccordionDetails>
                 ) : <></>
               ))}
@@ -82,7 +102,7 @@ const Agenda = () => {
           ))}
         </div>
       </div>
-      <BasicModal ref={modalRef} content={<CreateEvent />} />
+      <BasicModal ref={modalRef} content={<CreateEvent showAlert={showAlert} closeModal={closeModal} />} />
     </div>
   )
 };

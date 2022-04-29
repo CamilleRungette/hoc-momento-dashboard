@@ -14,7 +14,7 @@
     };
   };
 
-  .past-events{
+  .events{
     margin: auto;
     margin-top: 4rem;
     margin-bottom: 1rem;
@@ -45,6 +45,22 @@
             width: 30%;
             min-width: 200px;
             margin: 5px 0;
+          };
+        };
+
+        .event-desc{
+          display: flex;
+          margin-top: 20px;
+
+          .description{
+            width: 75%;
+            
+            text-align: justify
+          };
+
+          .photo{
+            margin-left: 5%;
+            width: 20%;
           };
         };
       };

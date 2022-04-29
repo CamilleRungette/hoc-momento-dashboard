@@ -8,10 +8,15 @@ export const eventHandler = createSlice({
   reducers: {
     addEvents : (state, data) => {
       state.events = data.payload;
+    },
+    addEvent: (state, data) => {
+      let array = state.events;
+      array.push(data.payload);
+      state.events = array;
     }
   }
 });
 
-export const { addEvents} = eventHandler.actions;
+export const { addEvents, addEvent} = eventHandler.actions;
 
 export default eventHandler.reducer;

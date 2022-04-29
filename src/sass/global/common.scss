@@ -19,6 +19,16 @@
   margin-left: auto;
   height: calc(100% - 5rem);
   margin-top: 6rem;
+  transition: .5s;
+
+  @media screen and (max-width: 1200px){
+    width: calc(100% - 14rem);
+    transition: .5s;
+  };
+
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  };
 };
 
 .card{

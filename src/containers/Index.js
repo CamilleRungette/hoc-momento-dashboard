@@ -1,19 +1,16 @@
 import React, { useEffect } from 'react';
-import { useSelector } from "react-redux";
 import { Navigate} from 'react-router-dom';
 import MainApp from "./MainApp";
+import { connect } from 'react-redux';
 
-const Index = () => {
-
-  const logged = useSelector(state => state.loginHandler);
+const Index = ({logged}) => {
 
   useEffect(() => {
   }, [logged]);
 
-
   return (
     <>
-    {logged.logged? (
+    {logged? (
       <MainApp />
     ) : (
       <Navigate replace to="/login" />
@@ -22,4 +19,8 @@ const Index = () => {
   )
 }
 
-export default Index;
+export default connect (
+  (state) => ({
+    logged: state.loginReducer.logged
+  })
+)(Index);

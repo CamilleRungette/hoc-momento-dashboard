@@ -5,14 +5,14 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { IoIosMore } from 'react-icons/io';
 import { IoIosAdd } from "react-icons/io";
-import { BasicModal, CreateEvent, EditEvent, AlertMessage } from './_index';
+import { BasicModal, CreateEvent, EditEvent, AlertMessage, eventsActions } from './_index';
 import { AiOutlineEdit } from "react-icons/ai";
+import { connect } from 'react-redux';
 
-const Agenda = () => {
+const Agenda = ({events}) => {
 
   const modalRef = useRef();
   const alertRef = useRef()
-  const events = useSelector(state => state.eventsHandler.events);
   const [modalContent, setModal] = useState(<div> hello </div>)
   const [eventsYear, setEventsYear] = useState([]);
   const years = [2026, 2025, 2024, 2023, 2022, 2021, 2020,  2019, 2018];
@@ -20,7 +20,8 @@ const Agenda = () => {
   const [alert, setAlert] = useState({
     type: "info",
     message: ""
-  })
+  });
+
   useEffect(() => {
     if (events.length){
       let array = [];
@@ -119,4 +120,11 @@ const Agenda = () => {
   )
 };
 
-export default Agenda
+export default connect(
+  (state) => ({
+    events: state.eventsReducer
+  }), 
+  (dispatch) => ({
+
+  })
+)(Agenda);

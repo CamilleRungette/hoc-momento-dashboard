@@ -1,18 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import TextField from '@mui/material/TextField';
-import { AlertMessage, url } from './_index';
+import { AlertMessage, url,  loginActions } from './_index';
 import axios from "axios";
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from "../redux/login.reducer";
+import { connect } from 'react-redux';
 import { Navigate} from 'react-router-dom';
 
-const Login = () => {
-
+const Login = ({logged, logUserComp}) => {
   const alertRef = useRef();
-  const dispatch = useDispatch();
-  const logged = useSelector(state => state.loginHandler);
-
-  console.log(logged.logged);
 
   const [values, setValues] = useState({
     email: "",
@@ -48,7 +42,7 @@ const Login = () => {
         res.data === "email" && showAlert('error', 'L\'adresse email est incorrecte');
         res.data === "password" && showAlert('error', 'Le mot de passe est incorrect');
         if (res.data === "success") {
-          dispatch(login());
+          logUserComp();
         };
       })
       .catch(err => {
@@ -57,7 +51,7 @@ const Login = () => {
     };
   };
 
-  return !logged.logged ? (
+  return !logged ? (
     <div className='login-main'>
 
       <div className='card'>
@@ -100,8 +94,14 @@ const Login = () => {
     </div>
   ) : ( 
     <Navigate replace to="/dashboard" />
-  )
-  
+  )  
 }
 
-export default Login
+export default connect (
+  (state) => ({
+    logged: state.loginReducer.logged
+  }), 
+  (dispatch) => ({
+    logUserComp: () => dispatch(loginActions.logUser())
+  })
+)(Login);

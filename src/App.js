@@ -6,36 +6,29 @@ import {
 } from "react-router-dom";
 import Index from "./containers/Index";
 import Login from "./pages/Login";
-import axios from "axios";
 import url from "./url";
-import { useDispatch } from "react-redux";
-import { addEvents } from './redux/event.reducer';
 import './sass/style.scss'
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+
+import { store, persistor } from "./redux/store";
 
 
 const App = () => {
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    axios.get(`${url}/events`)
-    .then(res => {
-      dispatch(addEvents(res.data));
-    })
-    .catch(err => {
-      console.log(err);
-    })
-
-  }, [dispatch]);
-
+  // const dispatch = useDispatch();
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/*" element={<Index />} />
-        <Route path="/login" element={<Login/>} />
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <Routes>
+            <Route path="/*" element={<Index />} />
+            <Route path="/login" element={<Login/>} />
+          </Routes>
+        </Router>
+      </PersistGate>
+   </Provider>
   );
 }
 

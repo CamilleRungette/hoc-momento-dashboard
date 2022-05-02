@@ -7,12 +7,11 @@ import {
 import TextField from '@mui/material/TextField';
 import { IoIosAdd } from "react-icons/io";
 import { BiMinusCircle } from "react-icons/bi";
-import { url } from './_index';
-import { addEvent } from "../../redux/event.reducer";
+import { url, eventsActions } from './_index';
 import axios from "axios";
-import { useDispatch } from 'react-redux';;
+import { connect } from 'react-redux';
 
-const CreateEvent = ({showAlert, closeModal}) => {
+const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
 
   const initialState = {
     title: "",
@@ -26,12 +25,6 @@ const CreateEvent = ({showAlert, closeModal}) => {
   const [pictureName, setPictureName] = useState();
   const [dates, setDates] = useState([]);
   
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-
-  }, [dispatch])
-
 
   const handleState = (prop) => (e) => {
     setEvent({...event, [prop]: e.target.value})
@@ -101,7 +94,7 @@ const CreateEvent = ({showAlert, closeModal}) => {
 
           axios.post(`${url}/dashboard/create-event`, newEvent)
           .then(res => {
-            dispatch(addEvent(res.data))
+            saveEventComp(res.data);
 
             setPicture();
             setPictureName();
@@ -122,7 +115,7 @@ const CreateEvent = ({showAlert, closeModal}) => {
         console.log(newEvent);
         axios.post(`${url}/dashboard/create-event`, newEvent)
         .then(res => {
-          dispatch(addEvent(res.data))
+          saveEventComp(res.data);
 
           setPicture();
           setPictureName();
@@ -244,5 +237,10 @@ const CreateEvent = ({showAlert, closeModal}) => {
   )
 }
 
-export default CreateEvent;
+export default connect(
+  (state) => ({}),
+  (dispatch) => ({
+    saveEventComp: data => dispatch(eventsActions.saveEvent(data))
+  })
+) (CreateEvent);
 

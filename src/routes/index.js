@@ -3,7 +3,7 @@ import {
   Route,
 } from "react-router-dom";
 
-import { Dashboard, Agenda, Actions, Shows, Login } from "./_index";
+import { Dashboard, Agenda, Actions, Shows } from "./_index";
 
 const App = () => {
   return (

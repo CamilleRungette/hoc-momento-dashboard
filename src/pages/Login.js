@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import { AlertMessage, url } from './_index';
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from "../redux/login.reducer";
+import { Navigate} from 'react-router-dom';
 
 const Login = () => {
 
@@ -11,6 +12,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const logged = useSelector(state => state.loginHandler);
 
+  console.log(logged.logged);
 
   const [values, setValues] = useState({
     email: "",
@@ -20,6 +22,10 @@ const Login = () => {
     type: "info",
     message: ""
   });
+
+  useEffect(() => {
+
+  }, [logged])
 
   const showAlert = (type, message) =>  {
     setAlert({type, message})
@@ -38,6 +44,7 @@ const Login = () => {
     else {
       axios.post(`${url}/dashboard/login`, values)
       .then(res => {
+        console.log(res.data);
         res.data === "email" && showAlert('error', 'L\'adresse email est incorrecte');
         res.data === "password" && showAlert('error', 'Le mot de passe est incorrect');
         if (res.data === "success") {
@@ -50,7 +57,7 @@ const Login = () => {
     };
   };
 
-  return (
+  return !logged.logged ? (
     <div className='login-main'>
 
       <div className='card'>
@@ -91,7 +98,10 @@ const Login = () => {
         <AlertMessage ref={alertRef} type={alert.type} message={alert.message} />
       </div>
     </div>
+  ) : ( 
+    <Navigate replace to="/dashboard" />
   )
+  
 }
 
 export default Login

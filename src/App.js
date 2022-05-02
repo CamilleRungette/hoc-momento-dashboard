@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import MainApp from "./containers/MainApp";
+import Index from "./containers/Index";
 import Login from "./pages/Login";
 import axios from "axios";
 import url from "./url";
@@ -32,8 +32,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="*" element={<MainApp />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/*" element={<Index />} />
+        <Route path="/login" element={<Login/>} />
       </Routes>
     </Router>
   );

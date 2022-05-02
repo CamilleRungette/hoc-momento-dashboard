@@ -10,7 +10,6 @@ const MainApp = () => {
   const logged = useSelector(state => state.loginHandler);
 
   useEffect(() => {
-    console.log(logged.logged);
     if (logged.logged === false) {
       <Navigate replace to="/login" />
     };

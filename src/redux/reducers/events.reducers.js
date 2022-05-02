@@ -12,8 +12,9 @@ export function eventsReducer(state = initialState, action) {
     case SAVE_EVENTS:
       return action.events;
     case SAVE_EVENT:
-      
-      return action.events
+      let array = [...state];
+      array.push(action.event)
+      return array
     default: 
       return state 
   };

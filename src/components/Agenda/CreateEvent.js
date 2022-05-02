@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -112,7 +112,6 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
           console.log(error);
         })
       } else {
-        console.log(newEvent);
         axios.post(`${url}/dashboard/create-event`, newEvent)
         .then(res => {
           saveEventComp(res.data);
@@ -133,10 +132,10 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
 
  
   return (
-    <div className='create-event'>
+    <div className='event-components'>
       <h3>Créer un événement </h3>
 
-      <form className="create-event-form" onSubmit={saveInfos}>
+      <form className="event-form" onSubmit={saveInfos}>
         <div className="input-form full-width">
           <TextField
               id="title"
@@ -160,8 +159,8 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
           
         <h4>Dates</h4>
         {dates.map((date, i) => (
-          <div className='dates' key={i}>
-            <div className='date-picker-div'>
+          <div className='dates' key={Math.floor(Math.random() * 1000000)}>
+            <div className='date-picker-div input-form'>
               <MuiPickersUtilsProvider utils={DateFnsUtils} className="date-picker">
                 <DateTimePicker
                   autoOk

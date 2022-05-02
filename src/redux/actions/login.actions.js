@@ -1,7 +1,11 @@
-import { LOG_USER } from "../reducers/login.reducer";
+import { LOG_USER, LOGOUT } from "../reducers/login.reducer";
 
-const logUser = () =>( {
+const logUser = () => ({
   type: LOG_USER
 });
 
-export default {logUser};
+const logOut = () => ({
+  type: LOGOUT
+})
+
+export default {logUser, logOut};

@@ -38,7 +38,6 @@ const Login = ({logged, logUserComp}) => {
     else {
       axios.post(`${url}/dashboard/login`, values)
       .then(res => {
-        console.log(res.data);
         res.data === "email" && showAlert('error', 'L\'adresse email est incorrecte');
         res.data === "password" && showAlert('error', 'Le mot de passe est incorrect');
         if (res.data === "success") {

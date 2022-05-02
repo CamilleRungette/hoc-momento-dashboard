@@ -1,12 +1,11 @@
 import React from 'react';
 import { FiMenu } from "react-icons/fi";
 import Avatar from '@mui/material/Avatar';
-import { useDispatch } from 'react-redux';
+import { loginActions } from './_index';
+import { connect } from "react-redux";
 
-const Topbar = () => {
+const Topbar = ({logged, logOutComp}) => {
   
-  const dispatch = useDispatch();
-
   const showLogOut = () =>{
     document.getElementById('logout').style.display = 'block';
     document.getElementById('close-logout').style.display = 'block';
@@ -17,9 +16,9 @@ const Topbar = () => {
     document.getElementById('close-logout').style.display = 'none';
   };
 
-  // const logOut = () => {
-  //   dispatch(logout());
-  // };
+  const logOut = () => {
+    logOutComp();
+  };
 
   return (
     <div className='topbar-main'>
@@ -32,14 +31,21 @@ const Topbar = () => {
         </div>
       </div>
       <div className='profile'>
-        {/* <Avatar className='pointer' onClick={showLogOut}>H</Avatar>
+        <Avatar className='pointer' onClick={showLogOut}>H</Avatar>
         <div id="logout" className='logout pointer' onClick={logOut} >
           Se déconnecter
-        </div> */}
+        </div>
       <div id="close-logout" className='close-logout' onClick={closeLogOut}></div>
       </div>
     </div>
   )
 };
 
-export default Topbar;
+export default connect(
+  (state) => ({
+    logged: state.loginReducer.logged
+  }),
+  (dispatch) => ({
+    logOutComp: () => dispatch(loginActions.logOut())
+  })
+) (Topbar)

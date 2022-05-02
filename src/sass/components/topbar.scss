@@ -51,6 +51,10 @@
       color: $secondary;
       z-index: 5;
       display: none;
+
+      &:hover{
+        background-color: #F5F5F5;
+      };
     };
 
     .close-logout{

@@ -12,8 +12,8 @@ const combinedReducers = combineReducers({eventsReducer, loginReducer})
 const persistedReducer = persistReducer(persistConfig, combinedReducers);
 
 let store = configureStore({
-  reducer: persistedReducer
+  reducer: persistedReducer, eventsReducer
 })
 let persistor = persistStore(store);
 
-export {store, persistor}
+export {store, persistor};

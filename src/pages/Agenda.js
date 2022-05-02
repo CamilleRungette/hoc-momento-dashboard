@@ -30,7 +30,7 @@ const Agenda = ({events}) => {
       });
       setEventsYear(array);
     };
-  },[events]);
+  },[events, modalContent]);
 
 
   const showModal = () => {
@@ -46,9 +46,9 @@ const Agenda = ({events}) => {
     alertRef.current.showAlert();
   };
     
-  const changeModalContent = (type) => {
+  const changeModalContent = (type, event) => {
     if (type === "create") setModal(<CreateEvent showAlert={showAlert} closeModal={closeModal} />);
-    if (type === "edit") setModal(<EditEvent showAlert={showAlert} closeModal={closeModal} />);
+    if (type === "edit") setModal(<EditEvent showAlert={showAlert} closeModal={closeModal} eventInfos={event} />);
     showModal();
   };
 
@@ -64,7 +64,7 @@ const Agenda = ({events}) => {
         <div className='events'>
           {years.map(year => (
             eventsYear.includes(year) ? (
-            <Accordion key={Math.floor(Math.random() * 10000)} className='accordion'>
+            <Accordion key={Math.floor(Math.random() * 10000)} className='accordion' defaultExpanded>
               <AccordionSummary
                 expandIcon={<IoIosMore className='icon' />}
                 aria-controls="panel1a-content"
@@ -74,40 +74,41 @@ const Agenda = ({events}) => {
               </AccordionSummary>
               {events.map(event => (
                 new Date(event.dates[0].startDate).getFullYear() === year ? (
-                <AccordionDetails key={`${event._id}${year}`} className="event-details">
-                  <div className='accordion-title'>
-                    <h2>{event.title}</h2>
-                    <AiOutlineEdit className='icon-edit pointer' onClick={() => changeModalContent("edit")}  />
-                  </div>
-                  <div className='event-date'>
-                    <p>
-                      {new Date(event.dates[0].startDate).getDate() === new Date(event.dates[0].endDate).getDate() ?
-                        <span>Le {new Date(event.dates[0].startDate).getDate()} {months[new Date(event.dates[0].startDate).getMonth() +1]} </span>
-                      : 
-                      <span>
-                        Du {new Date(event.dates[0].startDate).getDate()} 
-                          {new Date(event.dates[0].startDate).getMonth() !== new Date(event.dates[0].endDate).getMonth() ? (
-                          <span> {months[new Date(event.dates[0].startDate).getMonth() +1]} </span>
-                          ):( <> </>)}
-                        au {new Date(event.dates[0].endDate).getDate()} {months[new Date(event.dates[0].endDate).getMonth() +1]}
-                      </span>}
-                    </p>
-                    
-                    <p>{event.dates[0].place} </p>
-
-                    <p>{event.dates[0].address ? <span>{event.dates[0].address},</span> : <></>} {event.dates[0].city ? event.dates[0].city : <></>}</p>
-
-                  </div>
-                  <div className='event-desc'>
-                    <div className='description'>
-                      <p>{event.description} </p>
-                    </div>
-                    <div className='photo'>
-                      <img alt={event.title} src={event.photo} />
-                    </div>
-
-                  </div>
-                </AccordionDetails>
+                    <AccordionDetails key={`${event._id}${year}`} className="event-details">
+                      <div className='accordion-title'>
+                        <h2>{event.title}</h2>
+                        <AiOutlineEdit className='icon-edit pointer' onClick={() => changeModalContent("edit", event)}  />
+                      </div>
+                        {event.dates.map(date => (
+                        <div className='event-date'>
+                            <p>
+                              {new Date(date.startDate).getDate() === new Date(date.endDate).getDate() ?
+                                <span>Le {new Date(date.startDate).getDate()} {months[new Date(date.startDate).getMonth()]} </span>
+                              : 
+                              <span>
+                                Du {new Date(date.startDate).getDate()} 
+                                  {new Date(date.startDate).getMonth() !== new Date(date.endDate).getMonth() ? (
+                                  <span> {months[new Date(date.startDate).getMonth()]} </span>
+                                  ):( <> </>)}
+                                au {new Date(date.endDate).getDate()} {months[new Date(date.endDate).getMonth()]}
+                              </span>}
+                            </p>
+                            
+                            <p>{date.place} </p>
+    
+                            <p>{date.address ? <span>{date.address},</span> : <></>} {date.city ? date.city : <></>}</p>
+                        </div>
+                        ))}
+                      <div className='event-desc'>
+                        <div className='description'>
+                          <p>{event.description} </p>
+                        </div>
+                        <div className='photo'>
+                          <img alt={event.title} src={event.photo} />
+                        </div>
+                      </div>
+                    </AccordionDetails>
+                  
                 ) : <></>
               ))}
             </Accordion>

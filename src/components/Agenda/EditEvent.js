@@ -125,10 +125,6 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
             console.log(res.data);
             editEventComp(res.data);
 
-            setPicture();
-            setPictureName();
-            setEvent(initialState);
-            setDates(initDates)
             closeModal();
             showAlert("success", "L'événement a bien été mis à jour");
           })
@@ -146,10 +142,6 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
         .then(res => {
           editEventComp(res.data);
 
-          setPicture();
-          setPictureName();
-          setEvent(initialState);
-          setDates(initDates);
           closeModal();
           showAlert("success", "Le nouveL'événement a bien été mis à jour");
         })

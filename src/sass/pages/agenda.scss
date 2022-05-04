@@ -24,15 +24,22 @@
       .accordion-title{
         position: relative;
 
-        .icon-edit{
+        .event-actions{
           position: absolute;
           right: 0;
           top: 0;
-          font-size: 26px;
-          transition: .5s;
+          .event-icon{
+            font-size: 26px;
+            transition: .5s;
+  
+            &:hover{
+              color: grey
+            };
+          };
 
-          &:hover{
-            color: grey
+          .trash{
+            font-size: 22px !important;
+            margin:0 0 2px 8px;
           };
         };
       };

@@ -1,6 +1,4 @@
 import React, {useState, useMemo, forwardRef, useImperativeHandle} from "react";
-import { Button } from "antd";
-import language from "../../lngProvider/locales/language";
 
 const ConfirmModal = forwardRef(({content, button, confirmParent}, ref) => {
 
@@ -37,12 +35,12 @@ const ConfirmModal = forwardRef(({content, button, confirmParent}, ref) => {
 	return(
 		<div className={`${modalConfig.class}`}>
 			<div className="container-relative ">
-				<div id="confirm-content" className="center gx-card-widget gx-card-profile-sm">
+				<div id="confirm-content" className="confirm-content">
 					{modalConfig.content}
 					{button ? 
-						<div className="button-div-modal">
-								<Button onClick={closeModal} size="small">{language["common.no"]} </Button>
-								<Button type="primary" size="small" onClick={confirmModal}>{language["common.yes"]}</Button>
+						<div className="btn-div div-confirm">
+								<button className="btn-grey" onClick={closeModal}>Non</button>
+								<button className="btn-red" onClick={confirmModal} >Oui </button>
 						</div>
 					:
 						<></>

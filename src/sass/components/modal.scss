@@ -185,3 +185,15 @@
 .confirm-modal-main{
   padding: 20px !important;
 };
+
+.confirm-content{
+  border-radius: 10px;
+
+  .div-confirm {
+    margin-top: 20px;
+    
+    button{
+      margin: 0 10px;
+    }
+  };
+};

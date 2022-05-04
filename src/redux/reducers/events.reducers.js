@@ -3,6 +3,7 @@ const initialState = [];
 export const SAVE_EVENTS = "SAVE_EVENTS";
 export const SAVE_EVENT = "SAVE_EVENT";
 export const EDIT_EVENT = "EDIT_EVENT";
+export const DELETE_EVENT = "DELETE_EVENT";
 
 export function eventsReducer(state = initialState, action) {
   let eventsArray = [...state];
@@ -18,7 +19,13 @@ export function eventsReducer(state = initialState, action) {
         return item._id === action.event._id;
       });
       eventsArray[indexToEdit] = action.event;
-      return eventsArray
+      return eventsArray;
+    case DELETE_EVENT:
+      const indexToDelete = eventsArray.findIndex(item => {
+        return item._id === action.id;
+      });
+      eventsArray.splice(indexToDelete, 1);
+      return eventsArray;
     default: 
       return state ;
   };

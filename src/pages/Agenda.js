@@ -2,13 +2,14 @@ import React, {useRef, useState, useEffect} from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import { IoIosMore } from 'react-icons/io';
-import { IoIosAdd } from "react-icons/io";
-import { BasicModal, CreateEvent, EditEvent, AlertMessage, eventsActions } from './_index';
+import { IoIosMore, IoIosAdd } from 'react-icons/io';
+import { BsTrash } from "react-icons/bs"
+import { BasicModal, ConfirmModal, CreateEvent, EditEvent, AlertMessage, eventsActions, url } from './_index';
 import { AiOutlineEdit } from "react-icons/ai";
 import { connect } from 'react-redux';
+import axios from 'axios';
 
-const Agenda = ({events}) => {
+const Agenda = ({events, deleteEventComp}) => {
 
   const initialState = {
     title: "",
@@ -19,7 +20,8 @@ const Agenda = ({events}) => {
 
   const modalRef = useRef();
   const alertRef = useRef()
-  const [event, setEvent] = useState({});
+  const confirmRef = useRef();
+  const [thisEvent, setEvent] = useState({});
   const [modalContent, setModalContent] = useState(<CreateEvent />)
   const [eventsYear, setEventsYear] = useState([]);
   const years = [2033, 2032, 2031, 2030, 2029, 2028, 2027, 2026, 2025, 2024, 2023, 2022, 2021, 2020,  2019, 2018];
@@ -64,6 +66,27 @@ const Agenda = ({events}) => {
     showModal();
   };
 
+  const showDialog = (event) => {
+    setEvent(event);
+    confirmRef.current.showModal();
+  };
+
+  const deleteEvent = () => {
+    
+    axios.post(`${url}/dashboard/delete-event`, {id: thisEvent._id})
+    .then(res => {
+      console.log(res);
+      if (res.data === "success") {
+        deleteEventComp(thisEvent._id);
+        showAlert("success", "L'événement a bien été supprimé");
+      } else {
+        showAlert('error', "Erreur lors de la suppression de l'événement, veuillez rééssayer plus tard.")
+      };
+    }).catch(error => {
+      console.log(error);
+    });
+  };
+
   return (
     <div className='inside-app' >
       <div className='card agenda-main' >
@@ -91,8 +114,14 @@ const Agenda = ({events}) => {
                     <AccordionDetails key={Math.floor(Math.random() * 1000000)}  className="event-details">
                       <div  className='accordion-title'>
                         <h2  >{event.title}</h2>
-                        <AiOutlineEdit  className='icon-edit pointer' onClick={() => changeModalContent("edit", event)}  />
+
+                        <div className='event-actions'>
+                          <AiOutlineEdit className='event-icon pointer' onClick={() => changeModalContent("edit", event)}  />
+                          <BsTrash className='event-icon trash pointer' onClick={() => showDialog(event)} />
+                        </div>
                       </div>
+                      <ConfirmModal ref={confirmRef} content={<div>Êtes-vous sûr de vouloir supprimer cet événement ?</div> } button={true} confirmParent={deleteEvent}  />
+
                         {event.dates.map(date => (
                         <div  className='event-date'>
                             <p >
@@ -140,6 +169,6 @@ export default connect(
     events: state.eventsReducer
   }), 
   (dispatch) => ({
-
+    deleteEventComp: id => dispatch(eventsActions.deleteEvent(id))
   })
 )(Agenda);

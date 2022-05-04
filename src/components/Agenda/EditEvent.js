@@ -122,6 +122,7 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
 
           axios.post(`${url}/dashboard/edit-event`, newEvent)
           .then(res => {
+            console.log(res.data);
             editEventComp(res.data);
 
             setPicture();
@@ -129,10 +130,10 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
             setEvent(initialState);
             setDates(initDates)
             closeModal();
-            showAlert("success", "Le nouvel événement a bien été créé");
+            showAlert("success", "L'événement a bien été mis à jour");
           })
           .catch(error => {
-            showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+            showAlert("error", "Erreur lors de la mise à jour de l'événement, veuillez réessayer plus tard");
             console.log(error);
           });
         })
@@ -141,7 +142,6 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
           console.log(error);
         });
       } else {
-        editEventComp(newEvent)
         axios.post(`${url}/dashboard/edit-event`, newEvent)
         .then(res => {
           editEventComp(res.data);
@@ -151,10 +151,10 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
           setEvent(initialState);
           setDates(initDates);
           closeModal();
-          showAlert("success", "Le nouvel événement a bien été créé");
+          showAlert("success", "Le nouveL'événement a bien été mis à jour");
         })
         .catch(error => {
-          showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+          showAlert("error", "Erreur lors de la mise à jour de l'événement, veuillez réessayer plus tard");
           console.log(error);
         });
       };

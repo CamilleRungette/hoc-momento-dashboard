@@ -1,4 +1,4 @@
-import { SAVE_EVENTS, SAVE_EVENT, EDIT_EVENT } from "../reducers/events.reducers";
+import { SAVE_EVENTS, SAVE_EVENT, EDIT_EVENT, DELETE_EVENT } from "../reducers/events.reducers";
 
 const saveEvents = data =>({
   type: SAVE_EVENTS,
@@ -15,4 +15,9 @@ const editEvent = data => ({
   event: data
 });
 
-export default {saveEvents, saveEvent, editEvent};
+const deleteEvent = data => ({
+  type: DELETE_EVENT, 
+  id: data
+});
+
+export default {saveEvents, saveEvent, editEvent,deleteEvent};

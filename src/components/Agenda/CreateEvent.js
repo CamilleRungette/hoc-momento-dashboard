@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -10,33 +10,55 @@ import { BiMinusCircle } from "react-icons/bi";
 import { url, eventsActions } from './_index';
 import axios from "axios";
 import { connect } from 'react-redux';
+import DatePicker from './DatePicker';
 
 const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
 
   const initialState = {
     title: "",
     description: "",
-    dates: [],
+    dates: [{
+      startDate: null,
+      endDate: null,
+      place: "",
+      address: "",
+      city:""
+    }],
     photo:""
   };
 
+  const dateRef = useRef();
   const [event, setEvent] = useState(initialState);
   const [picture, setPicture] = useState();
   const [pictureName, setPictureName] = useState();
-  const [dates, setDates] = useState([]);
+  const [dates, setDates] = useState([{
+      id: Math.floor(Math.random() * 1000000),
+      startDate: null,
+      endDate: null,
+  }]);
   
 
   const handleState = (prop) => (e) => {
     setEvent({...event, [prop]: e.target.value})
   };
 
-  const handleDateChange = (prop, e, i) => {
-    let array = [... dates];
-    if (e.target) array[i][prop] = e.target.value 
-    else {
-      array[i][prop] = `${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()} ${e.getHours()}:${e.getMinutes()}`
+  const handleDate = (prop) => (e) => {
+    let datesState = [...event.dates];
+
+    if (!datesState[prop.i]) {
+      datesState[prop.i] = {
+            startDate: null,
+            endDate: null,
+            place: "",
+            address: "",
+            city:""
+          };
+       datesState[prop.i][prop.type] = e.target.value;
+      setEvent({...event, dates: datesState});
+    } else {
+      datesState[prop.i][prop.type] = e.target.value; 
+      setEvent({...event, dates: datesState});
     };
-    setDates(array);
   };
 
 
@@ -44,19 +66,11 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setDates([... dates, {
+    
+    setDates([... dates, {id: Math.floor(Math.random() * 1000000),
       startDate: null,
-      endDate: null,
-      place: "",
-      address: "",
-      city:""
+      endDate: null
     }]);
-  };
-
-  const removeDate = i => {
-    let array = [...dates];
-    array.splice(i, 1);
-    setDates(array);
   };
 
   const fileSelectedHandler = e => {
@@ -73,61 +87,86 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     setPicture();
     setPictureName();
   };
+
+  // const handleDateChange = (e, prop, i) => {
+  //   console.log(prop);
+  //   console.log(e);
+  //   let datesArray = [...dates];
+  //   datesArray[i][prop] = `${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()} ${e.getHours()}:${e.getMinutes()}`
+  //   console.log(datesArray);
+  //   setDates([...dates, datesArray]);
+  // };
+
+  // console.log(dates);
+
+  const removeDate = i => {
+    // let array = [...dates];
+    // array.splice(i, 1);
+    // setDate(array);
+  };
+
   
   const saveInfos = e => {
     e.preventDefault();
+    console.log(event);
 
-    let newEvent = {
-      title: event.title, 
-      description: event.description,
-      photo: null,
-      dates: dates
-    };
+    // dateRef.current.sendState();
 
-    if (!newEvent.title || !newEvent.dates){
-      showAlert("warning", "Le titre et au moins une date sont obligatoires");
-    } else {
-      if (picture) {  
-        axios.post(process.env.REACT_APP_CLOUDINARY, picture)
-        .then(res => {
-          newEvent.photo = res.data.secure_url;
+    // let newEvent = {
+    //   title: event.title, 
+    //   description: event.description,
+    //   photo: null,
+    //   dates: dates
+    // };
 
-          axios.post(`${url}/dashboard/create-event`, newEvent)
-          .then(res => {
-            saveEventComp(res.data);
+    // if (!newEvent.title || !newEvent.dates){
+    //   showAlert("warning", "Le titre et au moins une date sont obligatoires");
+    // } else {
+    //   if (picture) {  
+    //     axios.post(process.env.REACT_APP_CLOUDINARY, picture)
+    //     .then(res => {
+    //       newEvent.photo = res.data.secure_url;
 
-            setPicture();
-            setPictureName();
-            setEvent(initialState)
-            closeModal();
-            showAlert("success", "Le nouvel événement a bien été créé");
-          })
-          .catch(error => {
-            showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
-            console.log(error);
-          });
-        })
-        .catch(error => {
-          showAlert("error", "Erreur avec le chargement de la photo, veuillez réessayer plus tard");
-          console.log(error);
-        })
-      } else {
-        axios.post(`${url}/dashboard/create-event`, newEvent)
-        .then(res => {
-          saveEventComp(res.data);
+    //       axios.post(`${url}/dashboard/create-event`, newEvent)
+    //       .then(res => {
+    //         saveEventComp(res.data);
 
-          setPicture();
-          setPictureName();
-          setEvent(initialState)
-          closeModal();
-          showAlert("success", "Le nouvel événement a bien été créé");
-        })
-        .catch(error => {
-          showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
-          console.log(error);
-        });
-      };
-    };
+    //         setPicture();
+    //         setPictureName();
+    //         setEvent(initialState)
+    //         closeModal();
+    //         showAlert("success", "Le nouvel événement a bien été créé");
+    //       })
+    //       .catch(error => {
+    //         showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+    //         console.log(error);
+    //       });
+    //     })
+    //     .catch(error => {
+    //       showAlert("error", "Erreur avec le chargement de la photo, veuillez réessayer plus tard");
+    //       console.log(error);
+    //     })
+    //   } else {
+    //     axios.post(`${url}/dashboard/create-event`, newEvent)
+    //     .then(res => {
+    //       saveEventComp(res.data);
+
+    //       setPicture();
+    //       setPictureName();
+    //       setEvent(initialState)
+    //       closeModal();
+    //       showAlert("success", "Le nouvel événement a bien été créé");
+    //     })
+    //     .catch(error => {
+    //       showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+    //       console.log(error);
+    //     });
+    //   };
+    // };
+  };
+
+  const getState = (data) => {
+    console.log("createEvent", data);
   };
 
  
@@ -159,16 +198,16 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
           
         <h4>Dates</h4>
         {dates.map((date, i) => (
-          <div className='dates' key={Math.floor(Math.random() * 1000000)}>
-            <div className='date-picker-div input-form'>
+          <div key={date.id} className='dates' >
+            {/* <div className='date-picker-div input-form'>
               <MuiPickersUtilsProvider utils={DateFnsUtils} className="date-picker">
                 <DateTimePicker
-                  autoOk
+                  autoOk={false}
                   label="Début"
                   inputVariant='outlined'
                   ampm={false}
                   format="dd/MM/yyyy HH:mm"
-                  onChange={(e) => handleDateChange('startDate', e, i)}
+                  onChange={(e) => handleDateChange(e, 'startDate', i)}
                   value={date.startDate}
                   />
               </MuiPickersUtilsProvider>
@@ -179,39 +218,42 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
                   inputVariant='outlined'
                   ampm={false}
                   format="dd/MM/yyyy HH:mm"
-                  onChange={(e) => handleDateChange('endDate', e, i)}
-                  value={date.endDate}
+                  // onChange={handleDateChange('endDate')}
+                  // value={event.dates[i].endDate}
                   />
               </MuiPickersUtilsProvider>
               <BiMinusCircle className='remove-icon pointer' onClick={() => removeDate(i)} />
-            </div>
-  
+            </div> */}
+      
             <div className='input-form adress-line'>
               <TextField
+                  id="place"
+                  name="place"
                   label="Lieu"
-                  onChange={(e) => handleDateChange('place', e, i)}
                   className="input-form full-width"
-                  value={date.place}
+                  onChange={handleDate({type: 'place', i})}
                 />
                 <TextField
+                  id='city'
+                  name="city"
                   label="Ville"
-                  value={date.city}
-                  onChange={(e) => handleDateChange('city', e, i)}
                   className="input-form full-width"
+                  onChange={handleDate({type: 'city', i})}
                 />
             </div>
             <div className="input-form">
               <TextField
+                id="address"
+                name="address"
                 label="Adresse"
-                value={date.address}
-                onChange={(e) => handleDateChange('address', e, i)}
                 className="input-form full-width"
+                onChange={handleDate({type: 'address', i})}
               />
             </div>
           </div>
         ))}
 
-        <button className='add-date pointer' onClick={addDate}> <IoIosAdd /> Ajouter</button>
+        <button className='add-date pointer' onClick={(e) => addDate(e)}> <IoIosAdd /> Ajouter</button>
 
         <h4>Télécharger une photo</h4> 
         
@@ -236,10 +278,12 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
   )
 }
 
-export default connect(
-  (state) => ({}),
-  (dispatch) => ({
-    saveEventComp: data => dispatch(eventsActions.saveEvent(data))
-  })
-) (CreateEvent);
+// export default connect(
+//   (state) => ({}),
+//   (dispatch) => ({
+//     saveEventComp: data => dispatch(eventsActions.saveEvent(data))
+//   })
+// ) (CreateEvent);
+
+export default CreateEvent
 

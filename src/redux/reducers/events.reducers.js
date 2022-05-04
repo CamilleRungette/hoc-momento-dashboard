@@ -1,5 +1,3 @@
-import Actions from "../../pages/Actions";
-
 const initialState = {
   events: []
 };

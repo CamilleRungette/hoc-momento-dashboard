@@ -11,9 +11,16 @@ import { connect } from 'react-redux';
 
 const Agenda = ({events}) => {
 
+  const initialState = {
+    title: "",
+    description: "",
+    dates: [],
+    photo:""
+  };
+
   const modalRef = useRef();
   const alertRef = useRef()
-  const [modalContent, setModal] = useState(<div> hello </div>)
+  const [event, setEvent] = useState({})
   const [eventsYear, setEventsYear] = useState([]);
   const years = [2026, 2025, 2024, 2023, 2022, 2021, 2020,  2019, 2018];
   const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
@@ -30,7 +37,7 @@ const Agenda = ({events}) => {
       });
       setEventsYear(array);
     };
-  },[events, modalContent]);
+  },[events]);
 
 
   const showModal = () => {
@@ -46,42 +53,44 @@ const Agenda = ({events}) => {
     alertRef.current.showAlert();
   };
     
-  const changeModalContent = (type, event) => {
-    if (type === "create") setModal(<CreateEvent showAlert={showAlert} closeModal={closeModal} />);
-    if (type === "edit") setModal(<EditEvent showAlert={showAlert} closeModal={closeModal} eventInfos={event} />);
+  const changeModalContent = (type, thisEvent) => {
+    if (type === "edit") setEvent(thisEvent);
+    if (type === "create") setEvent(initialState);
     showModal();
   };
 
   return (
-    <div className='inside-app'>
-      <div className='card agenda-main'>
-        <h3>Agenda</h3>
+    <div className='inside-app' >
+      <div className='card agenda-main' >
+        <h3 >Agenda</h3>
         
-        <AlertMessage ref={alertRef} type={alert.type} message={alert.message} />
+        <AlertMessage key={Math.floor(Math.random() * 1000000)} ref={alertRef} type={alert.type} message={alert.message} />
 
-        <IoIosAdd className='add-event pointer' onClick={() => changeModalContent("create")} />
+        <IoIosAdd key={Math.floor(Math.random() * 1000000)} className='add-event pointer' onClick={showModal} />
 
         <div className='events'>
           {years.map(year => (
             eventsYear.includes(year) ? (
-            <Accordion key={Math.floor(Math.random() * 10000)} className='accordion' defaultExpanded>
+            <Accordion key={Math.floor(Math.random() * 1000000)} className='accordion' defaultExpanded>
               <AccordionSummary
+                key={Math.floor(Math.random() * 1000000)}
                 expandIcon={<IoIosMore className='icon' />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
+                
               >
                 <h3>{year}</h3>
               </AccordionSummary>
               {events.map(event => (
                 new Date(event.dates[0].startDate).getFullYear() === year ? (
-                    <AccordionDetails key={`${event._id}${year}`} className="event-details">
-                      <div className='accordion-title'>
-                        <h2>{event.title}</h2>
-                        <AiOutlineEdit className='icon-edit pointer' onClick={() => changeModalContent("edit", event)}  />
+                    <AccordionDetails key={Math.floor(Math.random() * 1000000)}  className="event-details">
+                      <div  className='accordion-title'>
+                        <h2  >{event.title}</h2>
+                        <AiOutlineEdit  className='icon-edit pointer' onClick={() => changeModalContent("edit", event)}  />
                       </div>
                         {event.dates.map(date => (
-                        <div className='event-date'>
-                            <p>
+                        <div  className='event-date'>
+                            <p >
                               {new Date(date.startDate).getDate() === new Date(date.endDate).getDate() ?
                                 <span>Le {new Date(date.startDate).getDate()} {months[new Date(date.startDate).getMonth()]} </span>
                               : 
@@ -94,17 +103,17 @@ const Agenda = ({events}) => {
                               </span>}
                             </p>
                             
-                            <p>{date.place} </p>
+                            <p >{date.place} </p>
     
-                            <p>{date.address ? <span>{date.address},</span> : <></>} {date.city ? date.city : <></>}</p>
+                            <p >{date.address ? <span>{date.address},</span> : <></>} {date.city ? date.city : <></>}</p>
                         </div>
                         ))}
-                      <div className='event-desc'>
-                        <div className='description'>
-                          <p>{event.description} </p>
+                      <div  className='event-desc'>
+                        <div  className='description'>
+                          <p >{event.description} </p>
                         </div>
-                        <div className='photo'>
-                          <img alt={event.title} src={event.photo} />
+                        <div  className='photo'>
+                          <img  alt={event.title} src={event.photo} />
                         </div>
                       </div>
                     </AccordionDetails>
@@ -116,7 +125,7 @@ const Agenda = ({events}) => {
           ))}
         </div>
       </div>
-      <BasicModal ref={modalRef} content={modalContent} />
+      <BasicModal ref={modalRef} content={<CreateEvent showAlert={showAlert} closeModal={closeModal} eventInfos={event} />}  />
     </div>
   )
 };

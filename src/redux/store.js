@@ -5,14 +5,19 @@ import {eventsReducer} from "./reducers/events.reducers";
 import {loginReducer} from "./reducers/login.reducer";
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
-const persistConfig = { key: 'root', version: 1, storage };
+const persistConfig = { 
+  key: 'root', 
+  version: 1, 
+  storage, 
+  whitelist: ['loginReducer'] };
 
-const combinedReducers = combineReducers({eventsReducer, loginReducer})
+const combinedReducers = combineReducers({loginReducer, eventsReducer})
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);
 
 let store = configureStore({
-  reducer: persistedReducer, eventsReducer
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 })
 let persistor = persistStore(store);
 

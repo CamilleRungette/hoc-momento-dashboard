@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -15,29 +15,34 @@ import { connect } from 'react-redux';
 const EditEvent = ({showAlert, closeModal, eventInfos}) => {
 
   const initialState = {
-    title: eventInfos.title,
-    description: eventInfos.description,
-    dates: eventInfos.dates,
-    photo:eventInfos.photo
+    title: "",
+    description: "",
+    photo: ""
   };
 
   const [event, setEvent] = useState(initialState);
+  const [dates, setDates] = useState(eventInfos.dates);
   const [picture, setPicture] = useState();
   const [pictureName, setPictureName] = useState(); // à gérer
+
+  useEffect(() => {
+    setEvent(eventInfos);
+  }, [eventInfos]);
 
   const handleState = (prop) => (e) => {
     setEvent({...event, [prop]: e.target.value})
   };
 
   const handleDateChange = (prop, e, i) => {
-    let item = {...event};
-
-    if (e.target) item.dates[i][prop] = e.target.value // À CORRIGER
+    let array = [... dates];
+    if (e.target) array[i][prop] = e.target.value 
     else {
-      item.dates[i][prop] = `${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()} ${e.getHours()}:${e.getMinutes()}`
+      array[i][prop] = `${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()} ${e.getHours()}:${e.getMinutes()}`
     };
-    setEvent(item);
+    setDates(array);
   };
+
+  console.log(event);
 
   const updateInfos = e => {
     e.preventDefault();
@@ -48,7 +53,6 @@ const EditEvent = ({showAlert, closeModal, eventInfos}) => {
     item.dates.splice(i, 1);
     setEvent(item);
   };
-  console.log(event);
 
   const addDate = (e) => {
     e.preventDefault();
@@ -97,7 +101,7 @@ const EditEvent = ({showAlert, closeModal, eventInfos}) => {
             />
         </div>
         <div className="input-form">
-        <TextField
+        {/* <TextField
             id="description"
             label="Description"
             multiline
@@ -105,11 +109,11 @@ const EditEvent = ({showAlert, closeModal, eventInfos}) => {
             value={event.description}
             onChange={handleState('description')}
             className="full-width"
-            />
+            /> */}
         </div>
 
         <h4>Dates</h4>
-        {event.dates.map((date, i) => (
+        {dates.map((date, i) => (
           <div className='dates' key={Math.floor(Math.random() * 1000000)}>
              <div className='date-picker-div input-form'>
               <MuiPickersUtilsProvider utils={DateFnsUtils} className="date-picker">

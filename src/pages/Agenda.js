@@ -1,5 +1,4 @@
 import React, {useRef, useState, useEffect} from 'react';
-import { useSelector } from "react-redux";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -20,9 +19,10 @@ const Agenda = ({events}) => {
 
   const modalRef = useRef();
   const alertRef = useRef()
-  const [event, setEvent] = useState({})
+  const [event, setEvent] = useState({});
+  const [modalContent, setModalContent] = useState(<CreateEvent />)
   const [eventsYear, setEventsYear] = useState([]);
-  const years = [2026, 2025, 2024, 2023, 2022, 2021, 2020,  2019, 2018];
+  const years = [2033, 2032, 2031, 2030, 2029, 2028, 2027, 2026, 2025, 2024, 2023, 2022, 2021, 2020,  2019, 2018];
   const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
   const [alert, setAlert] = useState({
     type: "info",
@@ -49,13 +49,18 @@ const Agenda = ({events}) => {
   };
 
   const showAlert = (type, message) =>  {
-    setAlert({type, message})
+    setAlert({type, message});
     alertRef.current.showAlert();
   };
-    
+
   const changeModalContent = (type, thisEvent) => {
-    if (type === "edit") setEvent(thisEvent);
-    if (type === "create") setEvent(initialState);
+    if (type === "edit") {
+      setEvent(thisEvent);
+      setModalContent(<EditEvent key={Math.floor(Math.random() * 1000000)} showAlert={showAlert} closeModal={closeModal} eventInfos={thisEvent} />)
+    } else if (type === "create") {
+      setEvent(initialState);
+      setModalContent(<CreateEvent showAlert={showAlert} closeModal={closeModal} />)
+    };
     showModal();
   };
 
@@ -64,9 +69,9 @@ const Agenda = ({events}) => {
       <div className='card agenda-main' >
         <h3 >Agenda</h3>
         
-        <AlertMessage key={Math.floor(Math.random() * 1000000)} ref={alertRef} type={alert.type} message={alert.message} />
+        <AlertMessage ref={alertRef} type={alert.type} message={alert.message} />
 
-        <IoIosAdd key={Math.floor(Math.random() * 1000000)} className='add-event pointer' onClick={showModal} />
+        <IoIosAdd className='add-event pointer' onClick={() => changeModalContent("create")} />
 
         <div className='events'>
           {years.map(year => (
@@ -125,7 +130,7 @@ const Agenda = ({events}) => {
           ))}
         </div>
       </div>
-      <BasicModal ref={modalRef} content={<CreateEvent showAlert={showAlert} closeModal={closeModal} eventInfos={event} />}  />
+      <BasicModal ref={modalRef} content={modalContent}  />
     </div>
   )
 };

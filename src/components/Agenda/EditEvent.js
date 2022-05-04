@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -6,74 +6,94 @@ import {
 } from '@material-ui/pickers';
 import TextField from '@mui/material/TextField';
 import { IoIosAdd } from "react-icons/io";
+import { BsTrash } from "react-icons/bs"
 import { BiMinusCircle } from "react-icons/bi";
 import { url, eventsActions } from './_index';
 import axios from "axios";
 import { connect } from 'react-redux';
 
+const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
+  
+  // console.log(eventInfos);
 
-const EditEvent = ({showAlert, closeModal, eventInfos}) => {
+  const initDate = {
+    startDate: null,
+    endDate: null,
+    place: "",
+    address: "",
+    city:""
+  };
 
   const initialState = {
     title: "",
     description: "",
-    photo: ""
+    dates: [initDate],
+    photo:""
   };
 
-  const [event, setEvent] = useState(initialState);
-  const [dates, setDates] = useState(eventInfos.dates);
-  const [picture, setPicture] = useState();
-  const [pictureName, setPictureName] = useState(); // à gérer
+  const initDates = [Math.floor(Math.random() * 1000000)];
 
+  const [event, setEvent] = useState(eventInfos);
+  const [picture, setPicture] = useState(eventInfos.photo);
+  const [pictureName, setPictureName] = useState(eventInfos.photo ? eventInfos.photo.substr(eventInfos.photo.length - 15) : null);
+  const [dates, setDates] = useState(initDates);
+  
   useEffect(() => {
-    setEvent(eventInfos);
-  }, [eventInfos]);
+    setDates(event.dates.map(() => {
+      return Math.floor(Math.random() * 1000000);
+    }));
+  }, []);
 
   const handleState = (prop) => (e) => {
     setEvent({...event, [prop]: e.target.value})
   };
 
-  const handleDateChange = (prop, e, i) => {
-    let array = [... dates];
-    if (e.target) array[i][prop] = e.target.value 
-    else {
-      array[i][prop] = `${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()} ${e.getHours()}:${e.getMinutes()}`
+  const handleDate = (prop) => (e) => {
+    let datesState = [...event.dates];
+
+    if (!datesState[prop.i]) {
+      datesState[prop.i] = initDate;
     };
-    setDates(array);
+
+    if (prop.type === 'startDate' || prop.type === 'endDate'){
+      let month = e.getMonth()+1 < 10 ? `0${e.getMonth()+1}` : e.getMonth()+1;
+      let hour = e.getHours() < 10 ? `0${e.getHours()}` : e.getHours();
+      let minute = e.getMinutes() < 10 ? `0${e.getMinutes()}` : e.getMinutes();
+      
+      datesState[prop.i][prop.type] = `${e.getFullYear()}-${month}-${e.getDate()} ${hour}:${minute}`;
+
+    } else datesState[prop.i][prop.type] = e.target.value; 
+
+    setEvent({...event, dates: datesState});
   };
 
-  console.log(event);
-
-  const updateInfos = e => {
-    e.preventDefault();
-  };
-
-  const removeDate = i => {
-    let item = {...event};
-    item.dates.splice(i, 1);
-    setEvent(item);
-  };
 
   const addDate = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    let item = {...event};
-    item.dates.push({
-      startDate: null,
-      endDate: null,
-      place: "",
-      address: "",
-      city:""
-    })
+    setDates([... dates, Math.floor(Math.random() * 1000000)]);
 
-    setEvent(item);
+    let eventCopy = {...event};
+    eventCopy.dates.push(initDate);
+    setEvent(eventCopy);
   };
+
+  const removeDate = (id, index) => {
+    let datesArray = [...dates];
+    datesArray = datesArray.filter(date => date !== id)
+    setDates(datesArray);
+
+    let eventsArray = {...event};
+    eventsArray.dates.splice(index, 1);
+    setEvent(eventsArray);    
+  };
+
 
   const fileSelectedHandler = e => {
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
-    formData.append('upload_preset', 'njetrqy4');
+    formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
     formData.append('folder', "hoc-momento")
     setPicture(formData);
 
@@ -83,15 +103,71 @@ const EditEvent = ({showAlert, closeModal, eventInfos}) => {
   const deletePicture = () => {
     setPicture();
     setPictureName();
+    setEvent({...event, photo: ""});
   };
 
+  
+  const saveInfos = e => {
+    e.preventDefault();
 
+    let newEvent = {...event};
+
+    if (!newEvent.title || !newEvent.dates){
+      showAlert("warning", "Le titre et au moins une date sont obligatoires");
+    } else {
+      if (picture && picture !== event.photo) {  
+        axios.post(process.env.REACT_APP_CLOUDINARY, picture)
+        .then(res => {
+          newEvent.photo = res.data.secure_url;
+
+          axios.post(`${url}/dashboard/edit-event`, newEvent)
+          .then(res => {
+            editEventComp(res.data);
+
+            setPicture();
+            setPictureName();
+            setEvent(initialState);
+            setDates(initDates)
+            closeModal();
+            showAlert("success", "Le nouvel événement a bien été créé");
+          })
+          .catch(error => {
+            showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+            console.log(error);
+          });
+        })
+        .catch(error => {
+          showAlert("error", "Erreur avec le chargement de la photo, veuillez réessayer plus tard");
+          console.log(error);
+        });
+      } else {
+        editEventComp(newEvent)
+        axios.post(`${url}/dashboard/edit-event`, newEvent)
+        .then(res => {
+          editEventComp(res.data);
+
+          setPicture();
+          setPictureName();
+          setEvent(initialState);
+          setDates(initDates);
+          closeModal();
+          showAlert("success", "Le nouvel événement a bien été créé");
+        })
+        .catch(error => {
+          showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+          console.log(error);
+        });
+      };
+    };
+  };
+
+ 
   return (
     <div className='event-components'>
-      <h3>Modifier un événement</h3>
+      <h3>Modifier un événement </h3>
 
-      <form className='event-form' onSubmit={updateInfos}>
-      <div className="input-form full-width">
+      <form className="event-form" onSubmit={saveInfos}>
+        <div className="input-form full-width">
           <TextField
               id="title"
               label="Titre"
@@ -101,7 +177,7 @@ const EditEvent = ({showAlert, closeModal, eventInfos}) => {
             />
         </div>
         <div className="input-form">
-        {/* <TextField
+        <TextField
             id="description"
             label="Description"
             multiline
@@ -109,13 +185,13 @@ const EditEvent = ({showAlert, closeModal, eventInfos}) => {
             value={event.description}
             onChange={handleState('description')}
             className="full-width"
-            /> */}
+            />
         </div>
-
+          
         <h4>Dates</h4>
         {dates.map((date, i) => (
-          <div className='dates' key={Math.floor(Math.random() * 1000000)}>
-             <div className='date-picker-div input-form'>
+          <div key={date} className='dates' >
+            <div className='date-picker-div input-form'>
               <MuiPickersUtilsProvider utils={DateFnsUtils} className="date-picker">
                 <DateTimePicker
                   autoOk
@@ -123,51 +199,59 @@ const EditEvent = ({showAlert, closeModal, eventInfos}) => {
                   inputVariant='outlined'
                   ampm={false}
                   format="dd/MM/yyyy HH:mm"
-                  onChange={(e) => handleDateChange('startDate', e, i)}
-                  value={date.startDate}
+                  onChange={handleDate({type: 'startDate', i})}
+                  value={event.dates[i].startDate}
                   />
               </MuiPickersUtilsProvider>
               
               <MuiPickersUtilsProvider utils={DateFnsUtils} className="date-picker">
               <DateTimePicker
+                  autoOk
                   label="Fin"
                   inputVariant='outlined'
                   ampm={false}
                   format="dd/MM/yyyy HH:mm"
-                  onChange={(e) => handleDateChange('endDate', e, i)}
-                  value={date.endDate}
+                  onChange={handleDate({type: 'endDate', i})}
+                  value={event.dates[i].endDate}
                   />
               </MuiPickersUtilsProvider>
-              <BiMinusCircle className='remove-icon pointer' onClick={() => removeDate(i)} />
+              <BiMinusCircle className='remove-icon pointer' onClick={() => removeDate(date, i)} />
             </div>
+      
             <div className='input-form adress-line'>
               <TextField
+                  id="place"
+                  name="place"
                   label="Lieu"
-                  onChange={(e) => handleDateChange('place', e, i)}
-                  className="input-form "
-                  value={date.place}
+                  className="input-form full-width"
+                  onChange={handleDate({type: 'place', i})}
+                  value={event.dates[i].place}
                 />
                 <TextField
+                  id='city'
+                  name="city"
                   label="Ville"
-                  value={date.city}
-                  onChange={(e) => handleDateChange('city', e, i)}
-                  className="input-form "
+                  className="input-form full-width"
+                  onChange={handleDate({type: 'city', i})}
+                  value={event.dates[i].city}
                 />
             </div>
             <div className="input-form">
               <TextField
+                id="address"
+                name="address"
                 label="Adresse"
-                value={date.address}
-                onChange={(e) => handleDateChange('address', e, i)}
                 className="input-form full-width"
+                onChange={handleDate({type: 'address', i})}
+                value={event.dates[i].address}
               />
             </div>
           </div>
         ))}
 
-      <button className='add-date pointer' onClick={addDate}> <IoIosAdd /> Ajouter</button>
+        <button className='add-date pointer' onClick={(e) => addDate(e)}> <IoIosAdd /> Ajouter</button>
 
-      <h4>Télécharger une photo</h4> 
+        <h4>Télécharger une photo</h4> 
         
         {!pictureName ? 
           <div className="upload-picture">
@@ -178,24 +262,23 @@ const EditEvent = ({showAlert, closeModal, eventInfos}) => {
           </div>
         :
         <div>
-          <p>{pictureName} <i className='icon icon-trash' onClick={deletePicture} ></i> </p>
+          <p><a href={event.photo} target="_blank" className='picture-link'>{pictureName}</a> <BsTrash className='delete-picture pointer' onClick={deletePicture} /> </p>
         </div>
           }
-
-      <div className='btn-div'>
-          <button className='btn'>Modifier</button>
+        
+        <div className='btn-div'>
+          <button className='btn'>Créer</button>
         </div>
       </form>
-
     </div>
   )
 }
 
 export default connect(
-  (state) => ({
-
-  }), 
+  (state) => ({}),
   (dispatch) => ({
-
+    editEventComp: data => dispatch(eventsActions.editEvent(data))
   })
 ) (EditEvent);
+
+

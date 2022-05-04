@@ -28,10 +28,12 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     photo:""
   };
 
+  const initDates = [Math.floor(Math.random() * 1000000)];
+
   const [event, setEvent] = useState(initialState);
   const [picture, setPicture] = useState();
   const [pictureName, setPictureName] = useState();
-  const [dates, setDates] = useState([Math.floor(Math.random() * 1000000)]);
+  const [dates, setDates] = useState(initDates);
   
 
   const handleState = (prop) => (e) => {
@@ -69,10 +71,21 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     setEvent(eventCopy);
   };
 
+  const removeDate = (id, index) => {
+    let datesArray = [...dates];
+    datesArray = datesArray.filter(date => date !== id)
+    setDates(datesArray);
+
+    let eventsArray = {...event};
+    eventsArray.dates.splice(index, 1);
+    setEvent(eventsArray);    
+  };
+
+
   const fileSelectedHandler = e => {
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
-    formData.append('upload_preset', 'njetrqy4');
+    formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
     formData.append('folder', "hoc-momento")
     setPicture(formData);
 
@@ -84,74 +97,58 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     setPictureName();
   };
 
-  const removeDate = (id, index) => {
-    let datesArray = [...dates];
-    datesArray = datesArray.filter(date => date !== id)
-    setDates(datesArray);
-
-    let eventsArray = {...event};
-    eventsArray.dates.splice(index, 1);
-    setEvent(eventsArray);    
-  };
-
   
   const saveInfos = e => {
     e.preventDefault();
-    console.log(event);
 
-    // dateRef.current.sendState();
+    let newEvent = {...event};
 
-    // let newEvent = {
-    //   title: event.title, 
-    //   description: event.description,
-    //   photo: null,
-    //   dates: dates
-    // };
+    if (!newEvent.title || (!newEvent.dates[0].startDate || !newEvent[0].endDate)){
+      showAlert("warning", "Le titre et au moins une date sont obligatoires");
+    } else {
+      if (picture) {  
+        axios.post(process.env.REACT_APP_CLOUDINARY, picture)
+        .then(res => {
+          newEvent.photo = res.data.secure_url;
 
-    // if (!newEvent.title || !newEvent.dates){
-    //   showAlert("warning", "Le titre et au moins une date sont obligatoires");
-    // } else {
-    //   if (picture) {  
-    //     axios.post(process.env.REACT_APP_CLOUDINARY, picture)
-    //     .then(res => {
-    //       newEvent.photo = res.data.secure_url;
+          axios.post(`${url}/dashboard/create-event`, newEvent)
+          .then(res => {
+            saveEventComp(res.data);
 
-    //       axios.post(`${url}/dashboard/create-event`, newEvent)
-    //       .then(res => {
-    //         saveEventComp(res.data);
+            setPicture();
+            setPictureName();
+            setEvent(initialState);
+            setDates(initDates)
+            closeModal();
+            showAlert("success", "Le nouvel événement a bien été créé");
+          })
+          .catch(error => {
+            showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+            console.log(error);
+          });
+        })
+        .catch(error => {
+          showAlert("error", "Erreur avec le chargement de la photo, veuillez réessayer plus tard");
+          console.log(error);
+        })
+      } else {
+        axios.post(`${url}/dashboard/create-event`, newEvent)
+        .then(res => {
+          saveEventComp(res.data);
 
-    //         setPicture();
-    //         setPictureName();
-    //         setEvent(initialState)
-    //         closeModal();
-    //         showAlert("success", "Le nouvel événement a bien été créé");
-    //       })
-    //       .catch(error => {
-    //         showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
-    //         console.log(error);
-    //       });
-    //     })
-    //     .catch(error => {
-    //       showAlert("error", "Erreur avec le chargement de la photo, veuillez réessayer plus tard");
-    //       console.log(error);
-    //     })
-    //   } else {
-    //     axios.post(`${url}/dashboard/create-event`, newEvent)
-    //     .then(res => {
-    //       saveEventComp(res.data);
-
-    //       setPicture();
-    //       setPictureName();
-    //       setEvent(initialState)
-    //       closeModal();
-    //       showAlert("success", "Le nouvel événement a bien été créé");
-    //     })
-    //     .catch(error => {
-    //       showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
-    //       console.log(error);
-    //     });
-    //   };
-    // };
+          setPicture();
+          setPictureName();
+          setEvent(initialState);
+          setDates(initDates);
+          closeModal();
+          showAlert("success", "Le nouvel événement a bien été créé");
+        })
+        .catch(error => {
+          showAlert("error", "Erreur lors de la création de l'événement, veuillez réessayer plus tard");
+          console.log(error);
+        });
+      };
+    };
   };
 
  

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -10,32 +10,28 @@ import { BiMinusCircle } from "react-icons/bi";
 import { url, eventsActions } from './_index';
 import axios from "axios";
 import { connect } from 'react-redux';
-import DatePicker from './DatePicker';
 
 const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
+
+  const initDate = {
+    startDate: null,
+    endDate: null,
+    place: "",
+    address: "",
+    city:""
+  };
 
   const initialState = {
     title: "",
     description: "",
-    dates: [{
-      startDate: null,
-      endDate: null,
-      place: "",
-      address: "",
-      city:""
-    }],
+    dates: [initDate],
     photo:""
   };
 
-  const dateRef = useRef();
   const [event, setEvent] = useState(initialState);
   const [picture, setPicture] = useState();
   const [pictureName, setPictureName] = useState();
-  const [dates, setDates] = useState([{
-      id: Math.floor(Math.random() * 1000000),
-      startDate: null,
-      endDate: null,
-  }]);
+  const [dates, setDates] = useState([Math.floor(Math.random() * 1000000)]);
   
 
   const handleState = (prop) => (e) => {
@@ -46,19 +42,19 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     let datesState = [...event.dates];
 
     if (!datesState[prop.i]) {
-      datesState[prop.i] = {
-            startDate: null,
-            endDate: null,
-            place: "",
-            address: "",
-            city:""
-          };
-       datesState[prop.i][prop.type] = e.target.value;
-      setEvent({...event, dates: datesState});
-    } else {
-      datesState[prop.i][prop.type] = e.target.value; 
-      setEvent({...event, dates: datesState});
+      datesState[prop.i] = initDate;
     };
+
+    if (prop.type === 'startDate' || prop.type === 'endDate'){
+      let month = e.getMonth()+1 < 10 ? `0${e.getMonth()+1}` : e.getMonth()+1;
+      let hour = e.getHours() < 10 ? `0${e.getHours()}` : e.getHours();
+      let minute = e.getMinutes() < 10 ? `0${e.getMinutes()}` : e.getMinutes();
+      
+      datesState[prop.i][prop.type] = `${e.getFullYear()}-${month}-${e.getDate()} ${hour}:${minute}`;
+
+    } else datesState[prop.i][prop.type] = e.target.value; 
+
+    setEvent({...event, dates: datesState});
   };
 
 
@@ -66,11 +62,11 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     e.preventDefault();
     e.stopPropagation();
 
-    
-    setDates([... dates, {id: Math.floor(Math.random() * 1000000),
-      startDate: null,
-      endDate: null
-    }]);
+    setDates([... dates, Math.floor(Math.random() * 1000000)]);
+
+    let eventCopy = {...event};
+    eventCopy.dates.push(initDate);
+    setEvent(eventCopy);
   };
 
   const fileSelectedHandler = e => {
@@ -88,21 +84,14 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     setPictureName();
   };
 
-  // const handleDateChange = (e, prop, i) => {
-  //   console.log(prop);
-  //   console.log(e);
-  //   let datesArray = [...dates];
-  //   datesArray[i][prop] = `${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()} ${e.getHours()}:${e.getMinutes()}`
-  //   console.log(datesArray);
-  //   setDates([...dates, datesArray]);
-  // };
+  const removeDate = (id, index) => {
+    let datesArray = [...dates];
+    datesArray = datesArray.filter(date => date !== id)
+    setDates(datesArray);
 
-  // console.log(dates);
-
-  const removeDate = i => {
-    // let array = [...dates];
-    // array.splice(i, 1);
-    // setDate(array);
+    let eventsArray = {...event};
+    eventsArray.dates.splice(index, 1);
+    setEvent(eventsArray);    
   };
 
   
@@ -165,10 +154,6 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     // };
   };
 
-  const getState = (data) => {
-    console.log("createEvent", data);
-  };
-
  
   return (
     <div className='event-components'>
@@ -198,32 +183,33 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
           
         <h4>Dates</h4>
         {dates.map((date, i) => (
-          <div key={date.id} className='dates' >
-            {/* <div className='date-picker-div input-form'>
+          <div key={date} className='dates' >
+            <div className='date-picker-div input-form'>
               <MuiPickersUtilsProvider utils={DateFnsUtils} className="date-picker">
                 <DateTimePicker
-                  autoOk={false}
+                  autoOk
                   label="Début"
                   inputVariant='outlined'
                   ampm={false}
                   format="dd/MM/yyyy HH:mm"
-                  onChange={(e) => handleDateChange(e, 'startDate', i)}
-                  value={date.startDate}
+                  onChange={handleDate({type: 'startDate', i})}
+                  value={event.dates[i].startDate}
                   />
               </MuiPickersUtilsProvider>
               
               <MuiPickersUtilsProvider utils={DateFnsUtils} className="date-picker">
               <DateTimePicker
+                  autoOk
                   label="Fin"
                   inputVariant='outlined'
                   ampm={false}
                   format="dd/MM/yyyy HH:mm"
-                  // onChange={handleDateChange('endDate')}
-                  // value={event.dates[i].endDate}
+                  onChange={handleDate({type: 'endDate', i})}
+                  value={event.dates[i].endDate}
                   />
               </MuiPickersUtilsProvider>
-              <BiMinusCircle className='remove-icon pointer' onClick={() => removeDate(i)} />
-            </div> */}
+              <BiMinusCircle className='remove-icon pointer' onClick={() => removeDate(date, i)} />
+            </div>
       
             <div className='input-form adress-line'>
               <TextField
@@ -232,6 +218,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
                   label="Lieu"
                   className="input-form full-width"
                   onChange={handleDate({type: 'place', i})}
+                  value={event.dates[i].place}
                 />
                 <TextField
                   id='city'
@@ -239,6 +226,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
                   label="Ville"
                   className="input-form full-width"
                   onChange={handleDate({type: 'city', i})}
+                  value={event.dates[i].city}
                 />
             </div>
             <div className="input-form">
@@ -248,6 +236,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
                 label="Adresse"
                 className="input-form full-width"
                 onChange={handleDate({type: 'address', i})}
+                value={event.dates[i].address}
               />
             </div>
           </div>
@@ -278,12 +267,11 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
   )
 }
 
-// export default connect(
-//   (state) => ({}),
-//   (dispatch) => ({
-//     saveEventComp: data => dispatch(eventsActions.saveEvent(data))
-//   })
-// ) (CreateEvent);
+export default connect(
+  (state) => ({}),
+  (dispatch) => ({
+    saveEventComp: data => dispatch(eventsActions.saveEvent(data))
+  })
+) (CreateEvent);
 
-export default CreateEvent
 

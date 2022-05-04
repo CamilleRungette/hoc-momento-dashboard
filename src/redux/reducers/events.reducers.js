@@ -20,12 +20,12 @@ export function eventsReducer(state = initialState, action) {
       });
       eventsArray[indexToEdit] = action.event;
       return eventsArray;
-    // case DELETE_EVENT:
-    //   const indexToDelete = eventsArray.findIndex(item => {
-    //     return item._id === action.id;
-    //   });
-    //   eventsArray.splice(indexToDelete, 1);
-    //   return eventsArray;
+    case DELETE_EVENT:
+      const indexToDelete = eventsArray.findIndex(item => {
+        return item._id === action.id;
+      });
+      eventsArray.splice(indexToDelete, 1);
+      return eventsArray;
     default: 
       return state ;
   };

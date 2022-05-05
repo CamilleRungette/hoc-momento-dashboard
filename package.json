@@ -34,8 +34,8 @@
   "scripts": {
     "start:js": "react-scripts start",
     "start": "npm-run-all -p watch:css start:js",
-    "build:css": "node-sass ./src/sass/style.scss -o ../public/styles ",
-    "watch:css": "npm run build:css && node-sass ./src/sass/style.scss -o ../public/styles -w -r",
+    "build:css": "node-sass ./src/sass/style.scss -o ./public/styles ",
+    "watch:css": "npm run build:css && node-sass ./src/sass/style.scss -o ./public/styles -w -r",
     "build:js": "react-scripts build",
     "build": "npm-run-all build:*",
     "test": "react-scripts test",

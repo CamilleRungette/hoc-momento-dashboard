@@ -2,16 +2,18 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { MdDashboard } from "react-icons/md";
 import { RiCalendarEventLine,RiHandHeartLine } from "react-icons/ri";
 import { AiOutlineMail, AiOutlineMenuFold } from "react-icons/ai";
+import { FaTheaterMasks } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { sidebarActions } from './_index';
 
 const Sidebar = ({sidebarOpen, hideSidebarComp, showSidebarComp}) => {
 
-  
   const [size, setSize] = useState(0);
+  const [showOpened, setShowOpened] = useState(false);
+  const [actionOpened, setActionOpened] = useState(false);
   
-  console.log(size);
   useEffect(() => {
     let sidebar = document.getElementById('sidebar');
     if (sidebarOpen){
@@ -42,6 +44,33 @@ const Sidebar = ({sidebarOpen, hideSidebarComp, showSidebarComp}) => {
     if (size < 1000 && sidebarOpen) hideSidebar();
   };
 
+  const showList = (prop) => (event) => {
+
+    if (prop === "shows"){
+      setShowOpened(!showOpened);
+      let list = document.getElementById('list-shows');
+      let icon = document.getElementById('icon-shows');
+      if (!showOpened){
+        list.style.display = "block";
+        icon.style.transform = "rotate(180deg)";
+      } else { 
+        list.style.display = "none";
+        icon.style.transform = "rotate(0deg)";
+      };
+    } else {
+      setActionOpened(!actionOpened);
+      let list = document.getElementById('list-actions');
+      let icon = document.getElementById('icon-actions');
+      if (!actionOpened){
+        list.style.display = "block";
+        icon.style.transform = "rotate(180deg)";
+      } else { 
+        list.style.display = "none";
+        icon.style.transform = "rotate(0deg)";
+      };
+    };
+  };
+
   return (
     <div id="sidebar" className='sidebar-main'>
       <div className='top-div'>
@@ -55,6 +84,20 @@ const Sidebar = ({sidebarOpen, hideSidebarComp, showSidebarComp}) => {
 
       <ul className='sidebar-navigation no-list-style'>
         <li onClick={checkSidebar}><Link to="/dashboard" className='link'> <MdDashboard  className='sidebar-icon '/> Tableau de bord </Link></li>
+        <li className='pointer' onClick={checkSidebar} > 
+          <span onClick={showList('shows')} className='open-li-span'><FaTheaterMasks className='sidebar-icon' /> Spectacles <IoIosArrowDown id="icon-shows" className='show-list' /></span>
+          <ul id="list-shows" className='no-list-style sublist'>
+            <li onClick={(e) => {e.preventDefault()}}><Link to="/creation-spectacle" className='link'> Créer un spectacle</Link> </li>
+            <li><Link to="/spectacles" className='link'>Voir les spectacles</Link> </li>
+          </ul>
+        </li>
+        <li className='pointer' onClick={checkSidebar}> 
+          <span className='open-li-span' onClick={showList('actions')} ><FaTheaterMasks className='sidebar-icon' /> Actions culturelles <IoIosArrowDown id="icon-actions" className='show-list' /> </span>
+          <ul id="list-actions" className='no-list-style sublist'>
+            <li>Créer une action culturelle</li>
+            <li>Voir les actions culturelles </li>
+          </ul>
+        </li>
         <li onClick={checkSidebar}><Link to="/agenda" className='link'> <RiCalendarEventLine className='sidebar-icon '/> Agenda </Link></li>
         <li onClick={checkSidebar}><Link to="/" className='link'> <RiHandHeartLine className='sidebar-icon '/> Partenaires & Soutiens </Link></li>
         <li onClick={checkSidebar}><Link to="/" className='link'> <AiOutlineMail className='sidebar-icon '/> Messagerie </Link></li>

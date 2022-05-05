@@ -56,16 +56,31 @@
       color: $primary;
       font-size: 14px;
       margin: 20px 0;
+      position: relative;
 
       &:hover{
         color: $orange;
       };
 
+      .open-li-span{
+        display: block
+      };
+
+      .show-list{
+        position: absolute;
+        right: 5px;
+      };  
 
       .sidebar-icon{
         margin-right: 10px;
         font-size: 20px;
         vertical-align: middle;
+      };
+
+      .sublist{
+        margin-left: 24px;
+        display: none;
+        transition: all 1s ease-in-out;
       };
     };
   };

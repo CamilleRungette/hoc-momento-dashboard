@@ -41,6 +41,10 @@
   position: relative;
 };
 
+.card-main{
+  min-height: calc(90vh - 5rem);
+};
+
 .btn-no-style{
   border: none;
   background-color: transparent;
@@ -56,4 +60,10 @@
 
 .center-content{
   text-align: center;
-}
+};
+
+.loading-div{
+  // background-color: green;
+  width: 350px;
+  margin: auto;
+};

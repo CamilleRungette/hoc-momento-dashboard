@@ -11,6 +11,8 @@ import axios from 'axios';
 
 const Agenda = ({events, deleteEventComp}) => {
 
+  console.log(events);
+
   const initialState = {
     title: "",
     description: "",
@@ -39,7 +41,7 @@ const Agenda = ({events, deleteEventComp}) => {
       });
       setEventsYear(array);
     };
-  },[events]);
+  },[]);
 
 
   const showModal = () => {
@@ -87,12 +89,14 @@ const Agenda = ({events, deleteEventComp}) => {
 
   return (
     <div className='inside-app' >
-      <div className='card agenda-main' >
-        <h3 >Agenda</h3>
+      <div className='card card-main agenda-main' >
+        <h3> Agenda</h3>
         
         <AlertMessage ref={alertRef} type={alert.type} message={alert.message} />
 
         <IoIosAdd key={Math.floor(Math.random() * 1000000)} className='add-event pointer' onClick={() => changeModalContent("create")} />
+
+        {events.length ? (
 
         <div className='events'>
           {years.map(year => (
@@ -155,6 +159,11 @@ const Agenda = ({events, deleteEventComp}) => {
             ) : (<></>)
           ))}
         </div>
+        ) : ( 
+          <div className='loading-div'>
+            <img src="/images/loading.gif" alt="events-loader" />
+          </div>
+        )}
       </div>
       <ConfirmModal ref={confirmRef} content={<div>Êtes-vous sûr de vouloir supprimer cet événement ?</div> } button={true} confirmParent={deleteEvent}  />
       <BasicModal ref={modalRef} content={modalContent}  />

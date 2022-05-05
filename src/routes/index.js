@@ -3,16 +3,15 @@ import {
   Route,
 } from "react-router-dom";
 
-import { Dashboard, Agenda, Actions, Shows, CreateEvent} from "./_index";
+import { Dashboard, Agenda, Actions, Shows} from "./_index";
 
 const App = () => {
   return (
       <Routes>
-        <Route path="/dashboard" element={<Dashboard key={Math.floor(Math.random() * 10000)} />}  />
-        <Route path="/agenda" element={<Agenda key={Math.floor(Math.random() * 10000)} />} />
-        <Route path="/agenda/create" element={<CreateEvent key={Math.floor(Math.random() * 10000)} />} />
-        <Route path="/actions" element={<Actions key={Math.floor(Math.random() * 10000)} />} />
-        <Route path="/shows" element={<Shows key={Math.floor(Math.random() * 10000)} />} />
+        <Route path="/dashboard" element={<Dashboard />}  />
+        <Route path="/agenda" element={<Agenda />} />
+        <Route path="/actions" element={<Actions />} />
+        <Route path="/shows" element={<Shows />} />
       </Routes>
   );
 }

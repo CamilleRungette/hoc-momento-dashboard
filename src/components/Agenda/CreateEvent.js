@@ -96,14 +96,13 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     setPicture();
     setPictureName();
   };
-
   
   const saveInfos = e => {
     e.preventDefault();
 
     let newEvent = {...event};
 
-    if (!newEvent.title || (!newEvent.dates[0].startDate || !newEvent[0].endDate)){
+    if (!newEvent.title || (!newEvent.dates[0].startDate || !newEvent.dates[0].endDate)){
       showAlert("warning", "Le titre et au moins une date sont obligatoires");
     } else {
       if (picture) {  

@@ -6,17 +6,14 @@ import {
 } from "react-router-dom";
 import Index from "./containers/Index";
 import Login from "./pages/Login";
-import url from "./url";
 import './sass/style.scss'
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-
 import { store, persistor } from "./redux/store";
 
 
 const App = () => {
 
-  // const dispatch = useDispatch();
 
   return (
     <Provider store={store}>

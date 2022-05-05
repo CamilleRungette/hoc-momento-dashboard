@@ -14,8 +14,6 @@ import { connect } from 'react-redux';
 
 const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
   
-  // console.log(eventInfos);
-
   const initDate = {
     startDate: null,
     endDate: null,
@@ -33,16 +31,20 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
 
   const initDates = [Math.floor(Math.random() * 1000000)];
 
-  const [event, setEvent] = useState(eventInfos);
-  const [picture, setPicture] = useState(eventInfos.photo);
-  const [pictureName, setPictureName] = useState(eventInfos.photo ? eventInfos.photo.substr(eventInfos.photo.length - 15) : null);
+  const [event, setEvent] = useState(initialState);
+  const [picture, setPicture] = useState("");
+  const [pictureName, setPictureName] = useState("");
   const [dates, setDates] = useState(initDates);
   
   useEffect(() => {
+    setEvent(eventInfos);
+    setPicture(eventInfos.photo);
+    setPictureName(eventInfos.photo ? eventInfos.photo.substr(eventInfos.photo.length - 15) : null);
+
     setDates(event.dates.map(() => {
       return Math.floor(Math.random() * 1000000);
     }));
-  }, []);
+  }, [eventInfos]);
 
   const handleState = (prop) => (e) => {
     setEvent({...event, [prop]: e.target.value})
@@ -122,7 +124,6 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
 
           axios.post(`${url}/dashboard/edit-event`, newEvent)
           .then(res => {
-            console.log(res.data);
             editEventComp(res.data);
 
             closeModal();
@@ -140,9 +141,9 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
       } else {
         axios.post(`${url}/dashboard/edit-event`, newEvent)
         .then(res => {
+          closeModal();
           editEventComp(res.data);
 
-          closeModal();
           showAlert("success", "Le nouveL'événement a bien été mis à jour");
         })
         .catch(error => {

@@ -61,7 +61,7 @@ const Agenda = ({events, deleteEventComp}) => {
       setModalContent(<EditEvent key={Math.floor(Math.random() * 1000000)} showAlert={showAlert} closeModal={closeModal} eventInfos={thisEvent} />)
     } else if (type === "create") {
       setEvent(initialState);
-      setModalContent(<CreateEvent showAlert={showAlert} closeModal={closeModal} />)
+      setModalContent(<CreateEvent key={Math.floor(Math.random() * 1000000)} showAlert={showAlert} closeModal={closeModal} />)
     };
     showModal();
   };
@@ -72,10 +72,8 @@ const Agenda = ({events, deleteEventComp}) => {
   };
 
   const deleteEvent = () => {
-    
     axios.post(`${url}/dashboard/delete-event`, {id: thisEvent._id})
     .then(res => {
-      console.log(res);
       if (res.data === "success") {
         deleteEventComp(thisEvent._id);
         showAlert("success", "L'événement a bien été supprimé");
@@ -94,7 +92,7 @@ const Agenda = ({events, deleteEventComp}) => {
         
         <AlertMessage ref={alertRef} type={alert.type} message={alert.message} />
 
-        <IoIosAdd className='add-event pointer' onClick={() => changeModalContent("create")} />
+        <IoIosAdd key={Math.floor(Math.random() * 1000000)} className='add-event pointer' onClick={() => changeModalContent("create")} />
 
         <div className='events'>
           {years.map(year => (
@@ -113,18 +111,17 @@ const Agenda = ({events, deleteEventComp}) => {
                 new Date(event.dates[0].startDate).getFullYear() === year ? (
                     <AccordionDetails key={Math.floor(Math.random() * 1000000)}  className="event-details">
                       <div  className='accordion-title'>
-                        <h2  >{event.title}</h2>
+                        <h2 >{event.title}</h2>
 
                         <div className='event-actions'>
                           <AiOutlineEdit className='event-icon pointer' onClick={() => changeModalContent("edit", event)}  />
                           <BsTrash className='event-icon trash pointer' onClick={() => showDialog(event)} />
                         </div>
                       </div>
-                      <ConfirmModal ref={confirmRef} content={<div>Êtes-vous sûr de vouloir supprimer cet événement ?</div> } button={true} confirmParent={deleteEvent}  />
 
                         {event.dates.map(date => (
-                        <div  className='event-date'>
-                            <p >
+                        <div key={Math.floor(Math.random() * 1000000)} className='event-date'>
+                            <p>
                               {new Date(date.startDate).getDate() === new Date(date.endDate).getDate() ?
                                 <span>Le {new Date(date.startDate).getDate()} {months[new Date(date.startDate).getMonth()]} </span>
                               : 
@@ -159,6 +156,7 @@ const Agenda = ({events, deleteEventComp}) => {
           ))}
         </div>
       </div>
+      <ConfirmModal ref={confirmRef} content={<div>Êtes-vous sûr de vouloir supprimer cet événement ?</div> } button={true} confirmParent={deleteEvent}  />
       <BasicModal ref={modalRef} content={modalContent}  />
     </div>
   )

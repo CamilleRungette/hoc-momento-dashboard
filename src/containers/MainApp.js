@@ -8,16 +8,15 @@ import axios from "axios";
 
 const MainApp = ({saveEventsComp}) => {
 
-    useEffect(() => {
-      axios.get(`${url}/events`)
-      .then(res => {
-        saveEventsComp(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  
-    }, []);
+  useEffect(() => {
+    axios.get(`${url}/events`)
+    .then(res => {
+      saveEventsComp(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }, []);
   
   return (
     <div className='main-app'>

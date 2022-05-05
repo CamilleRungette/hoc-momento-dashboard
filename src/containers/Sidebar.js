@@ -1,27 +1,74 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { MdDashboard } from "react-icons/md";
 import { RiCalendarEventLine,RiHandHeartLine } from "react-icons/ri";
-import { AiOutlineMail } from "react-icons/ai";
-import { Link } from "react-router-dom"
+import { AiOutlineMail, AiOutlineMenuFold } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { sidebarActions } from './_index';
 
-const Sidebar = () => {
+const Sidebar = ({sidebarOpen, hideSidebarComp, showSidebarComp}) => {
+
+  
+  const [size, setSize] = useState(0);
+  
+  console.log(size);
+  useEffect(() => {
+    let sidebar = document.getElementById('sidebar');
+    if (sidebarOpen){
+      sidebar.style.transform = "translate(0rem)";
+    } else {
+      sidebar.style.transform = "translate(-14rem)";
+    };
+
+  }, [sidebarOpen]);
+
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize(window.innerWidth);
+      if (window.innerWidth > 1000 && !sidebarOpen) showSidebarComp();
+      if (window.innerWidth < 1000 && sidebarOpen) hideSidebarComp()
+    }; 
+    
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, [size]);
+
+  const hideSidebar = () => {
+    hideSidebarComp();
+  };
+
+  const checkSidebar = () => {
+    if (size < 1000 && sidebarOpen) hideSidebar();
+  };
+
   return (
-    <div className='sidebar-main'>
+    <div id="sidebar" className='sidebar-main'>
       <div className='top-div'>
+        <div className='icon-menu-div'>
+          {size < 1000 && <AiOutlineMenuFold onClick={hideSidebar} /> }
+        </div>
         <div className='logo-div'>
           <img src="/images/logo_blanc.png" />
         </div>
       </div>
 
       <ul className='sidebar-navigation no-list-style'>
-        <li key={Math.floor(Math.random() * 10000)}><Link to="/dashboard" className='link'> <MdDashboard  className='sidebar-icon '/> Tableau de bord </Link></li>
-        <li key={Math.floor(Math.random() * 10000)}><Link to="/agenda" className='link'> <RiCalendarEventLine className='sidebar-icon '/> Agenda </Link></li>
-        <li key={Math.floor(Math.random() * 10000)}><Link to="/" className='link'> <RiHandHeartLine className='sidebar-icon '/> Partenaires & Soutiens </Link></li>
-        <li key={Math.floor(Math.random() * 10000)}><Link to="/" className='link'> <AiOutlineMail className='sidebar-icon '/> Messagerie </Link></li>
-
+        <li onClick={checkSidebar}><Link to="/dashboard" className='link'> <MdDashboard  className='sidebar-icon '/> Tableau de bord </Link></li>
+        <li onClick={checkSidebar}><Link to="/agenda" className='link'> <RiCalendarEventLine className='sidebar-icon '/> Agenda </Link></li>
+        <li onClick={checkSidebar}><Link to="/" className='link'> <RiHandHeartLine className='sidebar-icon '/> Partenaires & Soutiens </Link></li>
+        <li onClick={checkSidebar}><Link to="/" className='link'> <AiOutlineMail className='sidebar-icon '/> Messagerie </Link></li>
       </ul>
     </div>
   )
 }
 
-export default Sidebar
+export default connect(
+  (state) => ({
+    sidebarOpen: state.sidebarReducer.open
+  }),
+  (dispatch) => ({
+    hideSidebarComp: () => dispatch(sidebarActions.hideSibar()),
+    showSidebarComp: () => dispatch(sidebarActions.showSidebar())
+  })
+) (Sidebar)

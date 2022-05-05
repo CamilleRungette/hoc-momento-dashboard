@@ -10,9 +10,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 const Agenda = ({events, deleteEventComp}) => {
-
-  console.log(events);
-
+  
   const initialState = {
     title: "",
     description: "",

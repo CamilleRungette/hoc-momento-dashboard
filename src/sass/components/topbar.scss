@@ -23,7 +23,12 @@
 
       svg{
         font-size: 25px;
-        color: grey
+        color: grey;
+        padding: .25rem;
+
+        &:hover{
+          background-color: #e4e4e4;
+        };
       };
     };
 

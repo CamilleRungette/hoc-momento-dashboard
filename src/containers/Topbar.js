@@ -1,10 +1,11 @@
 import React from 'react';
 import { FiMenu } from "react-icons/fi";
+import { AiOutlineMenuUnfold } from "react-icons/ai"
 import Avatar from '@mui/material/Avatar';
-import { loginActions } from './_index';
+import { loginActions, sidebarActions } from './_index';
 import { connect } from "react-redux";
 
-const Topbar = ({logged, logOutComp}) => {
+const Topbar = ({logOutComp, showSidebarComp}) => {
   
   const showLogOut = () =>{
     document.getElementById('logout').style.display = 'block';
@@ -20,11 +21,15 @@ const Topbar = ({logged, logOutComp}) => {
     logOutComp();
   };
 
+  const showSidebar = () => {
+    showSidebarComp()
+  };
+
   return (
     <div className='topbar-main'>
       <div className='logo-div'>
         <div className='menu-logo'>
-          <FiMenu />
+          <AiOutlineMenuUnfold className='pointer' onClick={showSidebar} />
         </div>
         <div className='hoc-momento-logo'>
           <img src="/images/logo_noir.png" />
@@ -43,9 +48,9 @@ const Topbar = ({logged, logOutComp}) => {
 
 export default connect(
   (state) => ({
-    logged: state.loginReducer.logged
   }),
   (dispatch) => ({
-    logOutComp: () => dispatch(loginActions.logOut())
+    logOutComp: () => dispatch(loginActions.logOut()),
+    showSidebarComp: () => dispatch(sidebarActions.showSidebar())
   })
 ) (Topbar)

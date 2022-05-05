@@ -3,6 +3,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import { configureStore } from "@reduxjs/toolkit";
 import {eventsReducer} from "./reducers/events.reducers";
 import {loginReducer} from "./reducers/login.reducer";
+import {sidebarReducer} from "./reducers/sidebar.reducer";
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
 const persistConfig = { 
@@ -11,7 +12,7 @@ const persistConfig = {
   storage, 
   whitelist: ['loginReducer'] };
 
-const combinedReducers = combineReducers({loginReducer, eventsReducer})
+const combinedReducers = combineReducers({loginReducer, eventsReducer, sidebarReducer})
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);
 

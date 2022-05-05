@@ -46,7 +46,7 @@ const Sidebar = ({sidebarOpen, hideSidebarComp, showSidebarComp}) => {
     <div id="sidebar" className='sidebar-main'>
       <div className='top-div'>
         <div className='icon-menu-div'>
-          {size < 1000 && <AiOutlineMenuFold onClick={hideSidebar} /> }
+          {size < 1000 && <AiOutlineMenuFold className='pointer' onClick={hideSidebar} /> }
         </div>
         <div className='logo-div'>
           <img src="/images/logo_blanc.png" />

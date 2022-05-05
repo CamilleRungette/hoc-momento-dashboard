@@ -41,7 +41,7 @@ const Agenda = ({events, deleteEventComp}) => {
       });
       setEventsYear(array);
     };
-  },[]);
+  },[events]);
 
 
   const showModal = () => {

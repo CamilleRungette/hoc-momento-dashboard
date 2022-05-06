@@ -52,8 +52,18 @@
       };
 
       #type{
-        width: 19%;
+        width: 16%;
+      };
+      .remove-icon{
+        font-size: 22px;
+        vertical-align: middle;
+        margin-top: 10px;
+        width: 4%;
       };
     };
+  };
+
+  .btn-div{
+    padding: 1rem 0;
   };
 };

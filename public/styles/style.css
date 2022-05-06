@@ -354,7 +354,7 @@
     .dates .date-picker-div .remove-icon {
       font-size: 22px;
       vertical-align: middle;
-      margin-top: 20px;
+      margin-top: 10px;
       width: 16%; }
   .dates .adress-line .line {
     width: 48%; }
@@ -402,6 +402,45 @@
       position: absolute;
       top: 1.5rem;
       left: 3rem; }
+
+.upload-multiple-pictures {
+  position: relative; }
+  .upload-multiple-pictures .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1; }
+  .upload-multiple-pictures .label {
+    padding: .5rem 0rem;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    border: 1px #d6d6d6 dashed;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    font-size: 14px;
+    transition: .5s; }
+    .upload-multiple-pictures .label:hover {
+      color: #585858; }
+    .upload-multiple-pictures .label .plus-icon {
+      vertical-align: middle;
+      margin-right: 5px; }
+
+.picture-names-list {
+  height: 150px;
+  overflow: auto; }
+  .picture-names-list li {
+    font-size: 14px !important;
+    position: relative; }
+    .picture-names-list li svg {
+      position: absolute;
+      right: 0; }
+    .picture-names-list li:hover {
+      background-color: #F5F5F5; }
 
 .picture-link {
   font-style: italic;
@@ -540,7 +579,15 @@
     .create-show-main .show-form .links #link {
       width: 39%; }
     .create-show-main .show-form .links #type {
-      width: 19%; }
+      width: 16%; }
+    .create-show-main .show-form .links .remove-icon {
+      font-size: 22px;
+      vertical-align: middle;
+      margin-top: 10px;
+      width: 4%; }
+
+.create-show-main .btn-div {
+  padding: 1rem 0; }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
@@ -564,7 +611,7 @@ h1, h2, h3, h4, h5, h6 {
   height: calc(100% - 5rem);
   margin-top: 6rem;
   transition: .5s;
-  padding-bottom: 4rem; }
+  padding-bottom: 6rem; }
   @media screen and (max-width: 1200px) {
     .inside-app {
       width: calc(100% - 14rem);

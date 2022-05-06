@@ -30,4 +30,12 @@
     .create-show-main .show-form .links #link {
       width: 39%; }
     .create-show-main .show-form .links #type {
-      width: 19%; }
+      width: 16%; }
+    .create-show-main .show-form .links .remove-icon {
+      font-size: 22px;
+      vertical-align: middle;
+      margin-top: 10px;
+      width: 4%; }
+
+.create-show-main .btn-div {
+  padding: 1rem 0; }

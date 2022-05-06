@@ -7,6 +7,7 @@ import {
 import TextField from '@mui/material/TextField';
 import { IoIosAdd } from "react-icons/io";
 import { BiMinusCircle } from "react-icons/bi";
+import { BsTrash } from "react-icons/bs";
 import { url, eventsActions } from './_index';
 import axios from "axios";
 import { connect } from 'react-redux';
@@ -251,7 +252,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
           </div>
         :
         <div>
-          <p>{pictureName} <i className='icon icon-trash' onClick={deletePicture} ></i> </p>
+          <p>{pictureName} <BsTrash className='delete-picture pointer' onClick={deletePicture} /> </p>
         </div>
           }
         

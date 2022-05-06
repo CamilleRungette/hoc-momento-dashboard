@@ -1,2 +1,114 @@
 .input-form {
   margin-bottom: 10px !important; }
+
+.dates {
+  margin-bottom: 10px; }
+  .dates .date-picker-div {
+    width: 100%;
+    display: flex;
+    margin-bottom: 5px; }
+    .dates .date-picker-div div {
+      width: 85%;
+      font-size: 14px !important; }
+    .dates .date-picker-div .remove-icon {
+      font-size: 22px;
+      vertical-align: middle;
+      margin-top: 10px;
+      width: 16%; }
+  .dates .adress-line .line {
+    width: 48%; }
+    .dates .adress-line .line:not(:first-child) {
+      margin-left: 4%; }
+
+.add-date {
+  width: 100%;
+  font-size: 14px;
+  border: 1px dashed #038FDD;
+  background-color: white;
+  color: #474747;
+  font-weight: 500;
+  padding: .5rem 0;
+  border-radius: 5px;
+  transition-duration: .5s; }
+  .add-date:hover {
+    color: #038FDD;
+    transition-duration: .5s; }
+  .add-date svg {
+    vertical-align: middle; }
+
+.MuiInputBase-formControl {
+  height: 40px !important; }
+
+.upload-picture {
+  position: relative;
+  padding-top: 3rem;
+  margin-bottom: 4rem; }
+  .upload-picture .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1; }
+  .upload-picture .label {
+    padding: 2.5rem 2rem;
+    border: 1px #d6d6d6 dashed;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative; }
+    .upload-picture .label .plus-icon {
+      position: absolute;
+      top: 1.5rem;
+      left: 3rem; }
+
+.upload-multiple-pictures {
+  position: relative; }
+  .upload-multiple-pictures .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1; }
+  .upload-multiple-pictures .label {
+    padding: .5rem 0rem;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    border: 1px #d6d6d6 dashed;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    font-size: 14px;
+    transition: .5s; }
+    .upload-multiple-pictures .label:hover {
+      color: #585858; }
+    .upload-multiple-pictures .label .plus-icon {
+      vertical-align: middle;
+      margin-right: 5px; }
+
+.picture-names-list {
+  height: 150px;
+  overflow: auto; }
+  .picture-names-list li {
+    font-size: 14px !important;
+    position: relative; }
+    .picture-names-list li svg {
+      position: absolute;
+      right: 0; }
+    .picture-names-list li:hover {
+      background-color: #F5F5F5; }
+
+.picture-link {
+  font-style: italic;
+  color: #585858; }
+
+.delete-picture {
+  vertical-align: middle;
+  font-size: 20px;
+  margin-left: 20px;
+  transition: .5s; }
+  .delete-picture:hover {
+    color: #585858; }

@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
   height: calc(100% - 5rem);
   margin-top: 6rem;
   transition: .5s;
-  padding-bottom: 4rem; }
+  padding-bottom: 6rem; }
   @media screen and (max-width: 1200px) {
     .inside-app {
       width: calc(100% - 14rem);

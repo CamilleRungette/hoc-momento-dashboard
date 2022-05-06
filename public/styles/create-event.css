@@ -1,0 +1,9 @@
+.event-components {
+  width: 40vw; }
+  .event-components h3 {
+    font-weight: 500; }
+  .event-components .event-form {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column; }

@@ -212,7 +212,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
                   id="place"
                   name="place"
                   label="Lieu"
-                  className="input-form full-width"
+                  className="line full-width"
                   onChange={handleDate({type: 'place', i})}
                   value={event.dates[i].place}
                 />
@@ -220,7 +220,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
                   id='city'
                   name="city"
                   label="Ville"
-                  className="input-form full-width"
+                  className="line full-width"
                   onChange={handleDate({type: 'city', i})}
                   value={event.dates[i].city}
                 />

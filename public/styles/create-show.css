@@ -1,0 +1,33 @@
+.create-show-main .ql-toolbar:first-child {
+  display: none; }
+
+.create-show-main .show-form {
+  width: 90%;
+  margin: auto; }
+  .create-show-main .show-form .editor-div {
+    border: 1px #c4c4c4 solid;
+    border-radius: 5px;
+    min-height: 300px;
+    max-height: 60vh;
+    overflow: auto; }
+  .create-show-main .show-form .rdw-option-wrapper {
+    min-width: 16px !important; }
+  .create-show-main .show-form .dates-and-picture {
+    display: flex;
+    justify-content: space-between; }
+    .create-show-main .show-form .dates-and-picture .dates-div {
+      width: 58%; }
+    .create-show-main .show-form .dates-and-picture .pictures-div {
+      width: 38%;
+      padding-left: 1rem; }
+  .create-show-main .show-form .div-links {
+    padding-bottom: 10px !important; }
+  .create-show-main .show-form .links {
+    display: flex;
+    justify-content: space-between; }
+    .create-show-main .show-form .links #name {
+      width: 39%; }
+    .create-show-main .show-form .links #link {
+      width: 39%; }
+    .create-show-main .show-form .links #type {
+      width: 19%; }

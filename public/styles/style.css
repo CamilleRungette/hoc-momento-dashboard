@@ -262,69 +262,6 @@
     margin: auto;
     display: flex;
     flex-direction: column; }
-    .event-components .event-form .dates {
-      margin-bottom: 10px; }
-      .event-components .event-form .dates .date-picker-div {
-        width: 100%;
-        display: flex; }
-        .event-components .event-form .dates .date-picker-div div {
-          width: 85%;
-          font-size: 14px !important; }
-        .event-components .event-form .dates .date-picker-div .remove-icon {
-          font-size: 22px;
-          vertical-align: middle;
-          margin-top: 20px;
-          width: 16%; }
-      .event-components .event-form .dates .adress-line .input-form {
-        width: 48%; }
-        .event-components .event-form .dates .adress-line .input-form:not(:first-child) {
-          margin-left: 4%; }
-    .event-components .event-form .add-date {
-      font-size: 14px;
-      border: 1px dashed #038FDD;
-      background-color: white;
-      color: #474747;
-      font-weight: 500;
-      padding: .5rem 0;
-      border-radius: 5px;
-      transition-duration: .5s; }
-      .event-components .event-form .add-date:hover {
-        color: #038FDD;
-        transition-duration: .5s; }
-      .event-components .event-form .add-date svg {
-        vertical-align: middle; }
-  .event-components .upload-picture {
-    position: relative;
-    padding-top: 3rem;
-    margin-bottom: 4rem; }
-    .event-components .upload-picture .inputfile {
-      width: 0.1px;
-      height: 0.1px;
-      opacity: 0;
-      overflow: hidden;
-      position: absolute;
-      z-index: -1; }
-    .event-components .upload-picture .label {
-      padding: 2.5rem 2rem;
-      border: 1px #d6d6d6 dashed;
-      background-color: #f3f3f3;
-      border-radius: 5px;
-      cursor: pointer;
-      position: relative; }
-      .event-components .upload-picture .label .plus-icon {
-        position: absolute;
-        top: 1.5rem;
-        left: 3rem; }
-  .event-components .picture-link {
-    font-style: italic;
-    color: #585858; }
-  .event-components .delete-picture {
-    vertical-align: middle;
-    font-size: 20px;
-    margin-left: 20px;
-    transition: .5s; }
-    .event-components .delete-picture:hover {
-      color: #585858; }
 
 .btn-div {
   text-align: center; }
@@ -401,6 +338,82 @@
 
 .edit-event .input-form {
   margin-bottom: 15px !important; }
+
+.input-form {
+  margin-bottom: 10px !important; }
+
+.dates {
+  margin-bottom: 10px; }
+  .dates .date-picker-div {
+    width: 100%;
+    display: flex;
+    margin-bottom: 5px; }
+    .dates .date-picker-div div {
+      width: 85%;
+      font-size: 14px !important; }
+    .dates .date-picker-div .remove-icon {
+      font-size: 22px;
+      vertical-align: middle;
+      margin-top: 20px;
+      width: 16%; }
+  .dates .adress-line .line {
+    width: 48%; }
+    .dates .adress-line .line:not(:first-child) {
+      margin-left: 4%; }
+
+.add-date {
+  width: 100%;
+  font-size: 14px;
+  border: 1px dashed #038FDD;
+  background-color: white;
+  color: #474747;
+  font-weight: 500;
+  padding: .5rem 0;
+  border-radius: 5px;
+  transition-duration: .5s; }
+  .add-date:hover {
+    color: #038FDD;
+    transition-duration: .5s; }
+  .add-date svg {
+    vertical-align: middle; }
+
+.MuiInputBase-formControl {
+  height: 40px !important; }
+
+.upload-picture {
+  position: relative;
+  padding-top: 3rem;
+  margin-bottom: 4rem; }
+  .upload-picture .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1; }
+  .upload-picture .label {
+    padding: 2.5rem 2rem;
+    border: 1px #d6d6d6 dashed;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative; }
+    .upload-picture .label .plus-icon {
+      position: absolute;
+      top: 1.5rem;
+      left: 3rem; }
+
+.picture-link {
+  font-style: italic;
+  color: #585858; }
+
+.delete-picture {
+  vertical-align: middle;
+  font-size: 20px;
+  margin-left: 20px;
+  transition: .5s; }
+  .delete-picture:hover {
+    color: #585858; }
 
 .agenda-main .add-event {
   font-size: 50px;
@@ -495,6 +508,44 @@
     font-size: 20px;
     font-weight: 500; }
 
+.create-show-main .ql-toolbar:first-child {
+  display: none; }
+
+.create-show-main .show-form {
+  width: 90%;
+  margin: auto; }
+  .create-show-main .show-form .editor-div {
+    border: 1px #c4c4c4 solid;
+    border-radius: 5px;
+    min-height: 300px;
+    max-height: 60vh;
+    overflow: auto; }
+  .create-show-main .show-form .rdw-option-wrapper {
+    min-width: 16px !important; }
+  .create-show-main .show-form .dates-and-picture {
+    display: flex;
+    justify-content: space-between; }
+    .create-show-main .show-form .dates-and-picture .dates-div {
+      width: 58%; }
+    .create-show-main .show-form .dates-and-picture .pictures-div {
+      width: 38%;
+      padding-left: 1rem; }
+  .create-show-main .show-form .div-links {
+    padding-bottom: 10px !important; }
+  .create-show-main .show-form .links {
+    display: flex;
+    justify-content: space-between; }
+    .create-show-main .show-form .links #name {
+      width: 39%; }
+    .create-show-main .show-form .links #link {
+      width: 39%; }
+    .create-show-main .show-form .links #type {
+      width: 19%; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  color: #003366; }
+
 .no-list-style {
   list-style: none;
   padding-left: 0; }
@@ -512,7 +563,8 @@
   margin-left: auto;
   height: calc(100% - 5rem);
   margin-top: 6rem;
-  transition: .5s; }
+  transition: .5s;
+  padding-bottom: 4rem; }
   @media screen and (max-width: 1200px) {
     .inside-app {
       width: calc(100% - 14rem);
@@ -536,9 +588,6 @@
 .btn-no-style {
   border: none;
   background-color: transparent; }
-
-.input-form {
-  margin-bottom: 10px; }
 
 .full-width {
   width: 100%; }

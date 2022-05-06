@@ -1,3 +1,9 @@
+@import "./colors.scss";
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  color: $secondary;
+}
 
 .no-list-style{
   list-style: none;
@@ -20,6 +26,7 @@
   height: calc(100% - 5rem);
   margin-top: 6rem;
   transition: .5s;
+  padding-bottom: 4rem;
 
   @media screen and (max-width: 1200px){
     width: calc(100% - 14rem);
@@ -48,10 +55,6 @@
 .btn-no-style{
   border: none;
   background-color: transparent;
-};
-
-.input-form{
-  margin-bottom: 10px;
 };
 
 .full-width{

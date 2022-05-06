@@ -1,0 +1,59 @@
+.create-show-main{
+
+  .ql-toolbar{
+    &:first-child{
+      display: none;
+    }
+  };
+
+  .show-form{
+    width: 90%;
+    margin: auto;
+
+    .editor-div{
+      border: 1px rgb(196, 196, 196) solid;
+      border-radius: 5px;
+      min-height: 300px;
+      max-height: 60vh;
+      overflow: auto;
+    };
+
+    .rdw-option-wrapper{
+      min-width: 16px !important;
+    };
+
+    .dates-and-picture{
+      display: flex;
+      justify-content: space-between;
+
+      .dates-div{
+        width: 58%;
+      };
+
+      .pictures-div{
+        width: 38%;
+        padding-left: 1rem;
+      };
+    };
+
+    .div-links{
+      padding-bottom: 10px !important;
+    }
+    .links{
+      display: flex;
+      justify-content: space-between;
+
+      #name{
+        width: 39%;
+      };
+
+      #link{
+        width: 39%;
+      };
+
+      #type{
+        width: 19%;
+      };
+    };
+  };
+};

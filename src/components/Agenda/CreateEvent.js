@@ -65,7 +65,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setDates([... dates, Math.floor(Math.random() * 1000000)]);
+    setDates([...dates, Math.floor(Math.random() * 1000000)]);
 
     let eventCopy = {...event};
     eventCopy.dates.push(initDate);

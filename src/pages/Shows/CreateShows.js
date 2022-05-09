@@ -94,7 +94,7 @@ const CreateShows = ({saveShowComp}) => {
     let showCopy = {...show};
 
     if (type === 'date'){
-      setDates([... dates, Math.floor(Math.random() * 1000000)]);
+      setDates([...dates, Math.floor(Math.random() * 1000000)]);
       showCopy.dates.push(initDate);
     } else {
       setLinks([...links, Math.floor(Math.random() * 1000000)]);
@@ -175,8 +175,8 @@ const CreateShows = ({saveShowComp}) => {
         return result.data.secure_url;
       });
       
-      if (finalShow.dates.length === 1 && JSON.stringify(finalShow.dates[0]) == JSON.stringify(initDate)) finalShow.dates = [];
-      if (finalShow.links.length === 1 && JSON.stringify(finalShow.links[0]) == JSON.stringify(initLink)) finalShow.links = [];
+      if (finalShow.dates.length === 1 && JSON.stringify(finalShow.dates[0]) === JSON.stringify(initDate)) finalShow.dates = [];
+      if (finalShow.links.length === 1 && JSON.stringify(finalShow.links[0]) === JSON.stringify(initLink)) finalShow.links = [];
       
       if (pictures.length){
         Promise.all(promises).then(values => {

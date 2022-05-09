@@ -74,7 +74,7 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setDates([... dates, Math.floor(Math.random() * 1000000)]);
+    setDates([...dates, Math.floor(Math.random() * 1000000)]);
 
     let eventCopy = {...event};
     eventCopy.dates.push(initDate);
@@ -255,7 +255,7 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
           </div>
         :
         <div>
-          <p><a href={event.photo} target="_blank" className='picture-link'>{pictureName}</a> <BsTrash className='delete-picture pointer' onClick={deletePicture} /> </p>
+          <p><a href={event.photo} target="_blank" rel="noreferrer" className='picture-link'>{pictureName}</a> <BsTrash className='delete-picture pointer' onClick={deletePicture} /> </p>
         </div>
           }
         

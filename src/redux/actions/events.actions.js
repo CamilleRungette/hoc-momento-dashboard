@@ -20,4 +20,5 @@ const deleteEvent = data => ({
   id: data
 });
 
-export default {saveEvents, saveEvent, editEvent,deleteEvent};
+const functions =  {saveEvents, saveEvent, editEvent,deleteEvent};
+export default functions;

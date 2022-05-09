@@ -60,7 +60,7 @@ const Login = ({logged, logUserComp}) => {
 
         <div className='connection'>
           <div className='gif'>
-            <img src="/images/login.gif" />
+            <img src="/images/login.gif" alt="Log in Hoc Momento workspace" />
           </div>
           <form className='login-form' onSubmit={connect}>
             <TextField

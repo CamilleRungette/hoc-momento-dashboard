@@ -78,7 +78,7 @@ const Sidebar = ({sidebarOpen, hideSidebarComp, showSidebarComp}) => {
           {size < 1000 && <AiOutlineMenuFold className='pointer' onClick={hideSidebar} /> }
         </div>
         <div className='logo-div'>
-          <img src="/images/logo_blanc.png" />
+          <img src="/images/logo_blanc.png" alt="Logo Hoc Momento" />
         </div>
       </div>
 

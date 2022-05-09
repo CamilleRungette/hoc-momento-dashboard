@@ -1,0 +1,77 @@
+.btn-div {
+  text-align: center !important; }
+
+.btn {
+  background-color: #038FDD;
+  border: 1px solid #038FDD;
+  color: white;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
+  .btn:hover {
+    background-color: #0079bb;
+    border: 1px solid #0079bb; }
+
+.btn-outlined {
+  background-color: white;
+  border: 1px solid #038FDD;
+  color: #038FDD;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
+  .btn-outlined:hover {
+    background-color: #038FDD;
+    color: white; }
+
+.btn-red {
+  background-color: #fa4646;
+  border: 1px solid #fa4646;
+  color: white;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
+  .btn-red:hover {
+    background-color: white;
+    color: #fa4646; }
+
+.btn-red-outlined {
+  background-color: white;
+  border: 1px solid #fa4646;
+  color: #fa4646;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
+  .btn-red-outlined:hover {
+    background-color: #fa4646;
+    color: white; }
+
+.btn-grey {
+  background-color: #9b9b9b;
+  border: 1px solid #9b9b9b;
+  color: white;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
+  .btn-grey:hover {
+    background-color: white;
+    color: #9b9b9b; }

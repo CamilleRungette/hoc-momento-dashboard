@@ -31,12 +31,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .card {
   background-color: white !important;
-  width: 90%;
-  margin: auto;
-  padding: 5px 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 3px #d4d4d4;
-  position: relative; }
+  width: 90% !important;
+  margin: auto !important;
+  margin-bottom: 20px !important;
+  padding: 5px 20px !important;
+  border-radius: 5px !important;
+  box-shadow: 0 0 10px 3px #d4d4d4 !important;
+  position: relative !important; }
 
 .card-main {
   min-height: calc(90vh - 5rem); }

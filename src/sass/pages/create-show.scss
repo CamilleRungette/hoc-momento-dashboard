@@ -65,5 +65,14 @@
 
   .btn-div{
     padding: 1rem 0;
+
+    button {
+      display: flex;
+      
+      .loading-div{
+        width: 20px;
+        margin-right: 5px;
+      };
+    };
   };
 };

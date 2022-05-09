@@ -39,3 +39,8 @@
 
 .create-show-main .btn-div {
   padding: 1rem 0; }
+  .create-show-main .btn-div button {
+    display: flex; }
+    .create-show-main .btn-div button .loading-div {
+      width: 20px;
+      margin-right: 5px; }

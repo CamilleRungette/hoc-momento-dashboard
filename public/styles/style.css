@@ -264,7 +264,7 @@
     flex-direction: column; }
 
 .btn-div {
-  text-align: center; }
+  text-align: center !important; }
 
 .btn {
   background-color: #038FDD;
@@ -274,11 +274,12 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s; }
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
   .btn:hover {
-    background-color: white;
-    color: #038FDD;
-    transition-duration: .5s; }
+    background-color: #0079bb;
+    border: 1px solid #0079bb; }
 
 .btn-outlined {
   background-color: white;
@@ -288,11 +289,12 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s; }
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
   .btn-outlined:hover {
     background-color: #038FDD;
-    color: white;
-    transition-duration: .5s; }
+    color: white; }
 
 .btn-red {
   background-color: #fa4646;
@@ -302,11 +304,12 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s; }
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
   .btn-red:hover {
     background-color: white;
-    color: #fa4646;
-    transition-duration: .5s; }
+    color: #fa4646; }
 
 .btn-red-outlined {
   background-color: white;
@@ -316,11 +319,12 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s; }
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
   .btn-red-outlined:hover {
     background-color: #fa4646;
-    color: white;
-    transition-duration: .5s; }
+    color: white; }
 
 .btn-grey {
   background-color: #9b9b9b;
@@ -330,11 +334,12 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s; }
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
   .btn-grey:hover {
     background-color: white;
-    color: #9b9b9b;
-    transition-duration: .5s; }
+    color: #9b9b9b; }
 
 .edit-event .input-form {
   margin-bottom: 15px !important; }
@@ -542,10 +547,29 @@
 
 .show-main {
   margin-bottom: 20px !important; }
+  .show-main::before {
+    content: none !important; }
   .show-main h2 {
     color: #003366;
     font-size: 20px;
     font-weight: 500; }
+  .show-main .MuiAccordionSummary-root {
+    min-height: 0px !important; }
+  .show-main .MuiAccordionSummary-content.Mui-expanded {
+    margin: 0px !important; }
+  .show-main .show-buttons-div {
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; }
+    .show-main .show-buttons-div button {
+      margin: inherit; }
+  .show-main .links-list li a {
+    color: black; }
+  .show-main .links-list li .icon {
+    font-size: 18px;
+    margin-left: 10px;
+    vertical-align: middle; }
 
 .create-show-main .ql-toolbar:first-child {
   display: none; }
@@ -588,6 +612,11 @@
 
 .create-show-main .btn-div {
   padding: 1rem 0; }
+  .create-show-main .btn-div button {
+    display: flex; }
+    .create-show-main .btn-div button .loading-div {
+      width: 20px;
+      margin-right: 5px; }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
@@ -622,12 +651,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .card {
   background-color: white !important;
-  width: 90%;
-  margin: auto;
-  padding: 5px 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 3px #d4d4d4;
-  position: relative; }
+  width: 90% !important;
+  margin: auto !important;
+  margin-bottom: 20px !important;
+  padding: 5px 20px !important;
+  border-radius: 5px !important;
+  box-shadow: 0 0 10px 3px #d4d4d4 !important;
+  position: relative !important; }
 
 .card-main {
   min-height: calc(90vh - 5rem); }

@@ -1,6 +1,25 @@
 .show-main {
   margin-bottom: 20px !important; }
+  .show-main::before {
+    content: none !important; }
   .show-main h2 {
     color: #003366;
     font-size: 20px;
     font-weight: 500; }
+  .show-main .MuiAccordionSummary-root {
+    min-height: 0px !important; }
+  .show-main .MuiAccordionSummary-content.Mui-expanded {
+    margin: 0px !important; }
+  .show-main .show-buttons-div {
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; }
+    .show-main .show-buttons-div button {
+      margin: inherit; }
+  .show-main .links-list li a {
+    color: black; }
+  .show-main .links-list li .icon {
+    font-size: 18px;
+    margin-left: 10px;
+    vertical-align: middle; }

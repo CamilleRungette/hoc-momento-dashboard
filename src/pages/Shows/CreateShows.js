@@ -1,27 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import DateFnsUtils from '@date-io/date-fns';
+import React, { useState, useRef } from 'react';
 import {
   MuiPickersUtilsProvider,
   DatePicker
 } from '@material-ui/pickers';
-import TextField from '@mui/material/TextField';
-import { IoIosAdd } from "react-icons/io";
-import { BiMinusCircle } from "react-icons/bi";
-import { VscClose } from "react-icons/vsc";
 import axios from "axios";
 import { connect } from 'react-redux';
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import draftToHtml from 'draftjs-to-html';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { showActions, Alert, TextField, url, DateFnsUtils, IoIosAdd, BiMinusCircle, VscClose, Editor,
+EditorState, convertToRaw, draftToHtml, Select, MenuItem, InputLabel, FormControl, Navigate} from './_index';
 
-
-
-const CreateShows = () => {
+const CreateShows = ({saveShowComp}) => {
 
   const initDate = {
     startDate: null,
@@ -48,19 +36,26 @@ const CreateShows = () => {
   const initDates = [Math.floor(Math.random() * 1000000)];
   const initLinks = [Math.floor(Math.random() * 1000000)];
 
+  const alertRef = useRef();
+  const [loading, setLoading] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const [show, setShow] = useState(initialState);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   const [pictures, setPictures] = useState([]);
-  const [pictureNames, setPictureNames] = useState([ "0Z4A56522.jpg", "20211113_162927.jpg", "20211113_164324.jpg" ]);
+  const [pictureNames, setPictureNames] = useState([]);
   const [dates, setDates] = useState(initDates);
   const [links, setLinks] = useState(initLinks);
+  const [alert, setAlert] = useState({
+    type: "info",
+    message: ""
+  });
   
   const handleState = (prop) => (e) => {
     setShow({...show, [prop]: e.target.value});
   };
 
   const onEditorStateChange = (content) => {
-   setEditorState(content);
+    setEditorState(content);
   };
 
   const handleItem = (prop) => (e) => {
@@ -80,7 +75,15 @@ const CreateShows = () => {
   
       setShow({...show, dates: datesState});
     } else {
+      let linksState = [...show.links];
 
+      if (!linksState[prop.i]) {
+        linksState[prop.i] = initLink;
+      };
+
+      linksState[prop.i][prop.type] = e.target.value; 
+
+      setShow({...show, links: linksState});
     };
   };
 
@@ -139,21 +142,82 @@ const CreateShows = () => {
     setPictureNames(picturesNamesArray);
   }; 
   
-  const deletePicture = () => {
-    // setPicture();
-    // setPictureName();
+  const deletePicture = (i) => {
+    let picturesCopy = [...pictures];
+    let pictureNamesCopy = [...pictureNames];
+
+    picturesCopy.splice(i, 1);
+    pictureNamesCopy.splice(i, 1);
+    
+    setPictures(picturesCopy);
+    setPictureNames(pictureNamesCopy);
   };
 
-  const saveShow = (e) => {
-    e.preventDefault();
 
-    console.log(show);
-    // console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-    console.log(pictures);
-    console.log(pictureNames);
+  const showAlert = (type, message) => {
+    setAlert({type, message});
+    alertRef.current.showAlert();
+  };
+
+  const saveShow = async (e) => {
+    e.preventDefault();
+    
+    setLoading(true);
+
+    let finalShow = {...show};
+    finalShow.description = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+
+    if (!finalShow.title || finalShow.description === "<p></p>\n"){
+      showAlert('warning', 'Les champs "Titre" et "description" sont obligatoires');
+    } else {
+      let promises = pictures.map(async picture => {
+        let result = await axios.post(process.env.REACT_APP_CLOUDINARY, picture);
+        return result.data.secure_url;
+      });
+      
+      if (finalShow.dates.length === 1 && JSON.stringify(finalShow.dates[0]) == JSON.stringify(initDate)) finalShow.dates = [];
+      if (finalShow.links.length === 1 && JSON.stringify(finalShow.links[0]) == JSON.stringify(initLink)) finalShow.links = [];
+      
+      if (pictures.length){
+        Promise.all(promises).then(values => {
+          finalShow.gallery = values;
+  
+          axios.post(`${url}/dashboard/create-show`, finalShow)
+          .then(res => {
+            saveShowComp(res.data);
+            showAlert("success", "Le spectacle a bien été créé");
+            setTimeout(function(){
+              setRedirect(true);
+            }, [2000]);
+          })
+          .catch(err => {
+            console.log(err);
+            showAlert("error", "Erreur lors de la création du spectacle, veuillez réessayer plus tard");
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          showAlert("error", "Erreur lors du téléchargement des photos, veuillez réessayer plus tard");
+        })
+      } else {
+        axios.post(`${url}/dashboard/create-show`, finalShow)
+        .then(res => {
+          saveShowComp(res.data);
+          showAlert("success", "Le spectacle a bien été créé");
+          setTimeout(function(){
+            setRedirect(true);
+          }, [2000]);      
+        })
+        .catch(err => {
+          console.log(err);
+          showAlert("error", "Erreur lors de la création du spectacle, veuillez réessayer plus tard");
+        });
+      };
+    };
   };
   
-  return (
+  
+  return !redirect ?  (
     <div className='inside-app'>
       <div className='card card-main create-show-main'>
         <h3>Créer un spectacle</h3>
@@ -165,7 +229,7 @@ const CreateShows = () => {
             label="Titre"
             value={show.title}
             onChange={handleState('title')}
-            className='input-form'
+            className='input-form full-width'
             size="small"
             />
 
@@ -194,7 +258,7 @@ const CreateShows = () => {
 
             {dates.map((date, i) => (
               <div key={date} className='dates' >
-                <div className='date-picker-div '>
+                <div className='date-picker-div input-form '>
                   <MuiPickersUtilsProvider utils={DateFnsUtils} className="date-picker">
                     <DatePicker
                       autoOk
@@ -203,7 +267,7 @@ const CreateShows = () => {
                       ampm={false}
                       format="dd/MM/yyyy"
                       size="small"
-                      onChange={handleItem({type: 'startDate', i})}
+                      onChange={handleItem({type: 'startDate', i, item: 'date'})}
                       value={show.dates[i].startDate}
                       />
                   </MuiPickersUtilsProvider>
@@ -270,8 +334,8 @@ const CreateShows = () => {
                     Ajouter des photos</label>
                 </div>
                 <ul className='no-list-style picture-names-list'>
-                {pictureNames.map(name => (
-                  <li key={name}>{name} <VscClose className='delete-picture pointer' onClick={deletePicture} /> </li>
+                {pictureNames.map((name, i) => (
+                  <li key={name}>{name} <VscClose className='delete-picture pointer' onClick={() => deletePicture(i)} /> </li>
                 ))}
                 </ul>
             </div>
@@ -287,7 +351,7 @@ const CreateShows = () => {
                     label="Nom"
                     className='input-form full-width'
                     size="small"
-                    value={show.links[0].name}
+                    value={show.links[i].name}
                     onChange={handleItem({type: 'name', i, item: 'link'})}
                     />
                   </div>
@@ -297,17 +361,17 @@ const CreateShows = () => {
                       label="Lien"
                       className='input-form full-width'
                       size="small"
-                      value={show.links[0].link}
+                      value={show.links[i].link}
                       onChange={handleItem({type: 'link', i, item: 'link'})}
                       />
                   </div>
                   <div id="type">
-                  <FormControl fullWidth>
+                  <FormControl fullWidth size="small" className='input-form full-width'>
                     <InputLabel id="demo-simple-select-label">Type</InputLabel>
                     <Select
                       id="demo-simple-select"
                       name="link"
-                      value={show.links[0].type}
+                      value={show.links[i].type}
                       onChange={handleItem({type: 'type', i, item: 'link'})}
                       >
                       <MenuItem value={"pdf"}>Pdf</MenuItem>
@@ -315,21 +379,34 @@ const CreateShows = () => {
                       <MenuItem value={"url"}>Url</MenuItem>
                     </Select>
                   </FormControl>
-                  {/* NEED TO CHECK THIS PART */}
                   </div>
                   <BiMinusCircle className='remove-icon pointer' onClick={() => removeItem(link, i, 'link')} />
                 </div>
               ))}
               <button className='add-date pointer' onClick={(e) => addItem(e, 'link')}> <IoIosAdd /> Ajouter un lien</button>
           </div>
-
           <div className='btn-div'>
-            <button className='btn'>Créer</button>
+            {!loading ? (
+              <button className='btn'> Créer</button>
+            ) : (
+              <button className='btn-grey loading-btn'>
+                <div className='loading-div'><img src="/images/loading-btn.gif" alt="Loading ... " /> </div>
+                Créer
+              </button>
+            )}
           </div>
         </form>
+      <Alert ref={alertRef} type={alert.type} message={alert.message} />
       </div>
     </div>
+  ) : (
+    <Navigate replace to="/spectacles" />
   )
 };
 
-export default CreateShows;
+export default connect(
+  (state => ({})),
+  (dispatch => ({
+    saveShowComp: data => dispatch(showActions.saveShow(data))
+  }))
+) (CreateShows);

@@ -53,7 +53,7 @@ const Login = ({logged, logUserComp}) => {
   return !logged ? (
     <div className='login-main'>
 
-      <div className='card'>
+      <div className='login-card'>
         <div className='center-content'>
           <h3>Se connecter à l'espace Hoc Momento</h3>
         </div>

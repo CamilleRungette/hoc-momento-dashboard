@@ -520,29 +520,29 @@
   height: 100vh;
   background-color: #038FDD;
   display: flex;
-  align-self: center; }
-  .login-main .card {
-    background-color: white !important;
+  align-items: center;
+  justify-content: center; }
+  .login-main .login-card {
+    background-color: white;
     width: 550px;
     height: 300px;
     padding: 5px 20px;
     border-radius: 5px;
-    box-shadow: 0 0 5px 3px #6d6d6d;
-    position: relative; }
-    .login-main .card h3 {
+    box-shadow: 0 0 5px 3px #6d6d6d; }
+    .login-main .login-card h3 {
       font-weight: 500;
       color: #003366;
       font-size: 22px; }
-    .login-main .card .connection {
+    .login-main .login-card .connection {
       display: flex;
       justify-content: space-between; }
-      .login-main .card .connection .gif {
+      .login-main .login-card .connection .gif {
         width: 40%; }
-      .login-main .card .connection .login-form {
+      .login-main .login-card .connection .login-form {
         width: 50%;
         height: 100%;
         margin-top: 40px; }
-        .login-main .card .connection .login-form .input {
+        .login-main .login-card .connection .login-form .input {
           margin-bottom: 10px; }
 
 .show-main {

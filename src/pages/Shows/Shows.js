@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Accordion, AccordionDetails, AccordionSummary, BsDownload, ExpandMoreIcon, EditShow, BasicModal, Alert, initialShowState } from "./_index";
+import axios from 'axios';
+import { Accordion, AccordionDetails, AccordionSummary, BsDownload, ExpandMoreIcon, EditShow, BasicModal, Alert, 
+  initialShowState, ConfirmModal, Link, url, showActions } from "./_index";
 
-const Shows = ({shows}) => {
+const Shows = ({shows, deleteShowComp}) => {
   
   const modalRef = useRef();
-  const alertRef = useRef()
+  const alertRef = useRef();
+  const confirmRef = useRef();
   const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
   const [show, setShow] = useState(initialShowState.initialShow);
   const [alert, setAlert] = useState({
@@ -28,6 +30,27 @@ const Shows = ({shows}) => {
     alertRef.current.showAlert();
   };
 
+  const showDialog = (data) => {
+    setShow(data);
+    confirmRef.current.showModal();
+  };
+
+  const deleteShow = () => {
+    axios.post(`${url}/dashboard/delete-show`,{id: show._id})
+    .then(res => {
+      if (res.data === "success") {
+        deleteShowComp(show._id);
+        showAlert("success", "Le spectacle a bien été supprimé");
+      } else {
+        showAlert('error', "Erreur lors de la suppression du spectacle, veuillez rééssayer plus tard.")
+      };
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  };
+
   return (
     <div className='inside-app'>
 
@@ -44,7 +67,7 @@ const Shows = ({shows}) => {
             <div className='show-buttons-div'>
               <button className='btn' onClick={() => showModal(show)}>Modifier</button>
               <Link to={`/spectacle/${show._id}/gallerie`}><button className='btn-outlined'>Voir la gallerie</button></Link>
-              <button className='btn-red-outlined'>Supprimer</button>
+              <button className='btn-red-outlined' onClick={() => showDialog(show)}>Supprimer</button>
             </div>
             <p className='show-description' dangerouslySetInnerHTML={{__html: show.description}} />
            { show.dates.length ? (
@@ -96,12 +119,15 @@ const Shows = ({shows}) => {
       ))}
     <BasicModal ref={modalRef} content={<EditShow showAlert={showAlert} showInfos={show} closeModal={closeModal} />} />
     <Alert ref={alertRef} type={alert.type} message={alert.message} />
-    </div>
+    <ConfirmModal ref={confirmRef} content={<div>Êtes-vous sûr de vouloir supprimer ce spectacle ?</div> } button={true} confirmParent={deleteShow}  />    </div>
   )
 }
 
 export default connect (
   (state) => ({
     shows: state.showsReducer
+  }),
+  (dispatch) => ({
+    deleteShowComp: id => dispatch(showActions.deleteShow(id))
   })
 ) (Shows)

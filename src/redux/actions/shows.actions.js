@@ -20,5 +20,5 @@ const deleteShow = data => ({
   id: data
 });
 
-const functions =  {saveShows, saveShow, editShow,deleteShow};
+const functions =  {saveShows, saveShow, editShow, deleteShow};
 export default functions;

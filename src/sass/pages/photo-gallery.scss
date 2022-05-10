@@ -19,9 +19,13 @@
       };
     };
 
-    .save{
+    .save-div{
       width: 40%;
-      padding: 8px
+      .save{
+        padding: 8px;
+        width: 100%;
+        display: none
+      };
     };
 
     .upload-multiple-pictures{
@@ -37,15 +41,41 @@
     };
   };
 
-  ul{
+  .new-photos-list{
+    max-height: 150px;
+    overflow: auto;
+    width: 300px;
+  
+    li{
+      font-size: 16px !important;
+      position: relative;
+  
+      svg{
+        position: absolute;
+        right: 0;
+      };
+  
+      &:hover{
+        background-color: $background
+      };
+    };  
+  };
+
+  .photos-list{
     display: flex;
     flex-wrap: wrap;
 
     li{
       width: 300px;
+      height: 200px;
       margin: 20px;
       position: relative;
       transition: .5s;
+
+      img{
+        max-height: 200px;
+        object-fit: cover;
+      };
 
       &:hover svg{
         opacity: 1;

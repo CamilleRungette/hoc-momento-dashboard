@@ -112,7 +112,7 @@ const CreateShows = ({saveShowComp}) => {
 
     Array.from(e.target.files).forEach(file => {
       const formData = new FormData();
-      formData.append('file', e.target.files[0]);
+      formData.append('file', e.target.file);
       formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
       formData.append('folder', "hoc-momento");
 
@@ -367,7 +367,7 @@ const CreateShows = ({saveShowComp}) => {
               ))}
               <button className='add-date pointer' onClick={(e) => addItem(e, 'link')}> <IoIosAdd /> Ajouter un lien</button>
           </div>
-          <div className='btn-div'>
+          <div className='btn-div loading-div'>
             {!loading ? (
               <button className='btn'> Créer</button>
             ) : (

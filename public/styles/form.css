@@ -150,8 +150,9 @@
       width: 4%; }
   .show-form .btn-div {
     padding: 1rem 0; }
-    .show-form .btn-div button {
-      display: flex; }
-      .show-form .btn-div button .loading-div {
-        width: 20px;
-        margin-right: 5px; }
+
+.loading-div button {
+  display: flex; }
+  .loading-div button .loading-div {
+    width: 20px;
+    margin-right: 5px; }

@@ -11,9 +11,12 @@
       .photo-gallery .div-buttons .go-back-div .go-back svg {
         vertical-align: middle;
         margin-bottom: 2px; }
-  .photo-gallery .div-buttons .save {
-    width: 40%;
-    padding: 8px; }
+  .photo-gallery .div-buttons .save-div {
+    width: 40%; }
+    .photo-gallery .div-buttons .save-div .save {
+      padding: 8px;
+      width: 100%;
+      display: none; }
   .photo-gallery .div-buttons .upload-multiple-pictures {
     width: 40%; }
   @media screen and (max-width: 1600px) {
@@ -23,17 +26,17 @@
     .photo-gallery .div-buttons {
       width: 90%; } }
 
-.photo-gallery ul {
+.photo-gallery .photos-list {
   display: flex;
   flex-wrap: wrap; }
-  .photo-gallery ul li {
+  .photo-gallery .photos-list li {
     width: 300px;
     margin: 20px;
     position: relative;
     transition: .5s; }
-    .photo-gallery ul li:hover svg {
+    .photo-gallery .photos-list li:hover svg {
       opacity: 1; }
-    .photo-gallery ul li svg {
+    .photo-gallery .photos-list li svg {
       position: absolute;
       color: white;
       font-size: 40px;
@@ -45,6 +48,6 @@
       box-shadow: 0 0 50px 3px grey !important;
       transition: .5s;
       opacity: 0; }
-      .photo-gallery ul li svg:hover {
+      .photo-gallery .photos-list li svg:hover {
         color: white;
         cursor: pointer; }

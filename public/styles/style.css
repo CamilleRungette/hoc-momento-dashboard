@@ -511,11 +511,12 @@
       width: 4%; }
   .show-form .btn-div {
     padding: 1rem 0; }
-    .show-form .btn-div button {
-      display: flex; }
-      .show-form .btn-div button .loading-div {
-        width: 20px;
-        margin-right: 5px; }
+
+.loading-div button {
+  display: flex; }
+  .loading-div button .loading-div {
+    width: 20px;
+    margin-right: 5px; }
 
 .agenda-main .add-event {
   font-size: 50px;
@@ -648,9 +649,12 @@
       .photo-gallery .div-buttons .go-back-div .go-back svg {
         vertical-align: middle;
         margin-bottom: 2px; }
-  .photo-gallery .div-buttons .save {
-    width: 40%;
-    padding: 8px; }
+  .photo-gallery .div-buttons .save-div {
+    width: 40%; }
+    .photo-gallery .div-buttons .save-div .save {
+      padding: 8px;
+      width: 100%;
+      display: none; }
   .photo-gallery .div-buttons .upload-multiple-pictures {
     width: 40%; }
   @media screen and (max-width: 1600px) {
@@ -660,17 +664,34 @@
     .photo-gallery .div-buttons {
       width: 90%; } }
 
-.photo-gallery ul {
+.photo-gallery .new-photos-list {
+  max-height: 150px;
+  overflow: auto;
+  width: 300px; }
+  .photo-gallery .new-photos-list li {
+    font-size: 16px !important;
+    position: relative; }
+    .photo-gallery .new-photos-list li svg {
+      position: absolute;
+      right: 0; }
+    .photo-gallery .new-photos-list li:hover {
+      background-color: #F5F5F5; }
+
+.photo-gallery .photos-list {
   display: flex;
   flex-wrap: wrap; }
-  .photo-gallery ul li {
+  .photo-gallery .photos-list li {
     width: 300px;
+    height: 200px;
     margin: 20px;
     position: relative;
     transition: .5s; }
-    .photo-gallery ul li:hover svg {
+    .photo-gallery .photos-list li img {
+      max-height: 200px;
+      object-fit: cover; }
+    .photo-gallery .photos-list li:hover svg {
       opacity: 1; }
-    .photo-gallery ul li svg {
+    .photo-gallery .photos-list li svg {
       position: absolute;
       color: white;
       font-size: 40px;
@@ -682,7 +703,7 @@
       box-shadow: 0 0 50px 3px grey !important;
       transition: .5s;
       opacity: 0; }
-      .photo-gallery ul li svg:hover {
+      .photo-gallery .photos-list li svg:hover {
         color: white;
         cursor: pointer; }
 

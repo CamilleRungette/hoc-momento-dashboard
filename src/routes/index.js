@@ -3,7 +3,7 @@ import {
   Route,
 } from "react-router-dom";
 
-import { Dashboard, Agenda, Actions, Shows, CreateShows} from "./_index";
+import { Dashboard, Agenda, Actions, Shows, CreateShow, ShowGallery} from "./_index";
 
 const App = () => {
   return (
@@ -12,7 +12,8 @@ const App = () => {
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/actions" element={<Actions />} />
         <Route path="/spectacles" element={<Shows />} />
-        <Route path="/creation-spectacle" element={<CreateShows />} />
+        <Route path="/creation-spectacle" element={<CreateShow />} />
+        <Route path="/spectacle/:id/gallerie" element={<ShowGallery />} />
       </Routes>
   );
 }

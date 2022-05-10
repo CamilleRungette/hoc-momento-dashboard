@@ -1,0 +1,74 @@
+.photo-gallery{
+  
+
+  .div-buttons{
+    display: flex;
+    width: 60%;
+    justify-content: space-between;
+    align-items: center;
+    height: 3rem;
+
+    .go-back-div{
+      width: 15%;
+      .go-back{
+        padding: 8px;
+        svg{
+          vertical-align: middle;
+          margin-bottom: 2px;
+        };
+      };
+    };
+
+    .save{
+      width: 40%;
+      padding: 8px
+    };
+
+    .upload-multiple-pictures{
+      width: 40%
+    };
+
+    @media screen and (max-width: 1600px) {
+      width: 70%;
+    };
+
+    @media screen and (max-width: 1300px) {
+      width: 90%;
+    };
+  };
+
+  ul{
+    display: flex;
+    flex-wrap: wrap;
+
+    li{
+      width: 300px;
+      margin: 20px;
+      position: relative;
+      transition: .5s;
+
+      &:hover svg{
+        opacity: 1;
+      };
+
+      svg{
+        position: absolute;
+        color: white;
+        font-size: 40px;
+        background: rgba;
+        padding: 3rem 5rem;
+        top: 15%;
+        left: 10%;
+        background-color: rgba($color: grey, $alpha: 0.5);
+        box-shadow: 0 0 50px 3px grey !important;
+        transition: .5s;
+        opacity: 0;
+
+        &:hover{
+          color: white;
+          cursor: pointer;
+        };
+      };
+    };
+  };
+};

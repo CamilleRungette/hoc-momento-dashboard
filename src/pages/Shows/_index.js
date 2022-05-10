@@ -19,10 +19,10 @@ export { EditorState, convertToRaw } from "draft-js";
 export { default as draftToHtml } from 'draftjs-to-html';
 export { Navigate} from 'react-router-dom';
 
-export { IoIosAdd } from "react-icons/io";
+export { IoIosAdd, IoIosArrowBack } from "react-icons/io";
 export { BiMinusCircle } from "react-icons/bi";
 export { VscClose } from "react-icons/vsc";
-export { BsDownload } from "react-icons/bs";
+export { BsDownload,BsTrash } from "react-icons/bs";
 
 export {default as url} from "../../utils/url";
 export {default as initialShowState} from "../../utils/initStateShow";

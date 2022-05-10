@@ -308,8 +308,8 @@
   width: auto;
   margin: auto; }
   .btn-red:hover {
-    background-color: white;
-    color: #fa4646; }
+    background-color: #db3f3f;
+    border: 1px solid #db3f3f; }
 
 .btn-red-outlined {
   background-color: white;
@@ -338,8 +338,23 @@
   width: auto;
   margin: auto; }
   .btn-grey:hover {
-    background-color: white;
-    color: #9b9b9b; }
+    background-color: #c4c4c4;
+    border: 1px solid #c4c4c4; }
+
+.btn-grey-outlined {
+  background-color: white;
+  border: 1px solid #858585;
+  color: #858585;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: .5s;
+  width: auto;
+  margin: auto; }
+  .btn-grey-outlined:hover {
+    background-color: #9b9b9b;
+    color: white; }
 
 .edit-event .input-form {
   margin-bottom: 15px !important; }
@@ -619,6 +634,57 @@
 
 .create-show-main .ql-toolbar:first-child {
   display: none; }
+
+.photo-gallery .div-buttons {
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+  align-items: center;
+  height: 3rem; }
+  .photo-gallery .div-buttons .go-back-div {
+    width: 15%; }
+    .photo-gallery .div-buttons .go-back-div .go-back {
+      padding: 8px; }
+      .photo-gallery .div-buttons .go-back-div .go-back svg {
+        vertical-align: middle;
+        margin-bottom: 2px; }
+  .photo-gallery .div-buttons .save {
+    width: 40%;
+    padding: 8px; }
+  .photo-gallery .div-buttons .upload-multiple-pictures {
+    width: 40%; }
+  @media screen and (max-width: 1600px) {
+    .photo-gallery .div-buttons {
+      width: 70%; } }
+  @media screen and (max-width: 1300px) {
+    .photo-gallery .div-buttons {
+      width: 90%; } }
+
+.photo-gallery ul {
+  display: flex;
+  flex-wrap: wrap; }
+  .photo-gallery ul li {
+    width: 300px;
+    margin: 20px;
+    position: relative;
+    transition: .5s; }
+    .photo-gallery ul li:hover svg {
+      opacity: 1; }
+    .photo-gallery ul li svg {
+      position: absolute;
+      color: white;
+      font-size: 40px;
+      background: rgba;
+      padding: 3rem 5rem;
+      top: 15%;
+      left: 10%;
+      background-color: rgba(128, 128, 128, 0.5);
+      box-shadow: 0 0 50px 3px grey !important;
+      transition: .5s;
+      opacity: 0; }
+      .photo-gallery ul li svg:hover {
+        color: white;
+        cursor: pointer; }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 500;

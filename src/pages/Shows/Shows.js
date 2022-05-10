@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Accordion, AccordionDetails, AccordionSummary, BsDownload, ExpandMoreIcon, EditShow, BasicModal, Alert, initialShowState } from "./_index";
 
 const Shows = ({shows}) => {
@@ -42,7 +43,7 @@ const Shows = ({shows}) => {
           <AccordionDetails>
             <div className='show-buttons-div'>
               <button className='btn' onClick={() => showModal(show)}>Modifier</button>
-              <button className='btn-outlined'>Voir la gallerie</button>
+              <Link to={`/spectacle/${show._id}/gallerie`}><button className='btn-outlined'>Voir la gallerie</button></Link>
               <button className='btn-red-outlined'>Supprimer</button>
             </div>
             <p className='show-description' dangerouslySetInnerHTML={{__html: show.description}} />

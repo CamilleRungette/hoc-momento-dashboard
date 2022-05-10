@@ -4,17 +4,17 @@
   width: 100vw;
   height: 100vh;
   background-color: $primary;
-  display: flex;
-  align-self: center;
+  display: flex ;
+  align-items: center;
+  justify-content: center;
 
-  .card{
-    background-color: white !important;
-    width: 550px;
-    height: 300px;
-    padding: 5px 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px 3px rgb(109, 109, 109);
-    position: relative;
+  .login-card{
+    background-color: white ;
+    width: 550px ;
+    height: 300px ;
+    padding: 5px 20px ;
+    border-radius: 5px ;
+    box-shadow: 0 0 5px 3px rgb(109, 109, 109) ;
 
     h3{
       font-weight: 500;

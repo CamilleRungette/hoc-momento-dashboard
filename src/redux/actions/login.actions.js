@@ -8,4 +8,5 @@ const logOut = () => ({
   type: LOGOUT
 })
 
-export default {logUser, logOut};
+const functions = {logUser, logOut};
+export default functions;

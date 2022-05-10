@@ -53,14 +53,14 @@ const Login = ({logged, logUserComp}) => {
   return !logged ? (
     <div className='login-main'>
 
-      <div className='card'>
+      <div className='login-card'>
         <div className='center-content'>
           <h3>Se connecter à l'espace Hoc Momento</h3>
         </div>
 
         <div className='connection'>
           <div className='gif'>
-            <img src="/images/login.gif" />
+            <img src="/images/login.gif" alt="Log in Hoc Momento workspace" />
           </div>
           <form className='login-form' onSubmit={connect}>
             <TextField

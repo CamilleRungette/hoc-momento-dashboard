@@ -8,30 +8,15 @@ import TextField from '@mui/material/TextField';
 import { IoIosAdd } from "react-icons/io";
 import { BiMinusCircle } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
-import { url, eventsActions } from './_index';
+import { url, eventsActions, initialEventState } from './_index';
 import axios from "axios";
 import { connect } from 'react-redux';
 
 const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
 
-  const initDate = {
-    startDate: null,
-    endDate: null,
-    place: "",
-    address: "",
-    city:""
-  };
-
-  const initialState = {
-    title: "",
-    description: "",
-    dates: [initDate],
-    photo:""
-  };
-
   const initDates = [Math.floor(Math.random() * 1000000)];
 
-  const [event, setEvent] = useState(initialState);
+  const [event, setEvent] = useState(initialEventState.initialEvent);
   const [picture, setPicture] = useState();
   const [pictureName, setPictureName] = useState();
   const [dates, setDates] = useState(initDates);
@@ -45,7 +30,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     let datesState = [...event.dates];
 
     if (!datesState[prop.i]) {
-      datesState[prop.i] = initDate;
+      datesState[prop.i] = initialEventState.initDate;
     };
 
     if (prop.type === 'startDate' || prop.type === 'endDate'){
@@ -65,10 +50,10 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setDates([... dates, Math.floor(Math.random() * 1000000)]);
+    setDates([...dates, Math.floor(Math.random() * 1000000)]);
 
     let eventCopy = {...event};
-    eventCopy.dates.push(initDate);
+    eventCopy.dates.push(initialEventState.initDate);
     setEvent(eventCopy);
   };
 
@@ -117,7 +102,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
 
             setPicture();
             setPictureName();
-            setEvent(initialState);
+            setEvent(initialEventState);
             setDates(initDates)
             closeModal();
             showAlert("success", "Le nouvel événement a bien été créé");
@@ -138,7 +123,7 @@ const CreateEvent = ({showAlert, closeModal, saveEventComp}) => {
 
           setPicture();
           setPictureName();
-          setEvent(initialState);
+          setEvent(initialEventState);
           setDates(initDates);
           closeModal();
           showAlert("success", "Le nouvel événement a bien été créé");

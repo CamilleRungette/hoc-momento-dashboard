@@ -1,5 +1,4 @@
 import React from 'react';
-import { FiMenu } from "react-icons/fi";
 import { AiOutlineMenuUnfold } from "react-icons/ai"
 import Avatar from '@mui/material/Avatar';
 import { loginActions, sidebarActions } from './_index';
@@ -32,7 +31,7 @@ const Topbar = ({logOutComp, showSidebarComp}) => {
           <AiOutlineMenuUnfold className='pointer' onClick={showSidebar} />
         </div>
         <div className='hoc-momento-logo'>
-          <img src="/images/logo_noir.png" />
+          <img src="/images/logo_noir.png" alt='Logo Hoc Momento' />
         </div>
       </div>
       <div className='profile'>

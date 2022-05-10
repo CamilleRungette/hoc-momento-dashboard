@@ -8,4 +8,5 @@ const showSidebar = () => ({
   type: SHOW_SIDEBAR
 })
 
-export default {hideSibar, showSidebar};
+const functions = {hideSibar, showSidebar};
+export default functions

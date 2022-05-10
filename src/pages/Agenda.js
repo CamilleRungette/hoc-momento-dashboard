@@ -4,20 +4,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { IoIosMore, IoIosAdd } from 'react-icons/io';
 import { BsTrash } from "react-icons/bs"
-import { BasicModal, ConfirmModal, CreateEvent, EditEvent, AlertMessage, eventsActions, url } from './_index';
+import { BasicModal, ConfirmModal, CreateEvent, EditEvent, AlertMessage, eventsActions, url, initialEventState } from './_index';
 import { AiOutlineEdit } from "react-icons/ai";
 import { connect } from 'react-redux';
 import axios from 'axios';
 
 const Agenda = ({events, deleteEventComp}) => {
   
-  const initialState = {
-    title: "",
-    description: "",
-    dates: [],
-    photo:""
-  };
-
   const modalRef = useRef();
   const alertRef = useRef()
   const confirmRef = useRef();
@@ -60,7 +53,7 @@ const Agenda = ({events, deleteEventComp}) => {
       setEvent(thisEvent);
       setModalContent(<EditEvent key={Math.floor(Math.random() * 1000000)} showAlert={showAlert} closeModal={closeModal} eventInfos={thisEvent} />)
     } else if (type === "create") {
-      setEvent(initialState);
+      setEvent(initialEventState.initialEvent);
       setModalContent(<CreateEvent key={Math.floor(Math.random() * 1000000)} showAlert={showAlert} closeModal={closeModal} />)
     };
     showModal();

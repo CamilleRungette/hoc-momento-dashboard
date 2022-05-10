@@ -45,7 +45,6 @@ const Sidebar = ({sidebarOpen, hideSidebarComp, showSidebarComp}) => {
   };
 
   const showList = (prop) => (event) => {
-
     if (prop === "shows"){
       setShowOpened(!showOpened);
       let list = document.getElementById('list-shows');
@@ -84,14 +83,14 @@ const Sidebar = ({sidebarOpen, hideSidebarComp, showSidebarComp}) => {
 
       <ul className='sidebar-navigation no-list-style'>
         <li onClick={checkSidebar}><Link to="/dashboard" className='link'> <MdDashboard  className='sidebar-icon '/> Tableau de bord </Link></li>
-        <li className='pointer' onClick={checkSidebar} > 
+        <li className='pointer'> 
           <span onClick={showList('shows')} className='open-li-span'><FaTheaterMasks className='sidebar-icon' /> Spectacles <IoIosArrowDown id="icon-shows" className='show-list' /></span>
           <ul id="list-shows" className='no-list-style sublist'>
-            <li onClick={(e) => {e.preventDefault()}}><Link to="/creation-spectacle" className='link'> Créer un spectacle</Link> </li>
-            <li><Link to="/spectacles" className='link'>Voir les spectacles</Link> </li>
+            <li onClick={checkSidebar}><Link to="/creation-spectacle" className='link'> Créer un spectacle</Link> </li>
+            <li onClick={checkSidebar}><Link to="/spectacles" className='link'>Voir les spectacles</Link> </li>
           </ul>
         </li>
-        <li className='pointer' onClick={checkSidebar}> 
+        <li className='pointer'> 
           <span className='open-li-span' onClick={showList('actions')} ><FaTheaterMasks className='sidebar-icon' /> Actions culturelles <IoIosArrowDown id="icon-actions" className='show-list' /> </span>
           <ul id="list-actions" className='no-list-style sublist'>
             <li>Créer une action culturelle</li>

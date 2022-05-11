@@ -130,15 +130,16 @@ const CreateShows = ({saveShowComp}) => {
     let formDatas = [...pictures]; 
     let picturesNamesArray = [...pictureNames];
 
-    Array.from(e.target.files).forEach(file => {
+    Object.values(e.target.files).map((value) => {
       const formData = new FormData();
-      formData.append('file', e.target.file);
+      formData.append('file', value);
       formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
       formData.append('folder', "hoc-momento");
-
+  
       formDatas.push(formData);
-      picturesNamesArray.push(file.name);
-    })
+      picturesNamesArray.push(value.name);
+    });
+
     setPictures(formDatas);
     setPictureNames(picturesNamesArray);
   }; 

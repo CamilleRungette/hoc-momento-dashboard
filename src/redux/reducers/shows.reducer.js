@@ -17,7 +17,6 @@ export function showsReducer(state = initialState, action) {
       return action.shows;
     case SAVE_SHOW:
       showsArray.push(action.show);
-      console.log(showsArray);
       return showsArray;
     case EDIT_SHOW:
       let indexToEdit = findIndex(showsArray, action.show._id);

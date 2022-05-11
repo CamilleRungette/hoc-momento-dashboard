@@ -96,17 +96,12 @@ const CreateShows = ({saveShowComp}) => {
     if (type === 'date'){
       setDates([...dates, Math.floor(Math.random() * 1000000)]);
       showCopy.dates.push({...initDate});
-      console.log(showCopy);
-      console.log(initDate);
     } else {
       setLinks([...links, Math.floor(Math.random() * 1000000)]);
       showCopy.links.push(initLink);
     };
-
     setShow(showCopy);
   };
-
-  // console.log(show);
 
   const removeItem = (id, index, type) => {
     let showArray = {...show};

@@ -7,18 +7,39 @@ import axios from "axios";
 import { connect } from 'react-redux';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { showActions, Alert, TextField, url, DateFnsUtils, IoIosAdd, BiMinusCircle, VscClose, Editor,
-EditorState, convertToRaw, draftToHtml, Select, MenuItem, InputLabel, FormControl, Navigate, initialShowState} from './_index';
+EditorState, convertToRaw, draftToHtml, Select, MenuItem, InputLabel, FormControl, Navigate} from './_index';
 
 const CreateShows = ({saveShowComp}) => {
 
-
+  const initDate = {
+    startDate: null,
+    endDate: null,
+    place: "",
+    address: "",
+    city:""
+  };
+  
+  const initLink = {
+    name: "",
+    link: "",
+    type: "pdf"
+  };
+  
+  const initialShow = {
+    title: "", 
+    description: "",
+    dates: [initDate],
+    gallery: [],
+    links: [initLink]
+  };
+  
   const initDates = [Math.floor(Math.random() * 1000000)];
   const initLinks = [Math.floor(Math.random() * 1000000)];
 
   const alertRef = useRef();
   const [loading, setLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const [show, setShow] = useState(initialShowState.initialShow);
+  const [show, setShow] = useState(initialShow);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   const [pictures, setPictures] = useState([]);
   const [pictureNames, setPictureNames] = useState([]);
@@ -42,7 +63,7 @@ const CreateShows = ({saveShowComp}) => {
       let datesState = [...show.dates];
   
       if (!datesState[prop.i]) {
-        datesState[prop.i] = initialShowState.initDate;
+        datesState[prop.i] = initDate;
       };
   
       if (prop.type === 'startDate' || prop.type === 'endDate'){
@@ -57,7 +78,7 @@ const CreateShows = ({saveShowComp}) => {
       let linksState = [...show.links];
 
       if (!linksState[prop.i]) {
-        linksState[prop.i] = initialShowState.initLink;
+        linksState[prop.i] = initLink;
       };
 
       linksState[prop.i][prop.type] = e.target.value; 
@@ -74,14 +95,18 @@ const CreateShows = ({saveShowComp}) => {
 
     if (type === 'date'){
       setDates([...dates, Math.floor(Math.random() * 1000000)]);
-      showCopy.dates.push(initialShowState.initDate);
+      showCopy.dates.push({...initDate});
+      console.log(showCopy);
+      console.log(initDate);
     } else {
       setLinks([...links, Math.floor(Math.random() * 1000000)]);
-      showCopy.links.push(initialShowState.initLink);
+      showCopy.links.push(initLink);
     };
 
     setShow(showCopy);
   };
+
+  // console.log(show);
 
   const removeItem = (id, index, type) => {
     let showArray = {...show};
@@ -156,8 +181,8 @@ const CreateShows = ({saveShowComp}) => {
         return result.data.secure_url;
       });
       
-      if (finalShow.dates.length === 1 && JSON.stringify(finalShow.dates[0]) === JSON.stringify(initialShowState.initDate)) finalShow.dates = [];
-      if (finalShow.links.length === 1 && JSON.stringify(finalShow.links[0]) === JSON.stringify(initialShowState.initLink)) finalShow.links = [];
+      if (finalShow.dates.length === 1 && JSON.stringify(finalShow.dates[0]) === JSON.stringify(initDate)) finalShow.dates = [];
+      if (finalShow.links.length === 1 && JSON.stringify(finalShow.links[0]) === JSON.stringify(initLink)) finalShow.links = [];
       
       if (pictures.length){
         

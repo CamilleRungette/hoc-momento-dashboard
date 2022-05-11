@@ -8,15 +8,29 @@ import TextField from '@mui/material/TextField';
 import { IoIosAdd } from "react-icons/io";
 import { BsTrash } from "react-icons/bs"
 import { BiMinusCircle } from "react-icons/bi";
-import { url, eventsActions, initialEventState } from './_index';
+import { url, eventsActions } from './_index';
 import axios from "axios";
 import { connect } from 'react-redux';
 
 const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
+  const initDate = {
+    startDate: null,
+    endDate: null,
+    place: "",
+    address: "",
+    city:""
+  };
+  
+  const initialEvent = {
+    title: "",
+    description: "",
+    dates: [initDate],
+    photo:""
+  };
   
   const initDates = [Math.floor(Math.random() * 1000000)];
 
-  const [event, setEvent] = useState(initialEventState.initialEvent);
+  const [event, setEvent] = useState(initialEvent);
   const [picture, setPicture] = useState("");
   const [pictureName, setPictureName] = useState("");
   const [dates, setDates] = useState(initDates);
@@ -39,7 +53,7 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
     let datesState = [...event.dates];
 
     if (!datesState[prop.i]) {
-      datesState[prop.i] = initialEventState.initDate;
+      datesState[prop.i] = initDate;
     };
 
     if (prop.type === 'startDate' || prop.type === 'endDate'){
@@ -62,7 +76,7 @@ const EditEvent = ({showAlert, closeModal, editEventComp, eventInfos}) => {
     setDates([...dates, Math.floor(Math.random() * 1000000)]);
 
     let eventCopy = {...event};
-    eventCopy.dates.push(initialEventState.initDate);
+    eventCopy.dates.push(initDate);
     setEvent(eventCopy);
   };
 

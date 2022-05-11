@@ -26,4 +26,3 @@ export { VscClose } from "react-icons/vsc";
 export { BsDownload,BsTrash } from "react-icons/bs";
 
 export {default as url} from "../../utils/url";
-export {default as initialShowState} from "../../utils/initStateShow";

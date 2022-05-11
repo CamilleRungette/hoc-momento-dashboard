@@ -1,14 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { initialShowState, IoIosArrowBack, BsTrash, IoIosAdd, VscClose, url, Alert, showActions, Navigate, Link } from './_index';
+import { IoIosArrowBack, BsTrash, IoIosAdd, VscClose, url, Alert, showActions, Navigate, Link } from './_index';
 import axios from 'axios';
 
-const ShowGallery = ({shows, editShowComp}) => {
+const ShowGallery = ({shows, editShowComp}) => {  
+  
+  const initialShow = {
+    title: "", 
+    description: "",
+    dates: [],
+    gallery: [],
+    links: []
+  };
 
   const params = useParams();
   const alertRef = useRef();
-  const [show, setShow] = useState(initialShowState.initialShow);
+  const [show, setShow] = useState(initialShow);
   const [pictures, setPictures] = useState([]);
   const [pictureNames, setPictureNames] = useState([]);
   const [loading, setLoading] = useState(false);

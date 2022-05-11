@@ -2,15 +2,37 @@ import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Accordion, AccordionDetails, AccordionSummary, BsDownload, ExpandMoreIcon, EditShow, BasicModal, Alert, 
-  initialShowState, ConfirmModal, Link, url, showActions } from "./_index";
+  ConfirmModal, Link, url, showActions } from "./_index";
 
 const Shows = ({shows, deleteShowComp}) => {
+  
+  const initDate = {
+    startDate: null,
+    endDate: null,
+    place: "",
+    address: "",
+    city:""
+  };
+  
+  const initLink = {
+    name: "",
+    link: "",
+    type: "pdf"
+  };
+  
+  const initialShow = {
+    title: "", 
+    description: "",
+    dates: [initDate],
+    gallery: [],
+    links: [initLink]
+  };
   
   const modalRef = useRef();
   const alertRef = useRef();
   const confirmRef = useRef();
   const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
-  const [show, setShow] = useState(initialShowState.initialShow);
+  const [show, setShow] = useState(initialShow);
   const [alert, setAlert] = useState({
     type: "info",
     message: ""

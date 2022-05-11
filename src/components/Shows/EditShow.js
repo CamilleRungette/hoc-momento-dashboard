@@ -7,15 +7,37 @@ import axios from "axios";
 import { connect } from 'react-redux';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { showActions, url, TextField, DateFnsUtils, InputLabel, MenuItem, FormControl, Select, Editor,
-  EditorState, draftToHtml, convertToRaw, IoIosAdd, BiMinusCircle, initialShowState, htmlToDraft, ContentState } from './_index';  
+  EditorState, draftToHtml, convertToRaw, IoIosAdd, BiMinusCircle, htmlToDraft, ContentState } from './_index';  
 
 const EditShow = ({showInfos, showAlert, updateShowComp, closeModal}) => {
 
+  const initDate = {
+    startDate: null,
+    endDate: null,
+    place: "",
+    address: "",
+    city:""
+  };
+  
+  const initLink = {
+    name: "",
+    link: "",
+    type: "pdf"
+  };
+  
+  const initialShow = {
+    title: "", 
+    description: "",
+    dates: [initDate],
+    gallery: [],
+    links: [initLink]
+  };
+  
   const initDates = [Math.floor(Math.random() * 1000000)];
   const initLinks = [Math.floor(Math.random() * 1000000)];
 
   const [loading, setLoading] = useState(false);
-  const [show, setShow] = useState(initialShowState.initialShow);
+  const [show, setShow] = useState(initialShow);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   const [dates, setDates] = useState(initDates);
   const [links, setLinks] = useState(initLinks);
@@ -31,8 +53,8 @@ const EditShow = ({showInfos, showAlert, updateShowComp, closeModal}) => {
     };
 
     let showCopy = {...showInfos};
-    if (!showCopy.dates.length) showCopy.dates = [initialShowState.initDate]
-    if (!showCopy.links.length) showCopy.links = [initialShowState.initLink];
+    if (!showCopy.dates.length) showCopy.dates = [initDate]
+    if (!showCopy.links.length) showCopy.links = [initLink];
     setShow(showCopy);
 
   }, [showInfos]);
@@ -50,7 +72,7 @@ const EditShow = ({showInfos, showAlert, updateShowComp, closeModal}) => {
       let datesState = [...show.dates];
   
       if (!datesState[prop.i]) {
-        datesState[prop.i] = initialShowState.initDate;
+        datesState[prop.i] = initDate;
       };
   
       if (prop.type === 'startDate' || prop.type === 'endDate'){
@@ -65,7 +87,7 @@ const EditShow = ({showInfos, showAlert, updateShowComp, closeModal}) => {
       let linksState = [...show.links];
 
       if (!linksState[prop.i]) {
-        linksState[prop.i] = initialShowState.initLink;
+        linksState[prop.i] = initLink;
       };
 
       linksState[prop.i][prop.type] = e.target.value; 
@@ -82,11 +104,11 @@ const EditShow = ({showInfos, showAlert, updateShowComp, closeModal}) => {
 
     if (type === 'date'){
       setDates([...dates, Math.floor(Math.random() * 1000000)]);
-      showCopy.dates.push(initialShowState.initDate);
+      showCopy.dates.push(initDate);
       setShow({...show, dates: showCopy.dates});
     } else {
       setLinks([...links, Math.floor(Math.random() * 1000000)]);
-      showCopy.links.push(initialShowState.initLink);
+      showCopy.links.push(initLink);
       setShow({...show, links: showCopy.links});
     };
 
@@ -126,8 +148,8 @@ const EditShow = ({showInfos, showAlert, updateShowComp, closeModal}) => {
     } else { 
       setLoading(true);
 
-      if (finalShow.dates.length === 1 && JSON.stringify(finalShow.dates[0]) === JSON.stringify(initialShowState.initDate)) finalShow.dates = [];
-      if (finalShow.links.length === 1 && JSON.stringify(finalShow.links[0]) === JSON.stringify(initialShowState.initLink)) finalShow.links = [];
+      if (finalShow.dates.length === 1 && JSON.stringify(finalShow.dates[0]) === JSON.stringify(initDate)) finalShow.dates = [];
+      if (finalShow.links.length === 1 && JSON.stringify(finalShow.links[0]) === JSON.stringify(initLink)) finalShow.links = [];
       
       axios.post(`${url}/dashboard/edit-show`, finalShow)
       .then(res => {

@@ -16,4 +16,3 @@ export { IoIosAdd } from "react-icons/io";
 export { BiMinusCircle } from "react-icons/bi";
 
 export {default as url} from "../../utils/url";
-export {default as initialShowState} from "../../utils/initStateShow";

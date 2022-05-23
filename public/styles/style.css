@@ -274,7 +274,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn:hover {
@@ -289,7 +289,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-outlined:hover {
@@ -304,7 +304,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-red:hover {
@@ -319,7 +319,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-red-outlined:hover {
@@ -334,7 +334,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-grey:hover {
@@ -349,18 +349,29 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-grey-outlined:hover {
     background-color: #9b9b9b;
     color: white; }
 
+.loading-gif {
+  width: 20px !important;
+  vertical-align: middle;
+  margin-right: 10px; }
+
 .edit-event .input-form {
   margin-bottom: 15px !important; }
 
 .input-form {
   margin-bottom: 10px !important; }
+
+.text-area {
+  border-radius: 5px;
+  padding: 5px;
+  font-family: inherit;
+  border: 1px #c7c7c7 solid; }
 
 .dates {
   margin-bottom: 10px; }
@@ -388,12 +399,12 @@
   background-color: white;
   color: #474747;
   font-weight: 500;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
   border-radius: 5px;
-  transition-duration: .5s; }
+  transition-duration: 0.5s; }
   .add-date:hover {
     color: #038FDD;
-    transition-duration: .5s; }
+    transition-duration: 0.5s; }
   .add-date svg {
     vertical-align: middle; }
 
@@ -433,7 +444,7 @@
     position: absolute;
     z-index: -1; }
   .upload-multiple-pictures .label {
-    padding: .5rem 0rem;
+    padding: 0.5rem 0rem;
     display: inline-block;
     text-align: center;
     width: 100%;
@@ -443,7 +454,7 @@
     cursor: pointer;
     position: relative;
     font-size: 14px;
-    transition: .5s; }
+    transition: 0.5s; }
     .upload-multiple-pictures .label:hover {
       color: #585858; }
     .upload-multiple-pictures .label .plus-icon {
@@ -470,7 +481,7 @@
   vertical-align: middle;
   font-size: 20px;
   margin-left: 20px;
-  transition: .5s; }
+  transition: 0.5s; }
   .delete-picture:hover {
     color: #585858; }
 
@@ -517,6 +528,11 @@
   .loading-div button .loading-div {
     width: 20px;
     margin-right: 5px; }
+
+.btn-div-form {
+  width: 200px;
+  margin: auto;
+  display: flex; }
 
 .agenda-main .add-event {
   font-size: 50px;

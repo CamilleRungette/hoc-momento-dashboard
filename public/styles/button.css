@@ -9,7 +9,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn:hover {
@@ -24,7 +24,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-outlined:hover {
@@ -39,7 +39,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-red:hover {
@@ -54,7 +54,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-red-outlined:hover {
@@ -69,7 +69,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-grey:hover {
@@ -84,9 +84,14 @@
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   width: auto;
   margin: auto; }
   .btn-grey-outlined:hover {
     background-color: #9b9b9b;
     color: white; }
+
+.loading-gif {
+  width: 20px !important;
+  vertical-align: middle;
+  margin-right: 10px; }

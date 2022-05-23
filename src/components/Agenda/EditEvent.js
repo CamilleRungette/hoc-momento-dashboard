@@ -25,12 +25,11 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
     photo: "",
   };
 
-  const initDates = [Math.floor(Math.random() * 1000000)];
-
   const [event, setEvent] = useState(initialEvent);
   const [picture, setPicture] = useState("");
   const [pictureName, setPictureName] = useState("");
-  const [dates, setDates] = useState(initDates);
+  const [dates, setDates] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setEvent(eventInfos);
@@ -42,11 +41,11 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
     );
 
     setDates(
-      event.dates.map(() => {
+      eventInfos.dates.map(() => {
         return Math.floor(Math.random() * 1000000);
       })
     );
-  }, [eventInfos]);
+  }, [eventInfos, event.dates]);
 
   const handleState = (prop) => (e) => {
     setEvent({ ...event, [prop]: e.target.value });
@@ -113,6 +112,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
   const saveInfos = (e) => {
     e.preventDefault();
 
+    setLoading(true);
     let newEvent = { ...event };
 
     if (!newEvent.title || !newEvent.dates) {
@@ -126,18 +126,24 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
 
             axios
               .post(`${url}/dashboard/edit-event`, newEvent)
-              .then((res) => {
-                editEventComp(res.data);
-
+              .then(() => {
                 closeModal();
-                showAlert("success", "L'événement a bien été mis à jour");
+                setLoading(false);
+                window.location.reload();
               })
               .catch((error) => {
-                // showAlert("error", "Erreur lors de la mise à jour de l'événement, veuillez réessayer plus tard");
+                showAlert(
+                  "error",
+                  "Erreur lors de la mise à jour de l'événement, veuillez réessayer plus tard"
+                );
+                closeModal();
+                setLoading(false);
                 console.log(error);
               });
           })
           .catch((error) => {
+            closeModal();
+            setLoading(false);
             showAlert(
               "error",
               "Erreur avec le chargement de la photo, veuillez réessayer plus tard"
@@ -147,18 +153,31 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
       } else {
         axios
           .post(`${url}/dashboard/edit-event`, newEvent)
-          .then((res) => {
+          .then(() => {
             closeModal();
-            editEventComp(res.data);
-
-            showAlert("success", "Le nouveL'événement a bien été mis à jour");
+            setLoading(false);
+            window.location.reload();
           })
           .catch((error) => {
-            // showAlert("error", "Erreur lors de la mise à jour de l'événement, veuillez réessayer plus tard");
+            closeModal();
+            setLoading(false);
+            showAlert(
+              "error",
+              "Erreur lors de la mise à jour de l'événement, veuillez réessayer plus tard"
+            );
             console.log(error);
           });
       }
     }
+  };
+
+  const cancelEdit = (e) => {
+    e.preventDefault();
+    closeModal();
+    setEvent(eventInfos);
+    setPicture("");
+    setPictureName("");
+    setDates([]);
   };
 
   return (
@@ -175,17 +194,14 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
             className="full-width"
           />
         </div>
-        <div className="input-form">
-          <TextField
-            id="description"
-            label="Description"
-            multiline
-            maxRows={5}
-            value={event.description}
-            onChange={handleState("description")}
-            className="full-width"
-          />
-        </div>
+        <textarea
+          id="description"
+          label="Description"
+          rows={10}
+          value={event.description}
+          onChange={handleState("description")}
+          className="full-width text-area"
+        />
 
         <h4>Dates</h4>
         {dates.map((date, i) => (
@@ -221,6 +237,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
                 />
               </MuiPickersUtilsProvider>
               <BiMinusCircle
+                title="Supprimer cette date"
                 className="remove-icon pointer"
                 onClick={() => removeDate(date, i)}
               />
@@ -259,7 +276,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
 
         <button className="add-date pointer" onClick={(e) => addDate(e)}>
           {" "}
-          <IoIosAdd /> Ajouter
+          <IoIosAdd /> Ajouter une date
         </button>
 
         <h4>Télécharger une photo</h4>
@@ -290,15 +307,29 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
                 {pictureName}
               </a>{" "}
               <BsTrash
+                title="Supprimer cette photo"
                 className="delete-picture pointer"
                 onClick={deletePicture}
               />{" "}
             </p>
           </div>
         )}
-
-        <div className="btn-div">
-          <button className="btn">Créer</button>
+        <div className="btn-div btn-div-form">
+          <button className="btn-grey-outlined" onClick={cancelEdit}>
+            Annuler
+          </button>
+          {!loading ? (
+            <button className="btn">Enregistrer</button>
+          ) : (
+            <button disabled className="btn-grey">
+              <img
+                src="/images/loading-btn.gif"
+                alt="Modification en cours..."
+                className="loading-gif"
+              />
+              Enregistrer
+            </button>
+          )}
         </div>
       </form>
     </div>

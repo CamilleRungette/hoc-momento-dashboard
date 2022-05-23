@@ -1,6 +1,12 @@
 .input-form {
   margin-bottom: 10px !important; }
 
+.text-area {
+  border-radius: 5px;
+  padding: 5px;
+  font-family: inherit;
+  border: 1px #c7c7c7 solid; }
+
 .dates {
   margin-bottom: 10px; }
   .dates .date-picker-div {
@@ -27,12 +33,12 @@
   background-color: white;
   color: #474747;
   font-weight: 500;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
   border-radius: 5px;
-  transition-duration: .5s; }
+  transition-duration: 0.5s; }
   .add-date:hover {
     color: #038FDD;
-    transition-duration: .5s; }
+    transition-duration: 0.5s; }
   .add-date svg {
     vertical-align: middle; }
 
@@ -72,7 +78,7 @@
     position: absolute;
     z-index: -1; }
   .upload-multiple-pictures .label {
-    padding: .5rem 0rem;
+    padding: 0.5rem 0rem;
     display: inline-block;
     text-align: center;
     width: 100%;
@@ -82,7 +88,7 @@
     cursor: pointer;
     position: relative;
     font-size: 14px;
-    transition: .5s; }
+    transition: 0.5s; }
     .upload-multiple-pictures .label:hover {
       color: #585858; }
     .upload-multiple-pictures .label .plus-icon {
@@ -109,7 +115,7 @@
   vertical-align: middle;
   font-size: 20px;
   margin-left: 20px;
-  transition: .5s; }
+  transition: 0.5s; }
   .delete-picture:hover {
     color: #585858; }
 
@@ -156,3 +162,8 @@
   .loading-div button .loading-div {
     width: 20px;
     margin-right: 5px; }
+
+.btn-div-form {
+  width: 200px;
+  margin: auto;
+  display: flex; }

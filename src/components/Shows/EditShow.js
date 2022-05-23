@@ -22,7 +22,7 @@ import {
   ContentState,
 } from "./_index";
 
-const EditShow = ({ showInfos, showAlert, updateShowComp, closeModal }) => {
+const EditShow = ({ showInfos, showAlert, closeModal }) => {
   const initDate = {
     startDate: null,
     endDate: null,
@@ -49,16 +49,12 @@ const EditShow = ({ showInfos, showAlert, updateShowComp, closeModal }) => {
   const initLinks = [Math.floor(Math.random() * 1000000)];
 
   const [loading, setLoading] = useState(false);
-  const [show, setShow] = useState(initialShow);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const [show, setShow] = useState(initialShow);
   const [dates, setDates] = useState(initDates);
   const [links, setLinks] = useState(initLinks);
-  const [alert, setAlert] = useState({
-    type: "info",
-    message: "",
-  });
 
   useEffect(() => {
     if (showInfos.description) {
@@ -72,6 +68,16 @@ const EditShow = ({ showInfos, showAlert, updateShowComp, closeModal }) => {
     if (!showCopy.dates.length) showCopy.dates = [initDate];
     if (!showCopy.links.length) showCopy.links = [initLink];
     setShow(showCopy);
+    setDates(
+      showCopy.dates.map(() => {
+        return Math.floor(Math.random() * 1000000);
+      })
+    );
+    setLinks(
+      showCopy.links.map(() => {
+        return Math.floor(Math.random() * 1000000);
+      })
+    );
   }, [showInfos]);
 
   const handleState = (prop) => (e) => {
@@ -183,13 +189,14 @@ const EditShow = ({ showInfos, showAlert, updateShowComp, closeModal }) => {
       axios
         .post(`${url}/dashboard/edit-show`, finalShow)
         .then((res) => {
-          updateShowComp(res.data);
           closeModal();
           setLoading(false);
-          showAlert("success", "Le spectacle a bien été modifié");
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
+          closeModal();
+          setLoading(false);
           showAlert(
             "error",
             "Erreur lors de la modification du spectacle, veuillez réessayer plus tard"
@@ -198,9 +205,17 @@ const EditShow = ({ showInfos, showAlert, updateShowComp, closeModal }) => {
     }
   };
 
+  const cancelEdit = (e) => {
+    e.preventDefault();
+    closeModal();
+    setShow(initialShow);
+    setDates(initDates);
+    setLinks(initLinks);
+  };
+
   return (
     <div className="edit-show-main">
-      <h3>Créer un spectacle</h3>
+      <h3>Modifier le spectacle: {show.title}</h3>
 
       <form className="show-form" onSubmit={saveShow}>
         <TextField
@@ -278,6 +293,7 @@ const EditShow = ({ showInfos, showAlert, updateShowComp, closeModal }) => {
                   />
                 </MuiPickersUtilsProvider>
                 <BiMinusCircle
+                  title="Supprimer cette date"
                   className="remove-icon pointer"
                   onClick={() => removeItem(date, i, "date")}
                 />
@@ -370,6 +386,7 @@ const EditShow = ({ showInfos, showAlert, updateShowComp, closeModal }) => {
                 </FormControl>
               </div>
               <BiMinusCircle
+                title="Supprimer ce lien"
                 className="remove-icon pointer"
                 onClick={() => removeItem(link, i, "link")}
               />
@@ -383,15 +400,20 @@ const EditShow = ({ showInfos, showAlert, updateShowComp, closeModal }) => {
             <IoIosAdd /> Ajouter un lien
           </button>
         </div>
-        <div className="btn-div">
+        <div className="btn-div btn-div-form">
+          <button className="btn-grey-outlined" onClick={cancelEdit}>
+            Annuler
+          </button>
           {!loading ? (
-            <button className="btn"> Modifier</button>
+            <button className="btn">Enregistrer</button>
           ) : (
-            <button className="btn-grey loading-btn" disabled>
-              <div className="loading-div">
-                <img src="/images/loading-btn.gif" alt="Loading ... " />{" "}
-              </div>
-              Créer
+            <button disabled className="btn-grey">
+              <img
+                src="/images/loading-btn.gif"
+                alt="Modification en cours..."
+                className="loading-gif"
+              />
+              Enregistrer
             </button>
           )}
         </div>

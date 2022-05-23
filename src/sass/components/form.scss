@@ -12,8 +12,6 @@
 }
 
 .dates {
-  margin-bottom: 10px;
-
   .date-picker-div {
     width: 100%;
     display: flex;
@@ -64,8 +62,8 @@
   }
 }
 
-.MuiInputBase-formControl {
-  height: 40px !important;
+.small {
+  height: 55px !important;
 }
 
 .upload-picture {

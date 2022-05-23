@@ -278,7 +278,6 @@ const CreateShows = ({ saveShowComp }) => {
             value={show.title}
             onChange={handleState("title")}
             className="input-form full-width"
-            size="small"
           />
 
           <div className="editor-div input-form">
@@ -328,7 +327,6 @@ const CreateShows = ({ saveShowComp }) => {
                           item: "date",
                         })}
                         value={show.dates[i].startDate}
-                        size="small"
                       />
                     </MuiPickersUtilsProvider>
 
@@ -348,7 +346,6 @@ const CreateShows = ({ saveShowComp }) => {
                           item: "date",
                         })}
                         value={show.dates[i].endDate}
-                        size="small"
                       />
                     </MuiPickersUtilsProvider>
                     <BiMinusCircle
@@ -363,7 +360,6 @@ const CreateShows = ({ saveShowComp }) => {
                       name="place"
                       label="Lieu"
                       className="line full-width"
-                      size="small"
                       onChange={handleItem({ type: "place", i, item: "date" })}
                       value={show.dates[i].place}
                     />
@@ -372,7 +368,6 @@ const CreateShows = ({ saveShowComp }) => {
                       name="city"
                       label="Ville"
                       className="line full-width"
-                      size="small"
                       onChange={handleItem({ type: "city", i, item: "date" })}
                       value={show.dates[i].city}
                     />
@@ -383,7 +378,6 @@ const CreateShows = ({ saveShowComp }) => {
                       name="address"
                       label="Adresse"
                       className="input-form full-width"
-                      size="small"
                       onChange={handleItem({
                         type: "address",
                         i,
@@ -444,7 +438,6 @@ const CreateShows = ({ saveShowComp }) => {
                     name="name"
                     label="Nom"
                     className="input-form full-width"
-                    size="small"
                     value={show.links[i].name}
                     onChange={handleItem({ type: "name", i, item: "link" })}
                   />
@@ -454,20 +447,15 @@ const CreateShows = ({ saveShowComp }) => {
                     name="link"
                     label="Lien"
                     className="input-form full-width"
-                    size="small"
                     value={show.links[i].link}
                     onChange={handleItem({ type: "link", i, item: "link" })}
                   />
                 </div>
                 <div id="type">
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    className="input-form full-width"
-                  >
-                    <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                  <FormControl fullWidth className="input-form full-width">
+                    <InputLabel>Type</InputLabel>
                     <Select
-                      id="demo-simple-select"
+                      className="small"
                       name="link"
                       value={show.links[i].type}
                       onChange={handleItem({ type: "type", i, item: "link" })}

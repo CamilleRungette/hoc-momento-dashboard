@@ -7,24 +7,23 @@
   font-family: inherit;
   border: 1px #c7c7c7 solid; }
 
-.dates {
-  margin-bottom: 10px; }
-  .dates .date-picker-div {
-    width: 100%;
-    display: flex;
-    margin-bottom: 5px; }
-    .dates .date-picker-div div {
-      width: 85%;
-      font-size: 14px !important; }
-    .dates .date-picker-div .remove-icon {
-      font-size: 22px;
-      vertical-align: middle;
-      margin-top: 10px;
-      width: 16%; }
-  .dates .adress-line .line {
-    width: 48%; }
-    .dates .adress-line .line:not(:first-child) {
-      margin-left: 4%; }
+.dates .date-picker-div {
+  width: 100%;
+  display: flex;
+  margin-bottom: 5px; }
+  .dates .date-picker-div div {
+    width: 85%;
+    font-size: 14px !important; }
+  .dates .date-picker-div .remove-icon {
+    font-size: 22px;
+    vertical-align: middle;
+    margin-top: 10px;
+    width: 16%; }
+
+.dates .adress-line .line {
+  width: 48%; }
+  .dates .adress-line .line:not(:first-child) {
+    margin-left: 4%; }
 
 .add-date {
   width: 100%;
@@ -42,8 +41,8 @@
   .add-date svg {
     vertical-align: middle; }
 
-.MuiInputBase-formControl {
-  height: 40px !important; }
+.small {
+  height: 55px !important; }
 
 .upload-picture {
   position: relative;

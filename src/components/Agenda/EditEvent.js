@@ -32,20 +32,21 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setEvent(eventInfos);
-    setPicture(eventInfos.photo);
+    let eventCopy = { ...eventInfos };
+    setEvent(eventCopy);
+    setPicture(eventCopy.photo);
     setPictureName(
-      eventInfos.photo
-        ? eventInfos.photo.substr(eventInfos.photo.length - 15)
+      eventCopy.photo
+        ? eventCopy.photo.substr(eventCopy.photo.length - 15)
         : null
     );
 
     setDates(
-      eventInfos.dates.map(() => {
+      eventCopy.dates.map(() => {
         return Math.floor(Math.random() * 1000000);
       })
     );
-  }, [eventInfos, event.dates]);
+  }, [eventInfos]);
 
   const handleState = (prop) => (e) => {
     setEvent({ ...event, [prop]: e.target.value });
@@ -196,7 +197,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
         </div>
         <textarea
           id="description"
-          label="Description"
+          placeholder="Description"
           rows={10}
           value={event.description}
           onChange={handleState("description")}
@@ -248,7 +249,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
                 id="place"
                 name="place"
                 label="Lieu"
-                className="input-form full-width"
+                className="line full-width"
                 onChange={handleDate({ type: "place", i })}
                 value={event.dates[i].place}
               />
@@ -256,7 +257,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
                 id="city"
                 name="city"
                 label="Ville"
-                className="input-form full-width"
+                className="line full-width"
                 onChange={handleDate({ type: "city", i })}
                 value={event.dates[i].city}
               />

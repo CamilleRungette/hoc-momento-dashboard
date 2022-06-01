@@ -9,7 +9,7 @@ import { url, eventsActions } from "./_index";
 import axios from "axios";
 import { connect } from "react-redux";
 
-const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
+const EditEvent = ({ showAlert, closeModal, getEventsParent, eventInfos }) => {
   const initDate = {
     startDate: null,
     endDate: null,
@@ -120,6 +120,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
       showAlert("warning", "Le titre et au moins une date sont obligatoires");
     } else {
       if (picture && picture !== event.photo) {
+        console.log("here");
         axios
           .post(process.env.REACT_APP_CLOUDINARY, picture)
           .then((res) => {
@@ -130,7 +131,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
               .then(() => {
                 closeModal();
                 setLoading(false);
-                window.location.reload();
+                getEventsParent();
               })
               .catch((error) => {
                 showAlert(
@@ -157,7 +158,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
           .then(() => {
             closeModal();
             setLoading(false);
-            window.location.reload();
+            getEventsParent();
           })
           .catch((error) => {
             closeModal();
@@ -322,7 +323,7 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
           {!loading ? (
             <button className="btn">Enregistrer</button>
           ) : (
-            <button disabled className="btn-grey">
+            <button className="btn-grey">
               <img
                 src="/images/loading-btn.gif"
                 alt="Modification en cours..."
@@ -337,9 +338,4 @@ const EditEvent = ({ showAlert, closeModal, editEventComp, eventInfos }) => {
   );
 };
 
-export default connect(
-  (state) => ({}),
-  (dispatch) => ({
-    editEventComp: (data) => dispatch(eventsActions.editEvent(data)),
-  })
-)(EditEvent);
+export default EditEvent;

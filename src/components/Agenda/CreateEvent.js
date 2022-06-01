@@ -5,11 +5,15 @@ import TextField from "@mui/material/TextField";
 import { IoIosAdd } from "react-icons/io";
 import { BiMinusCircle } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
-import { url, eventsActions } from "./_index";
+import { url } from "./_index";
 import axios from "axios";
-import { connect } from "react-redux";
 
-const CreateEvent = ({ showAlert, closeModal, saveEventComp }) => {
+const CreateEvent = ({
+  showAlert,
+  closeModal,
+  saveEventComp,
+  getEventsParent,
+}) => {
   const initDate = {
     startDate: null,
     endDate: null,
@@ -115,8 +119,8 @@ const CreateEvent = ({ showAlert, closeModal, saveEventComp }) => {
 
             axios
               .post(`${url}/dashboard/create-event`, newEvent)
-              .then((res) => {
-                saveEventComp(res.data);
+              .then(() => {
+                getEventsParent();
 
                 setPicture();
                 setPictureName();
@@ -143,9 +147,8 @@ const CreateEvent = ({ showAlert, closeModal, saveEventComp }) => {
       } else {
         axios
           .post(`${url}/dashboard/create-event`, newEvent)
-          .then((res) => {
-            saveEventComp(res.data);
-
+          .then(() => {
+            getEventsParent();
             setPicture();
             setPictureName();
             setEvent(initialEvent);
@@ -206,7 +209,6 @@ const CreateEvent = ({ showAlert, closeModal, saveEventComp }) => {
                   format="dd/MM/yyyy HH:mm"
                   onChange={handleDate({ type: "startDate", i })}
                   value={event.dates[i].startDate}
-                  size="small"
                 />
               </MuiPickersUtilsProvider>
 
@@ -222,7 +224,6 @@ const CreateEvent = ({ showAlert, closeModal, saveEventComp }) => {
                   format="dd/MM/yyyy HH:mm"
                   onChange={handleDate({ type: "endDate", i })}
                   value={event.dates[i].endDate}
-                  size="small"
                 />
               </MuiPickersUtilsProvider>
               <BiMinusCircle
@@ -315,9 +316,4 @@ const CreateEvent = ({ showAlert, closeModal, saveEventComp }) => {
   );
 };
 
-export default connect(
-  (state) => ({}),
-  (dispatch) => ({
-    saveEventComp: (data) => dispatch(eventsActions.saveEvent(data)),
-  })
-)(CreateEvent);
+export default CreateEvent;

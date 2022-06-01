@@ -1,4 +1,9 @@
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 500;
   color: #003366; }
 
@@ -19,12 +24,12 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: auto;
   height: calc(100% - 5rem);
   margin-top: 6rem;
-  transition: .5s;
+  transition: 0.5s;
   padding-bottom: 6rem; }
   @media screen and (max-width: 1200px) {
     .inside-app {
       width: calc(100% - 14rem);
-      transition: .5s; } }
+      transition: 0.5s; } }
   @media screen and (max-width: 1000px) {
     .inside-app {
       width: 100%; } }
@@ -48,6 +53,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .full-width {
   width: 100%; }
+
+.half-width {
+  width: 50%; }
 
 .center-content {
   text-align: center; }

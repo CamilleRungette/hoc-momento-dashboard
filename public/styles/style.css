@@ -356,13 +356,29 @@
     background-color: #9b9b9b;
     color: white; }
 
+.size-small {
+  font-size: 12px;
+  padding: 4px 8px; }
+
 .loading-gif {
   width: 20px !important;
   vertical-align: middle;
   margin-right: 10px; }
 
+.go-back-div {
+  width: 15%; }
+  .go-back-div .go-back {
+    padding: 8px;
+    margin-top: 10px; }
+    .go-back-div .go-back svg {
+      vertical-align: middle;
+      margin-bottom: 2px; }
+
 .input-form {
   margin-bottom: 10px !important; }
+
+.form-title {
+  margin-left: 30px; }
 
 .text-area {
   border-radius: 5px;
@@ -370,23 +386,24 @@
   font-family: inherit;
   border: 1px #c7c7c7 solid; }
 
-.dates .date-picker-div {
-  width: 100%;
-  display: flex;
-  margin-bottom: 5px; }
-  .dates .date-picker-div div {
-    width: 85%;
-    font-size: 14px !important; }
-  .dates .date-picker-div .remove-icon {
-    font-size: 22px;
-    vertical-align: middle;
-    margin-top: 10px;
-    width: 16%; }
-
-.dates .adress-line .line {
-  width: 48%; }
-  .dates .adress-line .line:not(:first-child) {
-    margin-left: 4%; }
+.dates {
+  margin-bottom: 20px; }
+  .dates .date-picker-div {
+    width: 100%;
+    display: flex;
+    margin-bottom: 5px; }
+    .dates .date-picker-div div {
+      width: 85%;
+      font-size: 14px !important; }
+    .dates .date-picker-div .remove-icon {
+      font-size: 22px;
+      vertical-align: middle;
+      margin-top: 10px;
+      width: 16%; }
+  .dates .adress-line .line {
+    width: 48%; }
+    .dates .adress-line .line:not(:first-child) {
+      margin-left: 4%; }
 
 .add-date {
   width: 100%;
@@ -536,10 +553,10 @@
   top: 10px;
   right: 15px;
   color: black;
-  transition-duration: .5s; }
+  transition-duration: 0.5s; }
   .agenda-main .add-event:hover {
     color: #575757;
-    transition-duration: .5s; }
+    transition-duration: 0.5s; }
 
 .agenda-main .events {
   margin: auto;
@@ -547,13 +564,20 @@
   margin-bottom: 1rem; }
   .agenda-main .events .accordion .accordion-title {
     position: relative; }
+    .agenda-main .events .accordion .accordion-title .event-buttons-div {
+      width: 170px;
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      right: 0px;
+      top: 0; }
     .agenda-main .events .accordion .accordion-title .event-actions {
       position: absolute;
       right: 0;
       top: 0; }
       .agenda-main .events .accordion .accordion-title .event-actions .event-icon {
         font-size: 26px;
-        transition: .5s; }
+        transition: 0.5s; }
         .agenda-main .events .accordion .accordion-title .event-actions .event-icon:hover {
           color: grey; }
       .agenda-main .events .accordion .accordion-title .event-actions .trash {
@@ -654,13 +678,8 @@
   justify-content: space-between;
   align-items: center;
   height: 3rem; }
-  .photo-gallery .div-buttons .go-back-div {
-    width: 15%; }
-    .photo-gallery .div-buttons .go-back-div .go-back {
-      padding: 8px; }
-      .photo-gallery .div-buttons .go-back-div .go-back svg {
-        vertical-align: middle;
-        margin-bottom: 2px; }
+  .photo-gallery .div-buttons .go-back {
+    margin-top: 0 !important; }
   .photo-gallery .div-buttons .save-div {
     width: 40%; }
     .photo-gallery .div-buttons .save-div .save {
@@ -697,7 +716,7 @@
     height: 200px;
     margin: 20px;
     position: relative;
-    transition: .5s; }
+    transition: 0.5s; }
     .photo-gallery .photos-list li img {
       max-height: 200px;
       object-fit: cover; }
@@ -713,13 +732,18 @@
       left: 10%;
       background-color: rgba(128, 128, 128, 0.5);
       box-shadow: 0 0 50px 3px grey !important;
-      transition: .5s;
+      transition: 0.5s;
       opacity: 0; }
       .photo-gallery .photos-list li svg:hover {
         color: white;
         cursor: pointer; }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 500;
   color: #003366; }
 
@@ -740,12 +764,12 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: auto;
   height: calc(100% - 5rem);
   margin-top: 6rem;
-  transition: .5s;
+  transition: 0.5s;
   padding-bottom: 6rem; }
   @media screen and (max-width: 1200px) {
     .inside-app {
       width: calc(100% - 14rem);
-      transition: .5s; } }
+      transition: 0.5s; } }
   @media screen and (max-width: 1000px) {
     .inside-app {
       width: 100%; } }
@@ -769,6 +793,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .full-width {
   width: 100%; }
+
+.half-width {
+  width: 50%; }
 
 .center-content {
   text-align: center; }

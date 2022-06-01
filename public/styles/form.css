@@ -1,29 +1,33 @@
 .input-form {
   margin-bottom: 10px !important; }
 
+.form-title {
+  margin-left: 30px; }
+
 .text-area {
   border-radius: 5px;
   padding: 5px;
   font-family: inherit;
   border: 1px #c7c7c7 solid; }
 
-.dates .date-picker-div {
-  width: 100%;
-  display: flex;
-  margin-bottom: 5px; }
-  .dates .date-picker-div div {
-    width: 85%;
-    font-size: 14px !important; }
-  .dates .date-picker-div .remove-icon {
-    font-size: 22px;
-    vertical-align: middle;
-    margin-top: 10px;
-    width: 16%; }
-
-.dates .adress-line .line {
-  width: 48%; }
-  .dates .adress-line .line:not(:first-child) {
-    margin-left: 4%; }
+.dates {
+  margin-bottom: 20px; }
+  .dates .date-picker-div {
+    width: 100%;
+    display: flex;
+    margin-bottom: 5px; }
+    .dates .date-picker-div div {
+      width: 85%;
+      font-size: 14px !important; }
+    .dates .date-picker-div .remove-icon {
+      font-size: 22px;
+      vertical-align: middle;
+      margin-top: 10px;
+      width: 16%; }
+  .dates .adress-line .line {
+    width: 48%; }
+    .dates .adress-line .line:not(:first-child) {
+      margin-left: 4%; }
 
 .add-date {
   width: 100%;

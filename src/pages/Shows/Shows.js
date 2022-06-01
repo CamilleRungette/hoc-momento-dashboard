@@ -200,8 +200,9 @@ const Shows = ({ shows, deleteShowComp }) => {
                           className="show-link"
                         >
                           {" "}
-                          {link.name}{" "}
-                        </a>
+                          {link.name}
+                        </a>{" "}
+                        ({link.type})
                       </li>
                     )
                   )}

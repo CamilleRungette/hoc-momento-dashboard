@@ -112,8 +112,25 @@
   }
 }
 
+.size-small {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
 .loading-gif {
   width: 20px !important;
   vertical-align: middle;
   margin-right: 10px;
+}
+
+.go-back-div {
+  width: 15%;
+  .go-back {
+    padding: 8px;
+    margin-top: 10px;
+    svg {
+      vertical-align: middle;
+      margin-bottom: 2px;
+    }
+  }
 }

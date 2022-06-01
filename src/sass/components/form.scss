@@ -4,6 +4,10 @@
   margin-bottom: 10px !important;
 }
 
+.form-title {
+  margin-left: 30px;
+}
+
 .text-area {
   border-radius: 5px;
   padding: 5px;
@@ -12,6 +16,7 @@
 }
 
 .dates {
+  margin-bottom: 20px;
   .date-picker-div {
     width: 100%;
     display: flex;

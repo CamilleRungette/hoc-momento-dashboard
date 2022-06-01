@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {
@@ -20,6 +21,7 @@ import {
   BiMinusCircle,
   htmlToDraft,
   ContentState,
+  IoIosArrowBack,
 } from "./_index";
 import { Navigate, useParams } from "react-router-dom";
 
@@ -213,23 +215,24 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
     }
   };
 
-  const cancelEdit = (e) => {
-    e.preventDefault();
-    setLoading(false);
-    setShow(initialShow);
-    setDates(initDates);
-    setLinks(initLinks);
-  };
-
   return !redirect ? (
     <div className="inside-app edit-show-main">
       <div className="card">
+        <div className="go-back-div">
+          <Link to="/spectacles">
+            <button className="btn-grey-outlined go-back">
+              {" "}
+              <IoIosArrowBack /> Retour
+            </button>{" "}
+          </Link>
+        </div>
         <h3>Modifier le spectacle: {show.title}</h3>
 
         <form className="show-form" onSubmit={saveShow}>
           <TextField
             id="title"
             label="Titre"
+            size="small"
             value={show.title}
             onChange={handleState("title")}
             className="input-form full-width"
@@ -276,6 +279,7 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
                       inputVariant="outlined"
                       ampm={false}
                       format="dd/MM/yyyy"
+                      size="small"
                       onChange={handleItem({
                         type: "startDate",
                         i,
@@ -295,6 +299,7 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
                       inputVariant="outlined"
                       ampm={false}
                       format="dd/MM/yyyy"
+                      size="small"
                       onChange={handleItem({
                         type: "endDate",
                         i,
@@ -315,6 +320,7 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
                     id="place"
                     name="place"
                     label="Lieu"
+                    size="small"
                     className="line full-width"
                     onChange={handleItem({ type: "place", i, item: "date" })}
                     value={show.dates[i].place}
@@ -323,6 +329,7 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
                     id="city"
                     name="city"
                     label="Ville"
+                    size="small"
                     className="line full-width"
                     onChange={handleItem({ type: "city", i, item: "date" })}
                     value={show.dates[i].city}
@@ -333,6 +340,7 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
                     id="address"
                     name="address"
                     label="Adresse"
+                    size="small"
                     className="input-form full-width"
                     onChange={handleItem({ type: "address", i, item: "date" })}
                     value={show.dates[i].address}
@@ -358,6 +366,7 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
                   <TextField
                     name="name"
                     label="Nom"
+                    size="small"
                     className="input-form full-width"
                     value={show.links[i].name}
                     onChange={handleItem({ type: "name", i, item: "link" })}
@@ -367,16 +376,20 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
                   <TextField
                     name="link"
                     label="Lien"
+                    size="small"
                     className="input-form full-width"
                     value={show.links[i].link}
                     onChange={handleItem({ type: "link", i, item: "link" })}
                   />
                 </div>
                 <div id="type">
-                  <FormControl fullWidth className="input-form full-width">
+                  <FormControl
+                    fullWidth
+                    className="input-form full-width"
+                    size="small"
+                  >
                     <InputLabel>Type</InputLabel>
                     <Select
-                      className="small"
                       name="link"
                       value={show.links[i].type}
                       onChange={handleItem({ type: "type", i, item: "link" })}
@@ -403,9 +416,6 @@ const EditShow = ({ showAlert, shows, updateShowComp }) => {
             </button>
           </div>
           <div className="btn-div btn-div-form">
-            <button className="btn-grey-outlined" onClick={cancelEdit}>
-              Annuler
-            </button>
             {!loading ? (
               <button className="btn">Enregistrer</button>
             ) : (

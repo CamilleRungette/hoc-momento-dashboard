@@ -1,6 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
+import { actionActions } from "./_index";
 import {
   IoIosArrowBack,
   BsTrash,
@@ -12,10 +14,9 @@ import {
   Navigate,
   Link,
 } from "./_index";
-import axios from "axios";
 
-const ShowGallery = ({ shows, editShowComp }) => {
-  const initialShow = {
+const ActionGallery = ({ actions, editActionComp }) => {
+  const initialAction = {
     title: "",
     description: "",
     dates: [],
@@ -23,9 +24,9 @@ const ShowGallery = ({ shows, editShowComp }) => {
     links: [],
   };
 
-  const params = useParams();
+  const { id } = useParams();
   const alertRef = useRef();
-  const [show, setShow] = useState(initialShow);
+  const [action, setAction] = useState(initialAction);
   const [pictures, setPictures] = useState([]);
   const [pictureNames, setPictureNames] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,9 +37,8 @@ const ShowGallery = ({ shows, editShowComp }) => {
   });
 
   useEffect(() => {
-    if (shows.length)
-      setShow(shows.filter((item) => item._id === params.id)[0]);
-  }, [shows, params.id]);
+    if (actions.length) setAction(actions.filter((item) => item._id === id)[0]);
+  }, [actions, id]);
 
   const deletePicture = (photo, type) => {
     if (type === "old") {
@@ -48,9 +48,9 @@ const ShowGallery = ({ shows, editShowComp }) => {
         btn.style.justifyContent = "center";
       }
 
-      let galleryCopy = [...show.gallery];
+      let galleryCopy = [...action.gallery];
       galleryCopy = galleryCopy.filter((item) => item !== photo);
-      setShow({ ...show, gallery: galleryCopy });
+      setAction({ ...action, gallery: galleryCopy });
     } else if (type === "new") {
       let picturesCopy = [...pictures];
       picturesCopy.splice(photo, 1);
@@ -71,7 +71,7 @@ const ShowGallery = ({ shows, editShowComp }) => {
     let formDatas = [...pictures];
     let picturesNamesArray = [...pictureNames];
 
-    Object.values(e.target.files).forEach((value) => {
+    Object.values(e.target.files).map((value) => {
       const formData = new FormData();
       formData.append("file", value);
       formData.append("upload_preset", process.env.REACT_APP_UPLOAD_PRESET);
@@ -89,11 +89,12 @@ const ShowGallery = ({ shows, editShowComp }) => {
       btn.style.justifyContent = "center";
     }
   };
+
   const savePictures = () => {
     setLoading(true);
 
     if (pictures.length) {
-      let galleryCopy = [...show.gallery];
+      let galleryCopy = [...action.gallery];
       let promises = pictures.map(async (picture) => {
         let result = await axios.post(
           process.env.REACT_APP_CLOUDINARY,
@@ -107,12 +108,12 @@ const ShowGallery = ({ shows, editShowComp }) => {
 
         axios
           .post(`${url}/dashboard/edit-gallery`, {
-            type: "show",
-            _id: show._id,
+            type: "action",
+            _id: action._id,
             gallery: galleryCopy,
           })
           .then((res) => {
-            editShowComp(res.data);
+            editActionComp(res.data);
             showAlert("success", "La gallerie photo a bien été mise à jour");
             setLoading(false);
             setTimeout(function () {
@@ -130,12 +131,12 @@ const ShowGallery = ({ shows, editShowComp }) => {
     } else {
       axios
         .post(`${url}/dashboard/edit-gallery`, {
-          type: "show",
-          _id: show._id,
-          gallery: show.gallery,
+          type: "action",
+          _id: action._id,
+          gallery: action.gallery,
         })
         .then((res) => {
-          editShowComp(res.data);
+          editActionComp(res.data);
           showAlert("success", "La gallerie photo a bien été mise à jour");
           setLoading(false);
           setTimeout(function () {
@@ -152,14 +153,13 @@ const ShowGallery = ({ shows, editShowComp }) => {
     }
   };
 
-  console.log({ show });
   return !redirect ? (
     <div className="inside-app">
       <div className="card card-main photo-gallery">
-        <h2>{show.title} - Gallerie photos </h2>
+        <h2>{action.place} - Gallerie photos </h2>
         <div className="div-buttons">
           <div className="go-back-div">
-            <Link to="/spectacles">
+            <Link to="/actions-culturelles">
               <button className="btn-grey-outlined go-back">
                 <IoIosArrowBack /> Retour
               </button>
@@ -207,6 +207,7 @@ const ShowGallery = ({ shows, editShowComp }) => {
             )}
           </div>
         </div>
+
         <ul className="no-list-style new-photos-list">
           {pictureNames.map((name, i) => (
             <li key={Math.floor(Math.random() * 1000000)}>
@@ -220,30 +221,29 @@ const ShowGallery = ({ shows, editShowComp }) => {
         </ul>
 
         <ul className="no-list-style photos-list">
-          {show.gallery.map((photo) => (
+          {action.gallery.map((photo) => (
             <li key={Math.floor(Math.random() * 1000000)}>
               {" "}
               <BsTrash
                 className="delete-picture"
                 onClick={() => deletePicture(photo, "old")}
               />{" "}
-              <img src={photo} alt={show.title} />
+              <img src={photo} alt={action.place} />
             </li>
           ))}
         </ul>
       </div>
-      <Alert ref={alertRef} type={alert.type} message={alert.message} />
     </div>
   ) : (
-    <Navigate replace to="/spectacles" />
+    <Navigate replace to="/actions" />
   );
 };
 
 export default connect(
   (state) => ({
-    shows: state.showsReducer,
+    actions: state.actionsReducer,
   }),
   (dispatch) => ({
-    editShowComp: (data) => dispatch(showActions.editShow(data)),
+    editActionComp: (data) => dispatch(actionActions.editAction(data)),
   })
-)(ShowGallery);
+)(ActionGallery);

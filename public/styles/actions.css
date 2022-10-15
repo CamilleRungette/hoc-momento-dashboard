@@ -1,0 +1,28 @@
+.action-main {
+  margin-bottom: 20px !important; }
+  .action-main::before {
+    content: none !important; }
+  .action-main h2 {
+    color: #003366;
+    font-size: 20px;
+    font-weight: 500; }
+  .action-main .MuiAccordionSummary-root {
+    min-height: 0px !important; }
+  .action-main .MuiAccordionSummary-content.Mui-expanded {
+    margin: 0px !important; }
+  .action-main .action-buttons-div {
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; }
+    .action-main .action-buttons-div button {
+      margin: inherit; }
+  .action-main .links-list li a {
+    color: black; }
+  .action-main .links-list li .icon {
+    font-size: 18px;
+    margin-left: 10px;
+    vertical-align: middle; }
+
+.edit-action-main {
+  width: 60vw; }

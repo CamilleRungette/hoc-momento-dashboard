@@ -4,6 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { loginReducer } from "./reducers/login.reducer";
 import { sidebarReducer } from "./reducers/sidebar.reducer";
 import { showsReducer } from "./reducers/shows.reducer";
+import { actionsReducer } from "./reducers/actions.reducer";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 const persistConfig = {
@@ -17,6 +18,7 @@ const combinedReducers = combineReducers({
   loginReducer,
   sidebarReducer,
   showsReducer,
+  actionsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);

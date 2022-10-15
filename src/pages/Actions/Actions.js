@@ -1,20 +1,21 @@
-import React, { useRef, useState } from "react";
-import { connect } from "react-redux";
 import axios from "axios";
+import React, { useRef, useState } from "react";
+import { act } from "react-dom/test-utils";
+import { connect } from "react-redux";
 import {
+  actionActions,
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  BsDownload,
   ExpandMoreIcon,
+  Link,
+  BsDownload,
+  url,
   Alert,
   ConfirmModal,
-  Link,
-  url,
-  showActions,
 } from "./_index";
 
-const Shows = ({ shows, deleteShowComp }) => {
+const Actions = ({ actions, deleteActionComp }) => {
   const initDate = {
     startDate: null,
     endDate: null,
@@ -29,7 +30,7 @@ const Shows = ({ shows, deleteShowComp }) => {
     type: "pdf",
   };
 
-  const initialShow = {
+  const initialAction = {
     title: "",
     description: "",
     dates: [initDate],
@@ -54,20 +55,12 @@ const Shows = ({ shows, deleteShowComp }) => {
     "Novembre",
     "Décembre",
   ];
-  const [show, setShow] = useState(initialShow);
+
+  const [action, setAction] = useState(initialAction);
   const [alert, setAlert] = useState({
     type: "info",
     message: "",
   });
-
-  const showModal = (data) => {
-    setShow(data);
-    modalRef.current.showModal();
-  };
-
-  const closeModal = () => {
-    modalRef.current.closeModal();
-  };
 
   const showAlert = (type, message) => {
     setAlert({ type, message });
@@ -75,21 +68,21 @@ const Shows = ({ shows, deleteShowComp }) => {
   };
 
   const showDialog = (data) => {
-    setShow(data);
+    setAction(data);
     confirmRef.current.showModal();
   };
 
-  const deleteShow = () => {
+  const deleteAction = () => {
     axios
-      .post(`${url}/dashboard/delete-show`, { id: show._id })
+      .post(`${url}/dashboard/delete-action`, { id: action._id })
       .then((res) => {
         if (res.data === "success") {
-          deleteShowComp(show._id);
-          showAlert("success", "Le spectacle a bien été supprimé");
+          deleteActionComp(action._id);
+          showAlert("success", "L'action culturelle a bien été supprimée");
         } else {
           showAlert(
             "error",
-            "Erreur lors de la suppression du spectacle, veuillez rééssayer plus tard."
+            "Erreur lors de la suppression de l'action culturelle, veuillez rééssayer plus tard."
           );
         }
       })
@@ -98,94 +91,52 @@ const Shows = ({ shows, deleteShowComp }) => {
       });
   };
 
-  // console.log({ shows });
+  console.log({ actions });
   return (
     <div className="inside-app">
-      {shows.length ? (
-        shows.map((show) => (
-          <Accordion key={show._id} className="card show-main">
+      {actions.length ? (
+        actions.map((action) => (
+          <Accordion key={action._id} className="card action-main">
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <h2>{show.title} </h2>
+              <h2>
+                {" "}
+                {action.place} – {action.period}{" "}
+              </h2>
             </AccordionSummary>
             <AccordionDetails>
-              <div className="show-buttons-div">
-                <Link to={`/spectacle/${show._id}/modifier`}>
+              <div className="action-buttons-div">
+                <Link to={`/spectacle/${action._id}/modifier`}>
                   <button className="btn">Modifier</button>
                 </Link>
-                <Link to={`/spectacle/${show._id}/gallerie`}>
+                <Link to={`/actions-culturelles/${action._id}/gallerie`}>
                   <button className="btn-outlined">Voir la gallerie</button>
                 </Link>
                 <button
                   className="btn-red-outlined"
-                  onClick={() => showDialog(show)}
+                  onClick={() => showDialog(action)}
                 >
                   Supprimer
                 </button>
               </div>
               <p
                 className="show-description"
-                dangerouslySetInnerHTML={{ __html: show.description }}
+                dangerouslySetInnerHTML={{ __html: action.description }}
               />
-              {show.dates.length ? (
-                <ul className="no-list-style">
-                  <h4> Dates </h4>
-                  {show.dates.map((date) => (
-                    <li key={Math.floor(Math.random() * 1000000)}>
-                      <p>
-                        {date.place}{" "}
-                        {date.address ? <span>, {date.address},</span> : <></>}{" "}
-                        {date.city ? date.city + " " : <></>}|
-                        {new Date(date.startDate).getDate() ===
-                        new Date(date.endDate).getDate() ? (
-                          <span>
-                            {" "}
-                            Le {new Date(date.startDate).getDate()}{" "}
-                            {months[new Date(date.startDate).getMonth()]}{" "}
-                          </span>
-                        ) : (
-                          <span>
-                            {" "}
-                            Du {new Date(date.startDate).getDate()}
-                            {new Date(date.startDate).getMonth() !==
-                            new Date(date.endDate).getMonth() ? (
-                              <span>
-                                {" "}
-                                {
-                                  months[new Date(date.startDate).getMonth()]
-                                }{" "}
-                              </span>
-                            ) : (
-                              <> </>
-                            )}
-                            au {new Date(date.endDate).getDate()}{" "}
-                            {months[new Date(date.endDate).getMonth()]}
-                          </span>
-                        )}
-                      </p>
-
-                      <p></p>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <></>
-              )}
-
-              {show.links.length ? (
+              {action.links.length ? (
                 <ul className="no-list-style links-list">
                   <h4>Liens</h4>
-                  {show.links.map((link) =>
+                  {action.links.map((link) =>
                     link.type === "pdf" ? (
                       <li key={Math.floor(Math.random() * 1000000)}>
                         <a
                           href={link.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="show-link"
+                          className="action-link"
                         >
                           {" "}
                           {link.name}{" "}
@@ -198,7 +149,7 @@ const Shows = ({ shows, deleteShowComp }) => {
                           href={link.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="show-link"
+                          className="action-link"
                         >
                           {" "}
                           {link.name}
@@ -219,12 +170,13 @@ const Shows = ({ shows, deleteShowComp }) => {
           <img src="/images/loading.gif" alt="events-loader" />
         </div>
       )}
+
       <Alert ref={alertRef} type={alert.type} message={alert.message} />
       <ConfirmModal
         ref={confirmRef}
         content={<div>Êtes-vous sûr de vouloir supprimer ce spectacle ?</div>}
         button={true}
-        confirmParent={deleteShow}
+        confirmParent={deleteAction}
       />
     </div>
   );
@@ -232,9 +184,9 @@ const Shows = ({ shows, deleteShowComp }) => {
 
 export default connect(
   (state) => ({
-    shows: state.showsReducer,
+    actions: state.actionsReducer,
   }),
   (dispatch) => ({
-    deleteShowComp: (id) => dispatch(showActions.deleteShow(id)),
+    deleteActionComp: (id) => dispatch(actionActions.deleteAction(id)),
   })
-)(Shows);
+)(Actions);
